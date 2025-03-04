@@ -1,0 +1,91 @@
+$primary-color: #1e2a47;
+$secondary-color: #ffffff;
+$button-hover-opacity: 0.85;
+
+
+.authContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $primary-color;
+
+  .authContent {
+    text-align: center;
+    background: $primary-color;
+    padding: 2rem;
+    border-radius: 12px;
+    color: $secondary-color;
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+  
+
+      .logoIcon {
+        background: $secondary-color;
+        color: $primary-color;
+        padding: 1rem 1.5rem;
+        border-radius: 50%;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
+    .img{
+      height:200px;
+      width: 250px;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .buttons {
+        display: flex; 
+        flex-direction: row; 
+        justify-content: center; 
+        gap: 1rem; 
+      
+        .btn {
+          width: 150px;
+          padding: 0.8rem 1.5rem;
+          border-radius: 8px;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+          border: none;
+          font-weight: bold;
+        &.primary {
+          background: $secondary-color;
+          color: $primary-color;
+        }
+
+        &.secondary {
+          background: $secondary-color;
+          color: $primary-color;
+        }
+
+        &:hover {
+          opacity: $button-hover-opacity;
+        }
+      }
+    }
+
+    .guest {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      cursor: pointer;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
