@@ -1,5 +1,5 @@
-import styles from "./notFound.module.scss";
-import ghostImage from "./ghost.png";
+import styles from "./NotFound.module.scss";
+import ghostImage from "./notfound.svg";
 
 const NotFound = () => {
   return (

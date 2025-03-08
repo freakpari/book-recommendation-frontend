@@ -1,19 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-// import AuthPage from './pages/Auth/Authpage';
-import SignUp from './pages/SignUp/Signup';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    {/* <AuthPage /> */}
-    <SignUp />
+    <App />
   </React.StrictMode>
 );
-
-
-reportWebVitals();

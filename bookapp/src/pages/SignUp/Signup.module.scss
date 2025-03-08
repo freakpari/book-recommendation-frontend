@@ -1,93 +1,85 @@
+*{
+  font-family: 'shabnam', sans-serif;
+
+}
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #f3f4f6;
-    width:100%;
-    margin-bottom: 30px;
-}
-.image {
-    width: 211px;
-    height: 132px;
-    top: 1px;
-    margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
 }
 
-  .card {
-    background-color: #303857;
-    padding: 24px;
-    border-top-left-radius: 250px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 1280px;
-    height: 672px;
-    
-  }
-  
-  .title {
-    font-size: 24px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 16px;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .inputGroup {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .label {
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
-  .input {
-    width: 523.04541015625px;
-    padding: 10px;
-    border: 2px solid #F7F4E8;
-    border-radius: 10px;
-    font-size: 16px;
-    height: 48.65px;
-    background-color: #9e9fa3;
-    color: #f6f7f8;
-  }
+.header {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  
-  .button {
-    width: 266px;
-    height: 65px;
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    color :#303857;
-    margin-right: 105px;
-  }
+.logo {
+  width: 211px;
+  height: 132px;
+  margin-bottom: 20px;
+  margin-top: 1px;
+}
+
+.toggleButtons {
+  display: flex;
+  gap: 0/5rem;
+  width: 295px;
+  height:48px;
+  border: 2px solid #303857;
+  border-radius: 50px;
   
 
-  
-  .primaryButton:hover {
-    background-color: #2563eb;
-  }
-  
-  .googleButton {
-    width: 524px;
-    height: 49px;
-    border-radius: 10px;
-    border: 2px solid #F7F4E8;
-    padding: 16px;
-    gap: 10px;
-    margin-top: 18px;
-  }
-  
-  
+}
+
+.toggleButtons button {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  background: none;
+  font-size: 8px bold;
+  cursor: pointer;
+  width: 180px;
+
+}
+
+.toggleButtons .active {
+  background-color: #303857;
+  color: white;
+  border-radius: 20px;
+}
+
+.mainContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  margin-top: 186px;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageContainer {
+  width: 417px;
+  height: 484px;
+  margin-top:54px;
+  margin-right: 160px;
+}
+.inputgroup{
+  width: 428.2184753417969px;
+  height: 48.653465270996094px;
+  border-radius: 10px;
+  border:2px solid #303857;
+  display: block;
+  margin-bottom: 10px;
+}
