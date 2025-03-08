@@ -1,11 +1,29 @@
 import { useState } from "react";
 import styles from "./Signup.module.scss";
+import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
+import Googleicon from "./google.svg";
 
 export default function SignUp() {
   const [isLogin, setIsLogin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log("Google Token:", tokenResponse);
+      
+      // Fetch user info
+      const userInfo = await axios.get(
+        "https://www.googleapis.com/oauth2/v1/userinfo",
+        {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        }
+      );
 
+      console.log("User Info:", userInfo.data);
+    },
+    onError: (error) => console.log("Login Failed:", error),
+  });
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -44,7 +62,11 @@ export default function SignUp() {
               </div>
             )}
             <div className={styles.divider}>یا ایجاد حساب با</div>
-            <button className={styles.googleButton}>Google</button>
+            
+            <button className={styles.googleButton} onClick={() => loginWithGoogle()}>
+              Google
+              <img className={styles.GoogleIcon} src={Googleicon} alt="google icon" />
+            </button>
             <button className={styles.submitButton}>ادامه</button>
           </div>
           <p className={styles.loginLink}>

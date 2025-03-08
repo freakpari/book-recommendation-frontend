@@ -5,6 +5,7 @@ import "./App.css";
 import SignUp from "./pages/SignUp/Signup";
 import NotFound from "./pages/NotFound/NotFound";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import AuthPage from "./pages/Auth/Authpage";
 function App() {
   return (
     <Router>
@@ -13,6 +14,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/landing" element={<AuthPage />} />
       </Routes>
     </Router>
   );
