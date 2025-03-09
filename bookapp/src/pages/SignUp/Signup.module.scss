@@ -1,7 +1,12 @@
-*{
-  font-family: 'shabnam', sans-serif;
 
+
+* {
+  font-family: "shabnam", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -9,11 +14,12 @@
   justify-content: center;
   height: 100vh;
   background-color: #ffffff;
+  position: relative;
 }
 
 .header {
   position: absolute;
-  top: 20px;
+  top: 5px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -30,78 +36,135 @@
 
 .toggleButtons {
   display: flex;
-  gap: 0/5rem;
   width: 295px;
-  height:48px;
+  height: 48px;
   border: 2px solid #303857;
   border-radius: 50px;
-  
-
+  overflow: hidden;
 }
 
 .toggleButtons button {
-  padding: 0.5rem 1.5rem;
+  flex: 1;
   border: none;
   background: none;
-  font-size: 8px bold;
+  font-size: 14px;
+  font-weight: bold;
   cursor: pointer;
-  width: 180px;
-
+  transition: all 0.3s ease;
 }
 
 .toggleButtons .active {
   background-color: #303857;
   color: white;
-  border-radius: 20px;
+  border-radius: 50px;
 }
 
 .mainContent {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 186px;
+  margin-top: 160px;
+  gap: 40px;
+}
+
+.imageContainer {
+  width: 400px;
+  height: 470px;
+  margin-right: 100px;
 }
 
 .formWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+}
+.formContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 100px;
 }
 
-.imageContainer {
-  width: 417px;
-  height: 484px;
-  margin-top:84px;
-  margin-right: 160px;
-  margin-left: 50px;
-}
-.inputgroup{
-  width: 428.2184753417969px;
-  height: 48.653465270996094px;
+
+  .inputgroup {
+    width: 428.22px;
+    height: 48.65px;
+    border-radius: 10px;
+    border: 2px solid #303857;
+    padding-right: 15px;
+    font-size: 16px;
+    outline: none;
+  }
+  input::placeholder,input:focus {
+    color: rgba(48, 56, 87, 1);
+
+  }
+
+
+.googleButton {
+  width: 400px;
+  height: 50px;
   border-radius: 10px;
-  border:2px solid #303857;
-  display: block;
-  margin-bottom: 10px;
-}
-.googleButton{
-  width: 429px;
-  height:49px;
-  border-radius: 10px;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
-  padding: 16px;
+  cursor: pointer;
+  transition: 0.3s;
 }
-.GoogleIcon{
+
+.googleButton:hover {
+  background-color: #e1e1e1;
+}
+
+.GoogleIcon {
   width: 20px;
   height: 20px;
 }
-.submitButton{
-  width: 217px;
-  height: 65px;
-  border-radius: 20px;
-  color: #ffffff;
-  background-color:#303857;
-  font-size: 22px;
-  display: block;
-margin-top: 10px;
+
+.submitButton {
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  color: white;
+  background-color: #303857;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.3s;
+  margin-bottom: 5px;
+}
+
+.submitButton:hover {
+  background-color: #1f263f;
+}
+.divider{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background-color: #303857;
+  margin: 0 10px;
+}
+.textdivider{
+  font-size: 16px;
+  color: #303857;
+  font-weight: bold;
+}
+
+.loginLink{
+  color: rgba(48, 56, 87, 0.35);
+}
+.logintext{
+  color: #303857;
 }

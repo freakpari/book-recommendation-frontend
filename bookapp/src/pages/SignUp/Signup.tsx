@@ -12,7 +12,6 @@ export default function SignUp() {
     onSuccess: async (tokenResponse) => {
       console.log("Google Token:", tokenResponse);
       
-      // Fetch user info
       const userInfo = await axios.get(
         "https://www.googleapis.com/oauth2/v1/userinfo",
         {
@@ -61,7 +60,9 @@ export default function SignUp() {
                 <span onClick={() => setShowConfirmPassword(!showConfirmPassword)}></span>
               </div>
             )}
-            <div className={styles.divider}>یا ایجاد حساب با</div>
+            <div className={styles.divider}>
+              <span className={styles.textdivider}> یا ایجاد حساب با</span>
+              </div>
             
             <button className={styles.googleButton} onClick={() => loginWithGoogle()}>
               Google
@@ -70,7 +71,7 @@ export default function SignUp() {
             <button className={styles.submitButton}>ادامه</button>
           </div>
           <p className={styles.loginLink}>
-            از قبل حساب دارید؟ <span onClick={() => setIsLogin(true)}>وارد حساب خود شوید</span>
+            از قبل حساب دارید؟ <span className={styles.logintext} onClick={() => setIsLogin(true)}>وارد حساب خود شوید</span>
           </p>
         </div>
         <img className={styles.imageContainer} src="/book.png" alt="Illustration" />
