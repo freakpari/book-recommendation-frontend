@@ -1,4 +1,5 @@
 .aboutUs {
+  color: #303857;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,31 +13,28 @@
   height: 102px;
   margin-top: 1px;
   margin-left: 572px;
-  margin-bottom: 106px;
-  margin-left: 572px;
-  margin-right: 572px;
+  margin-right: 580px;
+  margin-bottom: 10px;
 }
 .aboutUs h1 {
   font-weight: 700;
   font-size: 40px;
   line-height: 40px;
-  letter-spacing: 0%;
   margin-bottom: 54px;
 }
 .aboutUs h3 {
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
-  letter-spacing: 0%;
   vertical-align: middle;
-  margin-bottom: 86px;
+  margin-bottom: 60px;
 }
 .aboutUs p {
   font-weight: 300;
   font-size: 22px;
   text-align: justify;
   text-justify: inter-word;
-  margin-left: 450px;
-  margin-right: 460px;
-  margin-bottom: 200px;
+  margin-left: 300px;
+  margin-right: 300px;
+  margin-bottom: 100px;
 }
