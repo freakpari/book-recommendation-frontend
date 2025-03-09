@@ -1,0 +1,41 @@
+.container {
+    text-align: center;
+    padding: 20px;
+  }
+
+.otpContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .otpInput {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .confirmButton {
+    background-color: #1f2937;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .resendText {
+    margin-top: 10px;
+    color: #666;
+  }
+  
+  .resendLink {
+    color: #1f2937;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  

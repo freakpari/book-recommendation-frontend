@@ -13,11 +13,12 @@
   height: 100vh;
   background-color: #ffffff;
   position: relative;
+  margin-top:0;
 }
 
 .header {
   position: absolute;
-  top: 5px;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -207,4 +208,14 @@ input::placeholder,input:focus {
 .eyeIcon :hover{
   opacity: 0.6;
 }
+
+.errorText{
+  color: red;
+}
+
+
+
+
+
+
 

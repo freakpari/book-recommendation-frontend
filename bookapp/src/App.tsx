@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import AuthPage from "./pages/Auth/Authpage";
 import Rules from "./pages/Rules/Rules";
+import Verify from "./pages/verify/verify";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/landing" element={<AuthPage />} />
         <Route path="/rules" element={<Rules />} />
+        <Route path="/verify" element={<Verify />} />
+
       </Routes>
     </Router>
   );
