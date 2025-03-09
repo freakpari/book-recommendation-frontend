@@ -4,10 +4,14 @@ import Footer from "../../components/footer";
 
 export default function NotFound() {
   return (
-    <div className={styles.notFound}>
-      <img src={ghostImage} alt="404 Not Found" />
-      <p>صفحه‌ای که دنبالش می‌گردی گم شده!</p>
-      <Footer />
+    <div>
+      <div className={styles.notFound}>
+        <img src={ghostImage} alt="404 Not Found" />
+        <p>صفحه‌ای که دنبالش می‌گردی گم شده!</p>
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }
