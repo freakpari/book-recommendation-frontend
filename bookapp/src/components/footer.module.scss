@@ -1,0 +1,51 @@
+.footer {
+  background-color: #ffffff;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 5px solid #f9f9f9;
+  width: 100%;
+  height: 100px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.section h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #303857;
+}
+
+.section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.section li {
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #303857;
+}
+
+.section li:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.container p {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #303857;
+  text-align: center;
+  justify-content: center;
+}
+.container img {
+  width: 2000px;
+  height: 97px;
+  justify-content: center;
+}
