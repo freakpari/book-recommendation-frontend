@@ -6,7 +6,7 @@ import SignUp from "./pages/SignUp/Signup";
 import NotFound from "./pages/NotFound/NotFound";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import AuthPage from "./pages/Auth/Authpage";
-import RulesAndRegulations from "./pages/RulesAndRegulations/RulesAndRegulations";
+import Rules from "./pages/Rules/Rules";
 
 function App() {
   return (
@@ -18,8 +18,7 @@ function App() {
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/landing" element={<AuthPage />} />
-          <Route path="/rulesandregulations" element={<RulesAndRegulations />} />
-
+        <Route path="/rules" element={<Rules />} />
       </Routes>
     </Router>
   );
