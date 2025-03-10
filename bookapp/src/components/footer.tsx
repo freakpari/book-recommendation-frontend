@@ -30,6 +30,8 @@ export default function Footer() {
         <div className={styles.section}>
           <ul>
             <br />
+            <br/>
+            <br/>
             <li>© ۱۴۰۴ تمامی حقوق محفوظ است.</li>
           </ul>
         </div>
