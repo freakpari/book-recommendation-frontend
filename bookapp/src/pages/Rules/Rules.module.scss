@@ -1,0 +1,90 @@
+.rules {
+  color: #303857;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: right;
+  height: 100%;
+  text-align: right;
+  background-color: #f9f9f9;
+}
+
+.rules img {
+  width: 136px;
+  height: 102px;
+  margin-top: 1px;
+}
+
+.rules h3 {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  //vertical-align: middle;
+  margin-left: 524px;
+  margin-right: 524px;
+  margin-top: 106px;
+}
+
+.rules header{
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 40px;
+  padding-right: 0;
+  margin-right: 220px;
+  margin-left: 220px;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-top: 90px;
+}
+
+.rules ul {
+  list-style: disc;
+  padding-right: 22px;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 40px;
+  //text-align: right;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.rules ol {
+  list-style: decimal;
+  padding: 0;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 2.5;
+  margin-right: 220px;
+  margin-left: 220px;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-top: -15px;
+}
+.rules ol li {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.rules ul li {
+  margin-right: -20px;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.li {
+  list-style: none;
+  font-weight: 300;
+  font-size: 20px;
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 2.5;
+  margin-right: -20px;
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
+
