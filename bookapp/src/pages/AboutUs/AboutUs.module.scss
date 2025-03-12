@@ -1,20 +1,17 @@
 .aboutUs {
   color: #303857;
+  background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
   text-align: center;
-  background-color: #f9f9f9;
+  height: 100%;
 }
 .aboutUs img {
   width: 136px;
   height: 102px;
-  margin-top: 1px;
-  margin-left: 572px;
-  margin-right: 580px;
-  margin-bottom: 50px;
+  margin: 1px 580px 50px 572px;
 }
 .aboutUs h1 {
   font-weight: 700;
@@ -26,7 +23,6 @@
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
-  vertical-align: middle;
   margin-bottom: 90px;
 }
 .aboutUs p {
@@ -34,7 +30,5 @@
   font-size: 22px;
   text-align: justify;
   text-justify: inter-word;
-  margin-left: 300px;
-  margin-right: 300px;
-  margin-bottom: 60px;
+  margin: 0 300px 60px 300px;
 }
