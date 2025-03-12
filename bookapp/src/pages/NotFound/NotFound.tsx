@@ -1,6 +1,6 @@
 import styles from "./NotFound.module.scss";
 import ghostImage from "./notfound.svg";
-import Footer from "../../components/footer";
+import Footer from "../../components/footer/footer";
 
 export default function NotFound() {
   return (
