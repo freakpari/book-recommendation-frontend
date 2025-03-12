@@ -1,6 +1,6 @@
 import styles from "./Rules.module.scss";
 import logo from "../../logo.svg";
-import Footer from "../../components/footer";
+import Footer from "../../components/footer/footer";
 
 export default function Rules() {
     return (

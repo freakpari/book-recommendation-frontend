@@ -19,10 +19,8 @@
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
-  //vertical-align: middle;
-  margin-left: 524px;
-  margin-right: 524px;
   margin-top: 106px;
+
 }
 
 .rules header{
@@ -30,11 +28,9 @@
   font-size: 20px;
   line-height: 40px;
   padding-right: 0;
-  margin-right: 220px;
-  margin-left: 220px;
   text-align: justify;
   text-justify: inter-word;
-  margin-top: 90px;
+  margin: 90px 220px 0 220px;
 }
 
 .rules ul {
@@ -43,7 +39,6 @@
   font-weight: 300;
   font-size: 20px;
   line-height: 40px;
-  //text-align: right;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -54,15 +49,15 @@
   font-weight: 300;
   font-size: 20px;
   line-height: 2.5;
-  margin-right: 220px;
-  margin-left: 220px;
   text-align: justify;
   text-justify: inter-word;
-  margin-top: -15px;
+  margin: -15px 220px 0 220px;
 }
 .rules ol li {
   margin-top: 15px;
   margin-bottom: 5px;
+  font-size: 24px ;
+  font-weight: 1000;
 }
 
 .rules ul li {
@@ -83,8 +78,6 @@
   text-align: justify;
   text-justify: inter-word;
   line-height: 2.5;
-  margin-right: -20px;
-  margin-top: -5px;
-  margin-bottom: -5px;
+  margin: -5px -20px -5px 0;
 }
 
