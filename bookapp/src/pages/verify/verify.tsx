@@ -20,15 +20,15 @@ export default function Verify() {
     setOtp(newOtp);
     if (value && index > 0) inputsRef.current[index - 1]?.focus();
 };
-const verifyOtp = () => {
-    const enteredCode = otp.join(""); 
-    if (enteredCode !== "123456") {     
-        setErrorMessage("کد وارد شده اشتباه است، دوباره تلاش کنید.");
-        return false;
-    }
-        setErrorMessage(""); 
-        return true;
-};
+// const verifyOtp = () => {
+//     const enteredCode = otp.join(""); 
+//     if (enteredCode !== "123456") {     
+//         setErrorMessage("کد وارد شده اشتباه است، دوباره تلاش کنید.");
+//         return false;
+//     }
+//         setErrorMessage(""); 
+//         return true;
+// };
 const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !otp[index] && index < 5) {
         inputsRef.current[index + 1]?.focus();
@@ -48,8 +48,7 @@ const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
 const isOtpComplete = otp.every((digit) => digit !== "");
 
 const handleSubmit = () => {
-  // If all OTP fields are filled and OTP is valid, navigate to dashboard
-if (isOtpComplete && verifyOtp()) {
+if (isOtpComplete) {
     console.log("OTP Entered:", otp.join(""));
     navigate("/dashboard");
 } else {
