@@ -1,10 +1,11 @@
 import React from "react";
 import {useState} from "react";
-import styles from "./FQAContainer.module.scss"
+import styles from "./FAQContainer.module.scss"
 import toggleIconDown from "../../toggleIconDown.svg"
 import toggleIconUp from "../../toggleIconUp.svg"
 
-export default function FQAContainer(){
+
+export default function FAQContainer(){
     // @ts-ignore
     const [showAnwser1, setShowAnwser1] = useState(false);
     const [showAnwser2, setShowAnwser2] = useState(false);
@@ -12,17 +13,6 @@ export default function FQAContainer(){
     const [showAnwser4, setShowAnwser4] = useState(false);
     const [showAnwser5, setShowAnwser5] = useState(false);
     const [showAnwser6, setShowAnwser6] = useState(false);
-
-
-
-
-
-
-
-
-
-
-
 
 
     return (
@@ -160,3 +150,9 @@ export default function FQAContainer(){
 
     );
 }
+
+
+
+
+
+

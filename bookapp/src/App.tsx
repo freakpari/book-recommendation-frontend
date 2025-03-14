@@ -8,7 +8,7 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import AuthPage from "./pages/Auth/Authpage";
 import Rules from "./pages/Rules/Rules";
 import Verify from "./pages/verify/verify";
-import FQA from "./pages/FQA/FQA";
+import FAQ from "./pages/FAQ/FAQ";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <Route path="/rules" element={<Rules />} />
         <Route path="/verify" element={<Verify />} />
 
-        <Route path="/fqa" element={<FQA />} />
+        <Route path="/faq" element={<FAQ />} />
       </Routes>
     </Router>
   );

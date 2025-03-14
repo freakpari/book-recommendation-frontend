@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./FQA.module.scss"
+import styles from "./FAQ.module.scss"
 import Footer from "../../components/footer/footer"
-import FQAContainer from "../../components/FQAContainer/FQAContainer";
+import FAQContainer from "../../components/FAQContainer/FAQContainer";
 import logo from "../../logo.svg";
 
 export default function FAQ(){
@@ -14,7 +14,7 @@ export default function FAQ(){
 
                 <h3>سوالات متداول</h3>
 
-                <FQAContainer />
+                <FAQContainer />
             </div>
             <div>
                 <Footer />
