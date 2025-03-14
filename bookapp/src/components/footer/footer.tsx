@@ -1,5 +1,4 @@
 import styles from "./footer.module.scss";
-// import logo from "../logo.svg";
 
 export default function Footer() {
   return (
@@ -8,22 +7,22 @@ export default function Footer() {
           <div className={styles.section}>
             <h3>شرکت</h3>
             <ul>
-              <li>درباره ما</li>
-              <li>قوانین و مقررات</li>
+              <li><a href="">درباره ما</a></li>
+              <li><a href="">قوانین و مقررات</a></li>
             </ul>
           </div>
           <div className={styles.section}>
             <h3>راهنما</h3>
             <ul>
-              <li>سوالات متداول</li>
-              <li>ایمیل پشتیبانی</li>
+              <li><a href="">سوالات متداول</a></li>
+              <li><a>ایمیل پشتیبانی</a></li>
             </ul>
           </div>
           <div className={styles.section}>
             <h3>ما را دنبال کنید</h3>
             <ul className={styles.section}>
-              <li>اینستاگرام</li>
-              <li>لینکدین</li>
+              <li><a href="">اینستاگرام</a></li>
+              <li><a href="">لینکدین</a></li>
             </ul>
           </div>
         </div>

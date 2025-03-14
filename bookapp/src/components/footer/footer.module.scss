@@ -32,10 +32,10 @@
   margin-bottom: 15px;
 }
 
-.section li:hover {
-  cursor: pointer;
-  color: black;
-}
+//.section li:hover {
+//  cursor: pointer;
+//  color: black;
+//}
 
 .container p {
   margin-top: 15px;
@@ -49,3 +49,12 @@
   height: 97px;
   justify-content: center;
 }
+
+.container a {
+  text-decoration: none;
+  color: #303857;
+}
+ .container a:hover {
+   cursor: pointer;
+   color: black;
+ }
