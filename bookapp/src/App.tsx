@@ -9,12 +9,13 @@ import AuthPage from "./pages/Auth/Authpage";
 import Rules from "./pages/Rules/Rules";
 import Verify from "./pages/verify/verify";
 import FAQ from "./pages/FAQ/FAQ";
+import HomePage from "./pages/Homepage/Homepage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<h1>Home Page</h1>} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUp/>} />
           <Route path="/login" element={<SignUp /> } />
         <Route path="/notfound" element={<NotFound />} />
