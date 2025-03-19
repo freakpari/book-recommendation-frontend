@@ -1,6 +1,6 @@
 import styles from "./AboutUs.module.scss";
 import logo from "../../logo.svg";
-import Footer from "../../components/Footer/footer";
+import Footer from "../../components/footer/footer";
 
 export default function AboutUs() {
   return (

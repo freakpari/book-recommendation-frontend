@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./EditProfile.module.scss";
-import Footer from "../../components/Footer/footer"
+import Footer from "../../components/footer/footer"
 import SideProfile from "../../components/SideProfile/SideProfile"
 import SearchNav from "../../components/SearchNav/SearchNav"
 
