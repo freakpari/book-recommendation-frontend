@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./FAQ.module.scss"
-import Footer from "../../components/footer/footer"
+import Footer from "../../components/Footer/footer"
 import FAQContainer from "../../components/FAQContainer/FAQContainer";
 import logo from "../../logo.svg";
 
