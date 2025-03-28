@@ -1,0 +1,25 @@
+.notFound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+  
+.notFound img {
+    max-width: 710px;
+    max-height: 359px;
+    margin: 10px 285px 45px 285px;
+    align-items: center;
+  }
+  
+.notFound p {
+    font-size: 32px;
+    font-weight: 500;
+    color: #303857;
+    margin-bottom: 100px;
+    margin-top: -5px;
+  }
+  
