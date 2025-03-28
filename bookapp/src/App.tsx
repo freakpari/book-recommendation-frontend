@@ -11,6 +11,8 @@ import Verify from "./pages/verify/verify";
 import FAQ from "./pages/FAQ/FAQ";
 import HomePage from "./pages/Homepage/Homepage";
 import EditProfile from "./pages/EditProfile/EditProfile";
+import BookNotFound from "./pages/BookNotFound/BookNotFound";
+import PopularBooks from "./pages/PopularBook/PopularBook";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/questions" element={<FAQ />} />
         <Route path="editProfile" element={<EditProfile />} />
+        <Route path="/booknotfound" element={<BookNotFound />} />
+        <Route path="/popularbook" element={<PopularBooks />} />
       </Routes>
     </Router>
   );

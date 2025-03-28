@@ -1,0 +1,62 @@
+$primary_1:#303857;
+
+.popularbooks {
+    text-align: center;
+    padding: 20px;
+    h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color:$primary_1 ;
+    }
+}
+.bookgrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+    justify-content: center;
+    
+    
+  }
+
+.bookitem {
+        // width: 210px;
+        width: calc(17% - 10px);
+        background: #fff;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        margin: 0;
+
+}
+        img {
+        width: 202px;
+          height: 303px;
+        }
+  
+        h3 {
+          font-size: 0.9rem;
+          margin: 10px 0;
+          color:$primary_1 ;
+
+        }
+  
+        p {
+          font-size: 0.8rem;
+          color:$primary_1 ;
+        }
+      
+    
+  
+.loadmore {
+    margin-top: 20px;
+    width: 218px;
+    height: 70px;
+    padding: 8px 15px;
+    font-size: 20px;
+    background:$primary_1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    }

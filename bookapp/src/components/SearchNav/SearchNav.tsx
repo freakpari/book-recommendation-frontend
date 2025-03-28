@@ -3,7 +3,7 @@ import styles from "./SearchNav.module.scss";
 import menu from "./icons/menu.svg"
 import user from "../SideProfile/icons/AliMohamadi.svg"
 import logo from "./icons/logo.svg"
-import searchIcon from "./icons/searchButton.svg"
+// import searchIcon from "./icons/searchButton.svg"
 
 export default function SearchNav (){
     return (
@@ -17,7 +17,7 @@ export default function SearchNav (){
 
             <div className={styles.searchBar}>
                 <input type="search" placeholder="جستجو" />
-                <img src={searchIcon} alt="search button" />
+                {/* <img src={searchIcon} alt="search button" /> */}
             </div>
 
             <img className={styles.logoIcon} src={logo} alt="logo icon"/>
