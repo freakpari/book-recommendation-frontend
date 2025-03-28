@@ -9,9 +9,7 @@ export default function SearchNav (){
     return (
         <div className={styles.container}>
 
-            <div className={styles.menu}>
-                <img src={menu} alt="menu" />
-            </div>
+            <img className={styles.menu} src={menu} alt="menu" />
 
             <div className={styles.userIcon}>
                 {/* <img src={user} alt="user icon" /> */}
@@ -22,9 +20,7 @@ export default function SearchNav (){
                 <img src={searchIcon} alt="search button" />
             </div>
 
-            <div className={styles.logoIcon}>
-                <img  src={logo} alt="logo icon"/>
-            </div>
+            <img className={styles.logoIcon} src={logo} alt="logo icon"/>
 
         </div>
     )

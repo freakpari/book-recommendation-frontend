@@ -10,6 +10,7 @@ import Rules from "./pages/Rules/Rules";
 import Verify from "./pages/verify/verify";
 import FAQ from "./pages/FAQ/FAQ";
 import HomePage from "./pages/Homepage/Homepage";
+import EditProfile from "./pages/EditProfile/EditProfile";
 
 function App() {
   return (
@@ -17,14 +18,14 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUp/>} />
-          <Route path="/login" element={<SignUp /> } />
+        <Route path="/login" element={<SignUp /> } />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/landing" element={<AuthPage />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/verify" element={<Verify />} />
-
-        <Route path="/faq" element={<FAQ />} />
+        <Route path="/questions" element={<FAQ />} />
+        <Route path="editProfile" element={<EditProfile />} />
       </Routes>
     </Router>
   );

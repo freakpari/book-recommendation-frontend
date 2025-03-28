@@ -1,8 +1,8 @@
 import React from "react";
 import {useState} from "react";
 import styles from "./FAQContainer.module.scss"
-import toggleIconDown from "../../toggleIconDown.svg"
-import toggleIconUp from "../../toggleIconUp.svg"
+import toggleIconDown from "./toggleIconDown.svg"
+import toggleIconUp from "./toggleIconUp.svg"
 import {motion} from "framer-motion"
 import {AnimatePresence} from "framer-motion";
 
