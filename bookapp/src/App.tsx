@@ -13,6 +13,8 @@ import HomePage from "./pages/Homepage/Homepage";
 import EditProfile from "./pages/EditProfile/EditProfile";
 import BookNotFound from "./pages/BookNotFound/BookNotFound";
 import PopularBooks from "./pages/PopularBook/PopularBook";
+import MyBookHistory from "./pages/MyBookHistory/MyBookHistory";
+import MyFavoriteBook from "./pages/MyFavoriteBook/MyFavoriteBook";
 
 function App() {
   return (
@@ -27,9 +29,11 @@ function App() {
         <Route path="/rules" element={<Rules />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/questions" element={<FAQ />} />
-        <Route path="editProfile" element={<EditProfile />} />
+        <Route path="/editProfile" element={<EditProfile />} />
         <Route path="/booknotfound" element={<BookNotFound />} />
         <Route path="/popularbook" element={<PopularBooks />} />
+        <Route path="/myBookHistory" element={<MyBookHistory/>} />
+        <Route path="/myFavoriteBook" element={<MyFavoriteBook/>} />
       </Routes>
     </Router>
   );
