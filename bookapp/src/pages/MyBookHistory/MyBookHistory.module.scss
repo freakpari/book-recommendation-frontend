@@ -1,0 +1,89 @@
+.container {
+  background-color: #f9f9f9;
+}
+.MyBookHistory {
+  background-color: #ffffff;
+  width: 1000px;
+  height: 658px;
+  margin-right: 375px;
+  margin-top: 15px;
+}
+
+.header {
+  padding-top: 38px;
+  padding-right: 45px;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 40px;
+  text-align: right;
+  color: #303857;
+}
+
+.scrollbar {
+  overflow-y: scroll;
+  background: rgb(255, 255, 255);
+  width: 877px;
+  height: 520px;
+  margin: 20px auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(48, 56, 87, 0.5);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #303857;
+  }
+}
+
+.myBookCards {
+  display: flex;
+  gap: 10px;
+}
+
+.bookCard {
+  background: none;
+  border: none;
+  width: 133px;
+  height: 250px;
+  margin-bottom: 20px;
+  text-align: center;
+  img {
+    margin-top: -13px;
+    width: 128px;
+    height: 184px;
+  }
+  h4 {
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    color: #303857;
+    inline-size: 130px;
+    display: inline-block;
+    width: 110px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
+  p {
+    font-weight: lighter;
+    font-size: 14px;
+    text-align: center;
+    color: #303857;
+  }
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.04);
+    background: rgba(48, 56, 87, 0.06);
+    transition: 0.3s;
+  }
+  &:focus {
+    transform: scale(1.04);
+    background: rgba(48, 56, 87, 0.06);
+    transition: 0.3s;
+    outline: none;
+  }
+}
