@@ -2,7 +2,6 @@ import React from "react";
 import {useState} from "react";
 import styles from "./FAQContainer.module.scss"
 import toggleIconDown from "./toggleIconDown.svg"
-import toggleIconUp from "./toggleIconUp.svg"
 import {motion} from "framer-motion"
 import {AnimatePresence} from "framer-motion";
 
@@ -48,33 +47,31 @@ export default function FAQContainer(){
         <div>
             <div className={styles.container}>
                 {question.map((q) => (
-                    <div key={q.id}  className={styles.container}>
-                        <button onClick={() => setActiveQuastion ( activeQuastion === q.id ? null : q.id )}>
+                    <div key={q.id} className={styles.container}>
+                        <button onClick={() => setActiveQuastion(activeQuastion === q.id ? null : q.id)}>
                             {q.question}
-                            {activeQuastion === q.id ? (
-                                <img className={styles.UpIcon} src={toggleIconUp} alt="hide answer"/>
-                            ) : <img className={styles.DownIcon} src={toggleIconDown} alt="show answer" />
-                            }
+                            <motion.img
+                                className={styles.icon}
+                                src={toggleIconDown}  // فقط از یک آیکون استفاده می‌کنیم
+                                alt="toggle answer"
+                                animate={{ rotate: activeQuastion === q.id ? 180 : 0 }} // چرخش هنگام باز شدن
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                            />
                         </button>
                         <AnimatePresence>
                             {activeQuastion === q.id && (
                                 <motion.div
-                                initial={{opacity: 0,
-                                height: 0,}}
-                                animate={{opacity: 1,
-                                height: "auto",}}
-                                exit={{ opacity: 0,
-                                height: 0,}}
-                                className={styles.Answer}
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className={styles.Answer}
                                 >
                                     <p>{q.answer}</p>
                                 </motion.div>
                             )}
                         </AnimatePresence>
-
                     </div>
                 ))}
-
             </div>
         </div>
     )
