@@ -46,6 +46,12 @@
   border-radius: 50%;
   background: none;
   margin-right: 20px;
+
+  img {
+    width: 41px;
+    height: 41px;
+  }
+
   &:hover {
     cursor: pointer;
     background: rgba(48, 56, 87, 0.06);
