@@ -1,25 +1,22 @@
 import React from "react";
-import styles from "./FAQ.module.scss"
-import Footer from "../../components/footer/footer"
+import styles from "./FAQ.module.scss";
+import Footer from "../../components/Footer/Footer";
 import FAQContainer from "../../components/FAQContainer/FAQContainer";
 import logo from "../../logo.svg";
 
-export default function FAQ(){
-    return (
+export default function FAQ() {
+  return (
+    <div>
+      <div className={styles.container}>
+        <img src={logo} alt={"logo icon"} />
 
-        <div>
-            <div className={styles.container}>
+        <h3>سوالات متداول</h3>
 
-                <img src={logo} alt={"logo icon"} />
-
-                <h3>سوالات متداول</h3>
-
-                <FAQContainer />
-            </div>
-            <div>
-                <Footer />
-            </div>
-        </div>
-
-    );
+        <FAQContainer />
+      </div>
+      <div>
+        <Footer />
+      </div>
+    </div>
+  );
 }
