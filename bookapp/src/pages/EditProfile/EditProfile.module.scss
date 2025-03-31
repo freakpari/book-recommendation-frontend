@@ -1,5 +1,8 @@
+$primary_1 : #303857;
+$secondary_color : #f9f9f9;
+
 .container {
-  background-color: #f9f9f9;
+  background-color: $secondary_color;
 }
 
 .update {
@@ -22,8 +25,8 @@
   line-height: 150%;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &::placeholder {
     font-size: 16px;
@@ -44,8 +47,8 @@
   line-height: 150%;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &::placeholder {
     font-size: 16px;
@@ -67,8 +70,8 @@
   line-height: 150%;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &::placeholder {
     font-size: 16px;
@@ -93,12 +96,12 @@
   background: url(icons/downIcon.svg) no-repeat left center ;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
 
   &.selected {
-    color: #303857;
+    color: $primary_1;
   }
 }
 
@@ -117,11 +120,11 @@
   background: url(icons/downIcon.svg) no-repeat left center ;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &.selected {
-    color: #303857;
+    color: $primary_1;
   }
 }
 
@@ -140,11 +143,11 @@
   background: url(icons/downIcon.svg) no-repeat left center ;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &.selected {
-    color: #303857;
+    color: $primary_1;
   }
 }
 
@@ -160,8 +163,8 @@
   line-height: 150%;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &::placeholder {
     font-size: 16px;
@@ -181,12 +184,12 @@
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 1px;
-  color: #303857;
+  color: $primary_1;
   padding-bottom: 5px;
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &::placeholder {
     font-size: 16px;
@@ -216,10 +219,10 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 150%;
-  color: #303857;
+  color: $primary_1;
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
   &::placeholder {
     font-size: 16px;
@@ -234,31 +237,32 @@
   height: 49px;
   text-align-last: center;
   margin-right: 128px;
-  color: #f9f9f9;
+  color: $secondary_color;
   font-size: 18px;
   font-weight: 500;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 10px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   transition: background 0.3s;
-  background-color: #303857;
+  background-color: $primary_1;
 
   &:hover {
     cursor: pointer;
-    background: #f9f9f9;
-    border: 3px solid #303857;
-    color: #303857;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
     box-shadow: none;
   }
 
   &:focus {
-    cursor: pointer;
-    background: #f9f9f9;
-    border: 3px solid #303857;
-    color: #303857;
+    //cursor: pointer;
+    //background: $secondary_color;
+    //border: 3px solid $primary_1;
+    //color: $primary_1;
     box-shadow: none;
     outline: none;
   }
+
 }
 
 .dropdown {
@@ -269,6 +273,7 @@
 
 .gender {
   margin-right: 50px;
+  margin-bottom: -50px;
   width: 429px;
   height: 49px;
   display: flex;
@@ -285,18 +290,36 @@
 
   &:hover {
     cursor: pointer;
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
 
   &.selected {
-    color: #303857;
+    color: $primary_1;
   }
+}
+
+.disableGender {
+  margin-right: 50px;
+  margin-bottom: -49px;
+  width: 429px;
+  height: 49px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border: 2px solid rgba(48, 56, 87, 0.5);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  color: rgba(48, 56, 87, 0.5);
+  background-color: white;
 }
 
 .iconWrapper {
@@ -310,7 +333,7 @@
 .dropDownMenu {
   position: absolute;
   top: 44px;
-  right: 69px;
+  right: 76px;
   width: 100%;
   margin-top: 5px;
   background: rgba(48, 56, 87, 0.9);
@@ -323,17 +346,17 @@
   width: 100%;
   padding: 10px 15px;
   font-size: 16px;
-  color: #f9f9f9;
+  color: $secondary_color;
   border: none;
   background: none;
   cursor: pointer;
   transition: background 0.3s;
 
   &:hover {
-    background: #303857;
+    background: $primary_1;
   }
   &:focus {
-    background: #303857;
+    background: $primary_1;
     outline: none;
   }
 }
@@ -366,8 +389,8 @@
   }
 
   &:focus {
-    outline: 1px solid #303857;
-    border: 2px solid #303857;
+    outline: 1px solid $primary_1;
+    border: 2px solid $primary_1;
   }
 
   &::placeholder {
@@ -383,31 +406,105 @@
   height: 65px;
   text-align-last: center;
   margin: 140px 400px;
-  color: #f9f9f9;
+  color: $secondary_color;
   font-size: 28px;
   font-weight: 500;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 10px;
-  background-color: #303857;
+  background-color: $primary_1;
   transition: background 0.3s;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 
   &:hover {
     cursor: pointer;
-    background: #f9f9f9;
-    border: 3px solid #303857;
-    color: #303857;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
     box-shadow: none;
   }
 
   &:focus {
     cursor: pointer;
-    background: #f9f9f9;
-    border: 3px solid #303857;
-    color: #303857;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
     box-shadow: none;
     outline: none;
   }
 }
 
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
 
+.modalcontent {
+  position: fixed;
+  width: 38rem;
+  height: 23.4rem;
+  top: 15rem;
+  right: 27rem;
+  border-radius: 10px;
+  border: 0.3rem solid $primary_1;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(1.6rem);
+}
+
+.updatePasswordBtn {
+  position: fixed;
+  width: 9.2rem;
+  height: 3rem;
+  border-radius: 0.6rem;
+  background: $primary_1;
+  outline: none;
+  border: none;
+  color: $secondary_color;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 150%;
+  text-align: center;
+
+
+  top: 18rem;
+  right: 14.375rem;
+
+  transition: background 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
+    box-shadow: none;
+  }
+
+  &:focus {
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.changePassPara {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  vertical-align: middle;
+  color: $primary_1;
+  padding-top: 2rem;
+  margin-bottom: 1.8rem;
+}
+
+.changePassInputs {
+  text-align: center;
+  margin-top: 0.6rem;
+}

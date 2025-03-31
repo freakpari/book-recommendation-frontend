@@ -7,21 +7,21 @@ export default function Footer() {
                 <div className={styles.section}>
                     <h3>شرکت</h3>
                     <ul>
-                        <li><a href="">درباره ما</a></li>
-                        <li><a href="">قوانین و مقررات</a></li>
+                        <li><a href="http://localhost:3000/AboutUs">درباره ما</a></li>
+                        <li><a href="http://localhost:3000/rules">قوانین و مقررات</a></li>
                     </ul>
                 </div>
                 <div className={styles.section}>
                     <h3>راهنما</h3>
                     <ul>
-                        <li><a href="">سوالات متداول</a></li>
+                        <li><a href="http://localhost:3000/questions">سوالات متداول</a></li>
                         <li><a>ایمیل پشتیبانی</a></li>
                     </ul>
                 </div>
                 <div className={styles.section}>
                     <h3>ما را دنبال کنید</h3>
                     <ul className={styles.section}>
-                        <li><a href="">اینستاگرام</a></li>
+                        <li><a href="http://instagram.com/_u/{_s.mohamad.m_}/">اینستاگرام</a></li>
                         <li><a href="">لینکدین</a></li>
                     </ul>
                 </div>

@@ -36,7 +36,12 @@ export default function EditProfile() {
     const [selectedGender, setSelectedGender] = useState<"زن" | "مرد" | "ترجیح می‌دهم نگویم" |null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const [modal, setModal] = React.useState(false);
+    const [showPasswordModalOld, setShowPasswordModalOld] = React.useState(false);
+    const [showPasswordModalNew, setShowPasswordModalNew] = React.useState(false);
+    const [showPasswordModalRepeat, setShowPasswordModalRepeat] = React.useState(false);
 
     return (
             <div className={styles.container}>
@@ -109,103 +114,201 @@ export default function EditProfile() {
                             <button
                                 type="button"
                                 className={styles.showPasswordBtn}
-                                onClick={() => setShowPassword((prev) => !prev)}
+                                onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </button>
                         </>
 
 
-
-
-
                         <input className={styles.bio} type="text" name="bio" id="bio" maxLength={40}
                                placeholder="یه چیزی درمورد خودت بنویس!"/>
-                        <button className={styles.changePassBtn}>تغییر رمز عبور</button>
+
+                        <button
+                            type="button"
+                            className={styles.changePassBtn}
+                            onClick={() => setModal(true)}
+                        >
+                            تغییر رمز عبور
+                        </button>
+                        {modal && (
+                            <div>
+                                <div
+                                    className={styles.overlay}
+                                    onClick={() => {setModal(false)}}
+                                ></div>
+                                <div className={styles.modalcontent}>
+
+                                    <div className={styles.changePassPara}>
+                                        تغییر رمز عبور
+                                    </div>
+
+                                    <div className={styles.changePassInputs}>
+                                        <input
+                                            className={styles.password}
+                                            type={showPasswordModalOld ? "text" : "password"}
+                                            name="password"
+                                            id="password"
+                                            minLength={8}
+                                            placeholder="رمز عبور فعلی"
+                                        />
+                                        <button
+                                            type="button"
+                                            className={styles.showPasswordBtn}
+                                            onClick={() => setShowPasswordModalOld(!showPasswordModalOld)}
+                                        >
+                                            {showPasswordModalOld ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        </button>
+                                    </div>
+                                    <div className={styles.changePassInputs}>
+                                        <input
+                                            className={styles.password}
+                                            type={showPasswordModalNew ? "text" : "password"}
+                                            name="password"
+                                            id="password"
+                                            minLength={8}
+                                            placeholder="رمز عبور جدید"
+                                        />
+                                        <button
+                                            type="button"
+                                            className={styles.showPasswordBtn}
+                                            onClick={() => setShowPasswordModalNew(!showPasswordModalNew)}
+                                        >
+                                            {showPasswordModalNew ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        </button>
+                                    </div>
+                                    <div className={styles.changePassInputs}>
+                                        <input
+                                            className={styles.password}
+                                            type={showPasswordModalRepeat ? "text" : "password"}
+                                            name="password"
+                                            id="password"
+                                            minLength={8}
+                                            placeholder="تکرار رمز عبور جدید"
+                                        />
+                                        <button
+                                            type="button"
+                                            className={styles.showPasswordBtn}
+                                            onClick={() => setShowPasswordModalRepeat(!showPasswordModalRepeat)}
+                                        >
+                                            {showPasswordModalRepeat ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        </button>
+                                    </div>
+
+                                    <input
+                                        className={styles.updatePasswordBtn}
+                                        onClick={() => setModal(false)}
+                                        type="submit"
+                                        name="updatePassword"
+                                        id="updatePassword"
+                                        value="ثبت"
+                                    />
+                                </div>
+                            </div>
+                        )}
 
 
-                        <div className={styles.dropdown}>
+                        {modal && (
                             <button
-                                type="button"
-                                className={`${styles.gender} ${selectedGender ? styles.selected : ""}`}
-                                onClick={() => setIsOpen((prev) => !prev)}
+                                className={styles.disableGender}
                             >
                                 {selectedGender ? selectedGender : "جنسیت"}
-                                <motion.div
-                                    animate={{ rotate: isOpen ? 180 : 0 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className={styles.iconWrapper}
-                                >
                                     <ChevronDown />
-                                </motion.div>
                             </button>
+                        )}
 
-                            <AnimatePresence>
+                        {!modal && (
+                            <div>
+
                                 {isOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: "auto" }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        transition={{ duration: 0.3, ease: "backInOut" }}
-                                    >
-                                        <div className={styles.dropDownMenu}>
-                                            {selectedGender !== "زن" && (
-                                                <>
-                                                    <button
-                                                        type="button"
-                                                        className={styles.option}
-                                                        onClick={() => {
-                                                            setSelectedGender("زن");
-                                                            setIsOpen(false);
-                                                        }}
-                                                    >
-                                                        زن
-                                                    </button>
-                                                    <hr className={styles.hr} />
-                                                </>
-                                            )}
-
-                                            {selectedGender !== "مرد" && (
-                                                <>
-                                                    <button
-                                                        type="button"
-                                                        className={styles.option}
-                                                        onClick={() => {
-                                                            setSelectedGender("مرد");
-                                                            setIsOpen(false);
-                                                        }}
-                                                    >
-                                                        مرد
-                                                    </button>
-                                                    {selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
-                                                </>
-                                            )}
-
-                                            {selectedGender !== "ترجیح می‌دهم نگویم" && (
-                                                <button
-                                                    type="button"
-                                                    className={styles.option}
-                                                    onClick={() => {
-                                                        setSelectedGender("ترجیح می‌دهم نگویم");
-                                                        setIsOpen(false);
-                                                    }}
-                                                >
-                                                    ترجیح می‌دهم نگویم
-                                                </button>
-                                            )}
-                                        </div>
-                                    </motion.div>
+                                    <div className={styles.overlay}
+                                         onClick={() => {setIsOpen(false)}}>
+                                    </div>
                                 )}
-                            </AnimatePresence>
-                        </div>
+                                <div className={styles.dropdown}>
+                                    <button
+                                        type="button"
+                                        className={`${styles.gender} ${selectedGender ? styles.selected : ""}`}
+                                        onClick={() => setIsOpen(!isOpen)}
+                                    >
+                                        {selectedGender ? selectedGender : "جنسیت"}
+                                        <motion.div
+                                            animate={{ rotate: isOpen ? 180 : 0 }}
+                                            transition={{ duration: 0.3, ease: "easeOut" }}
+                                            className={styles.iconWrapper}
+                                        >
+                                            <ChevronDown />
+                                        </motion.div>
+                                    </button>
 
+                                    <AnimatePresence>
+                                        {isOpen && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: "auto" }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                transition={{ duration: 0.3, ease: "backInOut" }}
+                                            >
+                                                <div className={styles.dropDownMenu}>
+                                                    {selectedGender !== "زن" && (
+                                                        <>
+                                                            <button
+                                                                type="button"
+                                                                className={styles.option}
+                                                                onClick={() => {
+                                                                    setSelectedGender("زن");
+                                                                    setIsOpen(false);
+                                                                }}
+                                                            >
+                                                                زن
+                                                            </button>
+                                                            <hr className={styles.hr} />
+                                                        </>
+                                                    )}
+
+                                                    {selectedGender !== "مرد" && (
+                                                        <>
+                                                            <button
+                                                                type="button"
+                                                                className={styles.option}
+                                                                onClick={() => {
+                                                                    setSelectedGender("مرد");
+                                                                    setIsOpen(false);
+                                                                }}
+                                                            >
+                                                                مرد
+                                                            </button>
+                                                            {selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
+                                                        </>
+                                                    )}
+
+                                                    {selectedGender !== "ترجیح می‌دهم نگویم" && (
+                                                        <button
+                                                            type="button"
+                                                            className={styles.option}
+                                                            onClick={() => {
+                                                                setSelectedGender("ترجیح می‌دهم نگویم");
+                                                                setIsOpen(false);
+                                                            }}
+                                                        >
+                                                            ترجیح می‌دهم نگویم
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+
+                            </div>
+                        )}
                         <input className={styles.phoneNumber} type="number" name="phoneNumber" id="phoneNumber"
                                placeholder="۰۹۱۳۹۸۶۳۰۵۶"/>
 
 
-
                         <input className={styles.updateProfileBtn} type="submit" name="updateProfile" id="updateProfile"
                                value="به‌روزرسانی"/>
+
                     </form>
                 </div>
 

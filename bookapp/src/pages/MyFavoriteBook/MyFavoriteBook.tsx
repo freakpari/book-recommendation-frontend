@@ -1,12 +1,18 @@
 import React from "react";
 import styles from "./MyFavoriteBook.module.scss";
+import {useState} from "react";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
 import BlackHourse from "./icons/blackHourse.svg"
 import Pencil from "./icons/Pencil.svg"
+import EditGenreModal from "../../components/EditGenreModal/EditGenreModal";
 
 export default function MyFavoriteBook() {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+
     return (
         <div className={styles.container}>
             <SearchNav />
@@ -15,10 +21,11 @@ export default function MyFavoriteBook() {
                 <div className={styles.header}>ژانر‌های محبوب من</div>
 
                 <div className={styles.MyFaveGenre}>
-                    <div className={styles.Genres}>فلسفی</div>
-                    <div className={styles.Genres}>رمان</div>
-                    <div className={styles.Genres}>خیالی</div>
-                    <button className={styles.editGenresBtn}>
+
+                    {selectedGenres.map((genre) => (
+                        <div key={genre} className={styles.Genres}>{genre}</div>
+                    ))}
+                    <button className={styles.editGenresBtn} onClick={() => setIsModalOpen(true)}>
                         <img src={Pencil} alt="edit genres" />
                     </button>
                 </div>
@@ -321,6 +328,13 @@ export default function MyFavoriteBook() {
             <div>
                 <Footer />
             </div>
+            {isModalOpen && (
+                <EditGenreModal
+                    selectedGenres={selectedGenres}
+                    setSelectedGenres={setSelectedGenres}
+                    closeModal={() => setIsModalOpen(false)}
+                />
+            )}
         </div>
 
     )
