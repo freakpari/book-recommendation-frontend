@@ -56,8 +56,9 @@ export default function SearchNav (){
         <div className={styles.modalOverlay}>
             <h3>واقعاً مطمئنی که می‌خوای بری؟</h3>
             <div className={styles.modalButtons}>
-            <button className={styles.cancel} onClick={() => setShowModal(false)}>نه قطعا</button>
             <button className={styles.confirm} onClick={handleLogout}>آره بای</button>
+            <button className={styles.cancel} onClick={() => setShowModal(false)}>نه فعلا</button>
+
 
 
 
