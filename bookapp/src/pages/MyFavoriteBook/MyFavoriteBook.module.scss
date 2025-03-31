@@ -1,55 +1,74 @@
+$primary_1: #303857;
+
 .container {
   background-color: #f9f9f9;
 }
 
 .MyFave {
   background-color: #ffffff;
-  width: 1000px;
-  height: 658px;
-  margin-right: 375px;
-  margin-top: 15px;
+  width: 62.5rem;
+  height: 41.125rem;
+  margin-right: 23.438rem;
+  margin-top: 0.938rem;
 }
 
 .header {
-  padding-top: 38px;
-  padding-right: 45px;
-  padding-bottom: 10px;
+  padding-top: 2.375rem;
+  padding-right: 3rem;
+  padding-bottom: 0.6rem;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.5rem;
   text-align: right;
-  color: #303857;
+  color: $primary_1;
 }
 
 .MyFaveGenre {
-  margin-right: 45px;
-  width: 100%;
+  margin-right: 3rem;
+  min-width: 56.25rem;
+  max-width: 56.25rem;
+  min-height: 2.938rem;
+  max-height: 2.938rem;
+  overflow-y: auto ;
   display: flex;
+  flex-wrap: wrap;
   text-align: right;
-  gap: 10px;
+  gap: 0.6rem;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 0.6rem;
+    background: rgba(48, 56, 87, 0.5);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.6rem;
+    background-color: $primary_1;
+  }
 }
 
 .Genres {
-  color: #303857;
-  width: 115px;
-  height: 41px;
-  border: 1px solid #303857;
-  border-radius: 10px;
+  color: $primary_1;
+  width: 7.2rem;
+  height: 2.563rem;
+  border: 1px solid $primary_1;
+  border-radius: 0.6rem;
   background-color: rgba(48, 56, 87, 0.35);
   text-align: center;
   align-content: center;
 }
 
 .editGenresBtn {
-  width: 41px;
-  height: 41px;
+  width: 2.563rem;
+  height: 2.563rem;
   border: none;
   border-radius: 50%;
   background: none;
-  margin-right: 20px;
+  margin-right: 1.3rem;
 
   img {
-    width: 41px;
-    height: 41px;
+    width: 2.563rem;
+    height: 2.563rem;
   }
 
   &:hover {
@@ -66,69 +85,69 @@
 
 .MyFaveBooks {
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.5rem;
   text-align: right;
-  color: #303857;
-  padding-top: 30px;
-  padding-right: 45px;
+  color: $primary_1;
+  padding-top: 1.875rem;
+  padding-right: 2.813rem;
 }
 
 .scrollbar {
   overflow-y: scroll;
   background: rgb(255, 255, 255);
-  width: 877px;
-  height: 450px;
-  margin: 10px 74px;
+  width: 54.813rem;
+  height: 28.125rem;
+  margin: 0.6rem 4.625rem;
 
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 0.5rem;
   }
   &::-webkit-scrollbar-track {
-    border-radius: 10px;
+    border-radius: 0.6rem;
     background: rgba(48, 56, 87, 0.5);
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #303857;
-    min-height: 50px;
+    border-radius: 0.6rem;
+    background-color: $primary_1;
+    min-height: 3rem;
   }
 
 }
 
 .myBookCards {
   display: flex;
-  gap: 10px;
+  gap: 0.6rem;
 }
 
 .bookCard {
   background: none;
   border: none;
-  width: 133px;
-  height: 250px;
-  margin-bottom: 20px;
+  width: 8.313rem;
+  height: 15.625rem;
+  margin-bottom: 1.3rem;
   text-align: center;
   img {
-    margin-top: -13px;
-    width: 128px;
-    height: 184px;
+    margin-top: -0.813rem;
+    width: 8rem;
+    height: 11.5rem;
   }
   h4 {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
     text-align: center;
-    color: #303857;
-    inline-size: 130px;
+    color: $primary_1;
+    inline-size: 8.125rem;
     display: inline-block;
-    width: 110px;
+    width: 6.875rem;
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
   }
   p {
     font-weight: lighter;
-    font-size: 14px;
+    font-size: 0.875rem;
     text-align: center;
-    color: #303857;
+    color: $primary_1;
   }
   &:hover {
     cursor: pointer;
