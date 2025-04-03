@@ -5,6 +5,7 @@
     justify-content: center;
     gap: 10px;
     margin: 20px 0;
+    direction: ltr;
     
   }
   
@@ -69,17 +70,19 @@
   .logo {
     width: 211px;
     height: 132px;
-    margin-bottom: 20px;
-    margin-top: 1px;
+    margin-right: 645px;
   }
   
   .toggleButtons {
     display: flex;
     width: 295px;
-    height: 48px;
+    height: 68px;
     border: 2px solid #303857;
     border-radius: 50px;
-    overflow: hidden;
+    margin-right: 615px;
+    margin-top: 20px;
+  
+  
   }
   
   .toggleButtons button {
@@ -97,21 +100,25 @@
     color: white;
     border-radius: 50px;
   }
+
   .mainContent {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 160px;
+    margin-top: 15px;
     gap: 40px;
     transition: all 0.5s ease-in-out;
-    
+    margin-bottom: 5px;
+    width: 1300px;
+    margin-right: 120px;
+  
   
   }
   
   .imageContainer {
     width: 400px;
     height: 470px;
-    margin-right: 150px;
+    margin-right: 190px;
     margin-left: 50px;
     margin-bottom: 30px;
   }
