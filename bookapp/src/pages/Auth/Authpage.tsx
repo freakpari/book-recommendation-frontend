@@ -1,6 +1,8 @@
 import styles from "./Authpage.module.scss";
 import React from "react";
 import LightLogo from './lightlogo.png';
+import { Link } from 'react-router-dom';
+
 
 
 const AuthPage: React.FC = () => {
@@ -12,11 +14,11 @@ return (
         </div>
         <h2 className={styles.tagline}>هوشمندانه بخوان، عمیق‌تر کشف کن</h2>
         <div className={styles.buttons}>
-            <button className={`${styles.btn} ${styles.primary}`}>ثبت نام</button>
-            <button className={`${styles.btn} ${styles.secondary}`}>ورود</button>
+            <Link to="/signup" className={`${styles.btn} ${styles.primary}`}>  ورود    |    ثبت نام</Link>
         </div>
-        <p className={styles.guest}>ادامه به عنوان مهمان</p>
-    </div>
+        <p className={styles.guest}>
+        <Link to="/Homepage" className={styles.guest}>ادامه به عنوان مهمان</Link>
+</p>    </div>
     </div>
 );
 };
