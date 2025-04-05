@@ -12,7 +12,7 @@ import signout from "./icons/Signout.svg";
 import Book from "./icons/Book.svg";
 import instagram from "./icons/Instagram.svg";
 import linkdine from "./icons/linkdine.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SearchNav() {
     const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +46,7 @@ export default function SearchNav() {
             
             <div className={`${styles.drawerMenu} ${isOpen ? styles.open : ""}`}>
                 <ul>
-                    <li><img src={account} alt="account" />حساب کاربری</li>
+                    <li onClick={() => navigate('/editprofile')} ><img src={account} alt="account" />حساب کاربری</li>
                     <li><img src={inbox} alt="inbox" />صندوق ورودی</li>
                     <li><img src={pointer} alt="pointer" />نتیجه تست MBTI</li>
                     <li><img src={explore} alt="explore" />BookTalk</li>

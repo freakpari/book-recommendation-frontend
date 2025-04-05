@@ -52,7 +52,7 @@ $button-hover-opacity: 0.85;
         gap: 1rem; 
       
         .btn {
-          width: 150px;
+          width: 250px;
           padding: 0.8rem 1.5rem;
           border-radius: 8px;
           font-size: 1rem;
@@ -60,6 +60,8 @@ $button-hover-opacity: 0.85;
           transition: all 0.3s ease-in-out;
           border: none;
           font-weight: bold;
+          text-decoration: none;
+
         &.primary {
           background: $secondary-color;
           color: $primary-color;
@@ -83,6 +85,8 @@ $button-hover-opacity: 0.85;
       opacity: 0.8;
       cursor: pointer;
       transition: opacity 0.3s;
+      text-decoration: none;
+
 
       &:hover {
         opacity: 1;

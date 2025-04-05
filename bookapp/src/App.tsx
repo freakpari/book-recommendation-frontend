@@ -20,12 +20,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<AuthPage />} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<SignUp /> } />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/landing" element={<AuthPage />} />
+        <Route path="/Homepage" element={<HomePage />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/questions" element={<FAQ />} />
