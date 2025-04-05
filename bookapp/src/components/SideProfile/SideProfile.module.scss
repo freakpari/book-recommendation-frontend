@@ -1,3 +1,5 @@
+$primary_1: #303857;
+
 .container {
   background-color: white;
   width: 16.5rem;
@@ -26,7 +28,7 @@
     height: 8.75rem;
   }
   button {
-    background-color: #303857;
+    background-color: $primary_1;
     width: 2.375rem;
     height: 2.375rem;
     border: none;
@@ -62,7 +64,7 @@
     p {
       font-size: 1.125rem;
       line-height: 2.5rem;
-      color: #303857;
+      color: $primary_1;
       font-weight: 300;
     }
     img {
@@ -81,6 +83,9 @@
     outline: none;
     background: rgba(48, 56, 87, 0.06);
   }
+  a{
+    text-decoration: none;
+  }
 }
 
 .hr {
@@ -88,4 +93,13 @@
   border: 1px solid rgba(48, 56, 87, 0.5);
   margin: 0 auto 0;
   border-radius: round(1px);
+}
+
+
+
+.profileImage {
+  width: 8.75rem;
+  height: 8.75rem;
+  border-radius: 50%;
+  object-fit: contain;
 }
