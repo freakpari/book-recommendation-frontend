@@ -123,7 +123,7 @@ export default function SignUp() {
         console.log("Stored Token:", localStorage.getItem("token"));
         console.log("Stored User:", localStorage.getItem("user"));
         
-        navigate("/", { replace: true });
+        navigate("/Homepage", { replace: true });
         
         window.location.reload();
       } else {
