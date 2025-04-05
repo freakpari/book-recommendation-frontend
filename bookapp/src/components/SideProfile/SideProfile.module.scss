@@ -26,29 +26,7 @@ $primary_1: #303857;
     margin: -9.375rem 3.75rem 1.938rem 0;
     width: 8.75rem;
     height: 8.75rem;
-  }
-  button {
-    background-color: $primary_1;
-    width: 2.375rem;
-    height: 2.375rem;
-    border: none;
-    border-radius: 50%;
-    margin-right: 10.438rem;
-    margin-top: 9.25rem;
-    position: relative;
-    img {
-      width: 1.188rem;
-      height: 1.383rem;
-      margin: 0.438rem 0.563rem 0.438rem 0.563rem ;
-    }
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-    }
-    &:focus {
-      outline: none;
-      transform: scale(1.1);
-    }
+    border: 1px solid $primary_1;
   }
 }
 
@@ -102,4 +80,54 @@ $primary_1: #303857;
   height: 8.75rem;
   border-radius: 50%;
   object-fit: contain;
+}
+
+.deleteBtn {
+  background-color: $primary_1;
+  width: 2.375rem;
+  height: 2.375rem;
+  border: none;
+  border-radius: 50%;
+  margin-right: -9.438rem;
+  margin-top: 9.25rem;
+  position: absolute;
+  img {
+    width: 1.9rem;
+    height: 1.9rem;
+    margin: 0.175rem 0.25rem 0.438rem 0.563rem ;
+    border: none;
+  }
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+  &:focus {
+    outline: none;
+    transform: scale(1.1);
+  }
+}
+
+.editBtn {
+    background-color: $primary_1;
+    width: 2.375rem;
+    height: 2.375rem;
+    border: none;
+    border-radius: 50%;
+    margin-right: 10.438rem;
+    margin-top: 9.25rem;
+    position: relative;
+    img {
+      width: 1.188rem;
+      height: 1.383rem;
+      margin: 0.438rem 0.563rem 0.438rem 0.563rem ;
+    }
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+    &:focus {
+      outline: none;
+      transform: scale(1.1);
+    }
+
 }
