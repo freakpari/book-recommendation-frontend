@@ -56,9 +56,9 @@ export default function SideProfile() {
                 </button>
 
                 {profileImage && (
-                <button onClick={handleDeleteImage} className={styles.deleteBtn}>
-                    <img src={deleteIcon} alt="delete profile"/>
-                </button>
+                    <button onClick={handleDeleteImage} className={styles.deleteBtn}>
+                        <img src={deleteIcon} alt="delete profile"/>
+                    </button>
                 )}
 
                 <input
