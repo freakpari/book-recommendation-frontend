@@ -28,6 +28,13 @@
   font-size: 16px;
   margin-right: 70px;
   margin-top: 20px;
+  &:hover {
+    cursor: pointer;
+    background: #f9f9f9;
+    border: 3px solid #303857;
+    color: #303857;
+    box-shadow: none;
+}
   }
   
   .resendText {

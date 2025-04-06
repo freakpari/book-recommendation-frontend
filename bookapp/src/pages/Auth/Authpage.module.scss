@@ -1,5 +1,5 @@
-$primary-color: #24314e;
-$secondary-color: #ffffff;
+$primary-color: #303857;
+$secondary_color : #f9f9f9;
 $button-hover-opacity: 0.85;
 
 
@@ -72,9 +72,6 @@ $button-hover-opacity: 0.85;
           color: $primary-color;
         }
 
-        &:hover {
-          opacity: $button-hover-opacity;
-        }
       }
     }
 

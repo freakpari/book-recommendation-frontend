@@ -1,4 +1,5 @@
 $primary_1:#303857;
+$secondary_color:#f9f9f9;
 
 html,body{
     margin: 0;
@@ -98,6 +99,13 @@ html,body{
     font-size: 20px;
     cursor: pointer;
     transition: background-color 0.3s;
+    &:hover {
+        cursor: pointer;
+        background: $secondary_color;
+        border: 3px solid $primary_1;
+        color: $primary_1;
+        box-shadow: none;
+    }
 }
 
 
