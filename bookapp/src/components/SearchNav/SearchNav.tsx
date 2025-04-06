@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./SearchNav.module.scss";
 import menu from "./icons/menu.svg";
-import user from "./icons/AliMohamadi.svg";
+import user from "./icons/defaultUser.svg";
 import logo from "./icons/logo.svg";
 import searchIcon from "./icons/searchButton.svg";
 import account from "./icons/account.svg";
@@ -13,6 +13,7 @@ import Book from "./icons/Book.svg";
 import instagram from "./icons/Instagram.svg";
 import linkdine from "./icons/linkdine.svg";
 import { Link, useNavigate } from "react-router-dom";
+
 
 export default function SearchNav() {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +27,17 @@ export default function SearchNav() {
         setShowModal(false);
     };
 
+    const [profileImage, setProfileImage] = useState<string | null>(localStorage.getItem('profileImage'));
+
+    useEffect(() => {
+        const savedImage = localStorage.getItem("profileImage");
+        if (savedImage) {
+            setProfileImage(savedImage);
+        } else {
+            setProfileImage(null); // اگر تصویری نیست، حالت پیش‌فرض رو تنظیم می‌کنیم
+        }
+    }, []);
+
     return (
         <div className={styles.container}>
             <img 
@@ -35,11 +47,13 @@ export default function SearchNav() {
                 onClick={() => setIsOpen(!isOpen)} 
             />
 
-            <img className={styles.userIcon} src={user} alt="user icon" />
+            <a href="/editProfile">
+                <img className={styles.userIcon} src={profileImage || user} alt="user icon" />
+            </a>
 
             <div className={styles.searchBar}>
                 <input type="search" placeholder="جستجو" />
-                <img src={searchIcon} alt="search button" />
+                    <img src={searchIcon} alt="search button" />
             </div>
 
             <img className={styles.logoIcon} src={logo} alt="logo icon"/>

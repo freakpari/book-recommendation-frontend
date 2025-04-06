@@ -7,14 +7,14 @@ export default function Footer() {
                 <div className={styles.section}>
                     <h3>شرکت</h3>
                     <ul>
-                        <li><a href="http://localhost:3000/AboutUs">درباره ما</a></li>
-                        <li><a href="http://localhost:3000/rules">قوانین و مقررات</a></li>
+                        <li><a href="/AboutUs">درباره ما</a></li>
+                        <li><a href="/rules">قوانین و مقررات</a></li>
                     </ul>
                 </div>
                 <div className={styles.section}>
                     <h3>راهنما</h3>
                     <ul>
-                        <li><a href="http://localhost:3000/questions">سوالات متداول</a></li>
+                        <li><a href="/questions">سوالات متداول</a></li>
                         <li><a>ایمیل پشتیبانی</a></li>
                     </ul>
                 </div>
@@ -26,6 +26,7 @@ export default function Footer() {
                     </ul>
                 </div>
             </div>
+
             <div className={styles.section}>
                 <ul>
                     <br />
