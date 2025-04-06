@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  height: 177px;
+  height: 11rem;
   background: #f9f9f9;
   display: flex;
   flex-direction: row;
@@ -12,62 +12,70 @@
 }
 
 .menu {
-  width: 60px;
-  height: 60px;
-  margin-left: 60px;
-  margin-right: 54px;
-  margin-top: -20px;
+  width: 3.75rem;
+  height: 3.75rem;
+  margin-left: 3.75rem;
+  margin-right: 3.3rem;
+  margin-top: -1.3rem;
   transition: background 0.3s;
   &:hover{
     cursor: pointer;
     background: rgba(48, 56, 87, 0.06);
-    border-radius: 10px;
+    border-radius: 0.6rem;
     outline: none;
   }
 }
 
-.userIcon {
-  width: 79px;
-  height: 79px;
-  border: 1px solid #303857;
+.linkToProfile {
+  width: 4.9rem;
+  height: 4.9rem;
+  margin-left: 3.75rem;
+  margin-top: -0.9rem;
   border-radius: 50%;
-  margin-left: 60px;
-  margin-top: -20px;
-  object-fit: contain;
 
   &:hover {
     cursor: pointer;
   }
+}
+
+.userIcon {
+  width: 4.9rem;
+  height: 4.9rem;
+  border: 1px solid #303857;
+  border-radius: 50%;
+  object-fit: contain;
+
   img{
-    width: 77px;
-    height: 77px;
+    width: 4.8rem;
+    height: 4.8rem;
     margin: auto;
   }
 }
 
 .searchBar {
   input{
-    font-size: 20px;
+    font-size: 1.3rem;
     font-weight: 400;
-    line-height: 40px;
+    line-height: 2.5rem;
     color: #303857;
-    width: 972px;
-    height: 64px;
+    width: 60.75rem;
+    height: 4rem;
     border: 1px solid #303857;
-    border-radius: 50px;
-    padding: 12px 30px;
+    border-radius: 3.125rem;
+    padding: 0.75rem 1.8rem;
     background-color: #f9f9f9;
-    margin-top: -20px;
+    margin-top: -1.3rem;
+    //margin-right: 9rem;
     &:focus {
       outline: 2px solid #303857;
     }
   }
   img{
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     position: absolute;
-    margin-right: -55px;
-    margin-top: -8px;
+    margin-right: -3.4rem;
+    margin-top: -0.5rem;
     &:hover {
       cursor: pointer;
       transform: scale(1.15);
@@ -76,11 +84,11 @@
 }
 
 .logoIcon {
-  width: 111px;
-  height: 97px;
-  margin-top: -48px;
+  width: 7rem;
+  height: 6rem;
+  margin-top: -3rem;
   margin-left: auto;
-  margin-right: 21px;
+  margin-right: 1.3rem;
 
 }
 .drawerMenu {
@@ -189,8 +197,6 @@
   cursor: pointer;
   transition: 0.3s;
   border: 2px solid #303857;
-  
-
 }
 
 .confirm {

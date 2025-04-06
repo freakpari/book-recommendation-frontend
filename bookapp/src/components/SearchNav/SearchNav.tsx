@@ -12,7 +12,7 @@ import signout from "./icons/Signout.svg";
 import Book from "./icons/Book.svg";
 import instagram from "./icons/Instagram.svg";
 import linkdine from "./icons/linkdine.svg";
-import { Link, useNavigate } from "react-router-dom";
+import {href, Link, useHref, useNavigate} from "react-router-dom";
 
 
 export default function SearchNav() {
@@ -47,8 +47,8 @@ export default function SearchNav() {
                 onClick={() => setIsOpen(!isOpen)} 
             />
 
-            <a href="/editProfile">
-                <img className={styles.userIcon} src={profileImage || user} alt="user icon" />
+            <a className={styles.linkToProfile} href="/editProfile">
+                <img className={styles.userIcon} src={profileImage || user} alt="user icon" onClick={() => href("/editProfile")} />
             </a>
 
             <div className={styles.searchBar}>
