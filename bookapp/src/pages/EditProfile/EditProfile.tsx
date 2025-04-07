@@ -86,6 +86,52 @@ fetchProfileData();
     const [showPasswordModalOld, setShowPasswordModalOld] = React.useState(false);
     const [showPasswordModalNew, setShowPasswordModalNew] = React.useState(false);
     const [showPasswordModalRepeat, setShowPasswordModalRepeat] = React.useState(false);
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [repeatNewPassword, setRepeatNewPassword] = useState("");
+    
+
+    const handlePasswordChange = async () => {
+        if (newPassword !== repeatNewPassword) {
+        alert("رمز عبور جدید و تکرار آن مطابقت ندارند.");
+        return;
+        }
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+        alert("توکن یافت نشد. لطفاً دوباره وارد شوید.");
+        return;
+        }
+      
+        try {
+          const response = await fetch("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/newPassword", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              oldPassword: oldPassword,
+              newPassword: newPassword,
+            }),
+        });
+      
+        const data = await response.json();
+      
+        if (response.ok) {
+            alert("رمز عبور با موفقیت تغییر کرد ");
+            setOldPassword("");
+            setNewPassword("");
+            setRepeatNewPassword("");
+        } else {
+            alert(data.message || "تغییر رمز عبور با خطا مواجه شد ");
+        }
+        } catch (error) {
+        console.error("خطا در ارسال درخواست:", error);
+        alert("مشکلی در ارتباط با سرور پیش آمد. دوباره تلاش کنید.");
+        }
+      };
+      
     
 
     useEffect(() => {
@@ -213,6 +259,8 @@ fetchProfileData();
                                         name="password"
                                         id="password"
                                         minLength={8}
+                                        value={oldPassword}
+                                        onChange={(e) => setOldPassword(e.target.value)}
                                         placeholder="رمز عبور فعلی"
                                     />
                                     <button
@@ -230,6 +278,8 @@ fetchProfileData();
                                         name="password"
                                         id="password"
                                         minLength={8}
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
                                         placeholder="رمز عبور جدید"
                                     />
                                     <button
@@ -247,6 +297,8 @@ fetchProfileData();
                                         name="password"
                                         id="password"
                                         minLength={8}
+                                        value={repeatNewPassword}
+                                        onChange={(e) => setRepeatNewPassword(e.target.value)}
                                         placeholder="تکرار رمز عبور جدید"
                                     />
                                     <button
@@ -260,10 +312,11 @@ fetchProfileData();
 
                                 <input
                                     className={styles.updatePasswordBtn}
-                                    onClick={() => setModal(false)}
                                     type="submit"
                                     name="updatePassword"
                                     id="updatePassword"
+                                    onClick={handlePasswordChange}
+
                                     value="ثبت"
                                 />
                             </div>
