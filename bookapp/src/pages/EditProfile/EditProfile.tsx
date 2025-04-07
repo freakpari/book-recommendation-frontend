@@ -8,7 +8,19 @@ import SearchNav from "../../components/SearchNav/SearchNav";
 import { motion, AnimatePresence } from "framer-motion";
 import {ChevronDown} from "lucide-react";
 import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
 
+interface UserProfile {
+    id: number;
+    first_name: string;
+    last_name: string;
+    user_name: string;
+    bio: string;
+    gender: string;
+    birthday: string;
+    phone_number: string;
+    email: string;
+}
 
 export default function EditProfile() {
 
@@ -33,6 +45,37 @@ export default function EditProfile() {
         { id: 11, name: "بهمن" },
         { id: 12, name: "اسفند" },
     ];
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+
+useEffect(() => {
+const fetchProfileData = async () => {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+        "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile",
+        {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        }
+    );
+
+    setProfile(response.data.user);
+    setDaySelectedValue(new Date(response.data.user.birthday).getDate().toString());
+    setMonthSelectedValue((new Date(response.data.user.birthday).getMonth() + 1).toString());
+    setYearSelectedValue(
+        (new Date(response.data.user.birthday).getFullYear() - 621).toString()
+    ); 
+    setSelectedGender(response.data.user.gender === "Male" ? "مرد" : response.data.user.gender === "Female" ? "زن" : null );
+
+    } catch (error) {
+    console.error("خطا در دریافت اطلاعات پروفایل:", error);
+    }
+};
+
+fetchProfileData();
+}, []);
+    
 
     const [selectedGender, setSelectedGender] = useState<"زن" | "مرد" | "ترجیح می‌دهم نگویم" |null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +86,7 @@ export default function EditProfile() {
     const [showPasswordModalOld, setShowPasswordModalOld] = React.useState(false);
     const [showPasswordModalNew, setShowPasswordModalNew] = React.useState(false);
     const [showPasswordModalRepeat, setShowPasswordModalRepeat] = React.useState(false);
+    
 
     useEffect(() => {
         if (modal) {
@@ -65,11 +109,15 @@ export default function EditProfile() {
                 <form action="">
 
                     <input className={styles.userName} type="text" name="userName" id="userName"
-                           placeholder="نام کاربری"/>
-                    <input className={styles.userEmail} type="email" name='email' id="email" placeholder="ایمیل"/>
+                        placeholder="نام کاربری"
+                        value={profile?.user_name || ""}
+                        />
+                    <input className={styles.userEmail} type="email" name='email' id="email" placeholder="ایمیل"
+                    value={profile?.email || ""}/>
 
                     <input className={styles.firstName} type="text" name="firstName" id="firstName"
-                           placeholder="نام"/>
+                        value={profile?.first_name || ""}
+                        placeholder="نام"/>
 
                     <select
                         className={`${styles.dayOfBirth} ${daySelectedValue ? styles.selected : ""}`}
@@ -114,7 +162,8 @@ export default function EditProfile() {
                     </select>
 
                     <input className={styles.lastName} type="text" name="lastName" id="lastName"
-                           placeholder="نام خانوادگی"/>
+                        placeholder="نام خانوادگی"
+                        value={profile?.last_name|| ""}/>
                     <>
                         <input
                             className={styles.password}
@@ -135,7 +184,8 @@ export default function EditProfile() {
 
 
                     <input className={styles.bio} type="text" name="bio" id="bio" maxLength={40}
-                           placeholder="یه چیزی درمورد خودت بنویس!"/>
+                        placeholder="یه چیزی درمورد خودت بنویس!"
+                        value={profile?.bio || ""}/>
 
                     <button
                         type="button"
@@ -316,11 +366,12 @@ export default function EditProfile() {
                         </div>
                     )}
                     <input className={styles.phoneNumber} type="number" name="phoneNumber" id="phoneNumber"
-                           placeholder="۰۹۱۳۹۸۶۳۰۵۶"/>
+                        placeholder="۰۹۱۳۹۸۶۳۰۵۶"
+                        value={profile?.phone_number || ""}/>
 
 
                     <input className={styles.updateProfileBtn} type="submit" name="updateProfile" id="updateProfile"
-                           value="به‌روزرسانی"/>
+                        value="به‌روزرسانی"/>
 
                 </form>
             </div>
