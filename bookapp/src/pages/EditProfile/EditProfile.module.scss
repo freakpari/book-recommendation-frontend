@@ -255,10 +255,10 @@ $secondary_color : #f9f9f9;
   }
 
   &:focus {
-    //cursor: pointer;
-    //background: $secondary_color;
-    //border: 3px solid $primary_1;
-    //color: $primary_1;
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
     box-shadow: none;
     outline: none;
   }
@@ -433,6 +433,16 @@ $secondary_color : #f9f9f9;
   }
 }
 
+.genderoverlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
 .overlay {
   width: 100vw;
   height: 100vh;
@@ -441,6 +451,9 @@ $secondary_color : #f9f9f9;
   right: 0;
   bottom: 0;
   position: fixed;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0.6rem);
 }
 
 .modalcontent {
@@ -451,6 +464,7 @@ $secondary_color : #f9f9f9;
   right: 27rem;
   border-radius: 10px;
   border: 0.3rem solid $primary_1;
+  z-index: 1000;
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(1.6rem);
 }

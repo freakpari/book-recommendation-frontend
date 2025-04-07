@@ -1,0 +1,170 @@
+$primary_1: #303857;
+$secondary_color: #f9f9f9;
+
+@import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap');
+
+.container {
+  background: $secondary_color;
+}
+
+
+.MyBookHistory {
+  background-color: #ffffff;
+  width: 62.5rem;
+  height: 41.125rem;
+  margin-right: 4.9rem;
+}
+
+.header {
+  padding-top: 2.5rem;
+  padding-right: 4rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 2.5rem;
+  text-align: right;
+  color: #303857;
+}
+
+.scrollbar {
+  overflow-y: scroll;
+  background: rgb(255, 255, 255);
+  width: 54.813rem;
+  height: 32.5rem;
+  margin: 1.3rem auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(48, 56, 87, 0.5);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #303857;
+  }
+}
+
+.myBookCards {
+  display: flex;
+  gap: 10px;
+}
+
+.bookCard {
+  background: none;
+  border: none;
+  width: 8.313rem;
+  height: 15.625rem;
+  margin-bottom: 1.3rem;
+  text-align: center;
+  img {
+    margin-top: -13px;
+    width: 8rem;
+    height: 11.5rem;
+  }
+  h4 {
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    color: #303857;
+    inline-size: 8.125rem;
+    display: inline-block;
+    width: 6.875rem;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
+  p {
+    font-weight: lighter;
+    font-size: 14px;
+    text-align: center;
+    color: #303857;
+  }
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.04);
+    background: rgba(48, 56, 87, 0.06);
+    transition: 0.3s;
+  }
+  &:focus {
+    transform: scale(1.04);
+    background: rgba(48, 56, 87, 0.06);
+    transition: 0.3s;
+    outline: none;
+  }
+}
+
+.answerTest {
+  width: 16rem;
+  height: 41rem;
+  background: #ffffff;
+  margin-right: 71rem;
+  margin-bottom: 5rem;
+  margin-top: -41.11rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  a {
+    width: 11rem;
+    height: 4rem;
+    margin-right: 2.5rem;
+    margin-top: 22rem;
+  }
+}
+
+.answerHeader {
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  text-align: center;
+  color: $primary_1;
+  padding-top: 3rem;
+}
+
+.userType {
+  font-weight: 400;
+  font-size: 125px;
+  line-height: 40px;
+  text-align: right;
+  vertical-align: middle;
+  color: $primary_1;
+  padding-top: 1.7rem;
+  padding-right: 10rem;
+  transform: rotate(-90deg);
+  font-family: "Tiro Devanagari Hindi", serif;
+}
+
+.goToTestBtn {
+  text-align: center;
+  align-items: center;
+  background: $primary_1;
+  color: $secondary_color;
+  width: 11rem;
+  height: 4rem;
+  border: none;
+  outline: none;
+  border-radius: 0.6rem;
+  font-weight: 500;
+  font-size: 1.4rem;
+  transition: background 0.3s;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+
+  &:hover {
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
+    box-shadow: none;
+  }
+
+  &:focus {
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
+    box-shadow: none;
+    outline: none;
+  }
+}

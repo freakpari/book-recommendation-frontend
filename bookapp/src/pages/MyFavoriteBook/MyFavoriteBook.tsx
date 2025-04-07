@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./MyFavoriteBook.module.scss";
 import {useState} from "react";
 import SearchNav from "../../components/SearchNav/SearchNav";
@@ -12,6 +12,17 @@ export default function MyFavoriteBook() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isModalOpen]);
 
     return (
         <div className={styles.container}>

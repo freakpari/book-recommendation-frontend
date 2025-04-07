@@ -9,6 +9,9 @@ $primary_1: #303857;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0.6rem);
 }
 
 .modalContent {

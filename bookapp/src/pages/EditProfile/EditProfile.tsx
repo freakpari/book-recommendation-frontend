@@ -1,5 +1,6 @@
 import React from "react";
 import {useState} from "react";
+import {useEffect} from "react";
 import styles from "./EditProfile.module.scss";
 import Footer from "../../components/Footer/Footer";
 import SideProfile from "../../components/SideProfile/SideProfile";
@@ -42,6 +43,18 @@ export default function EditProfile() {
     const [showPasswordModalOld, setShowPasswordModalOld] = React.useState(false);
     const [showPasswordModalNew, setShowPasswordModalNew] = React.useState(false);
     const [showPasswordModalRepeat, setShowPasswordModalRepeat] = React.useState(false);
+
+    useEffect(() => {
+        if (modal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [modal]);
 
     return (
         <div className={styles.container}>
@@ -221,7 +234,7 @@ export default function EditProfile() {
                         <div>
 
                             {isOpen && (
-                                <div className={styles.overlay}
+                                <div className={styles.genderoverlay}
                                      onClick={() => {setIsOpen(false)}}>
                                 </div>
                             )}
