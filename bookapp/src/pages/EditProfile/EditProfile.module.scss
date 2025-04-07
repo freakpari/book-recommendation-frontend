@@ -255,10 +255,10 @@ $secondary_color : #f9f9f9;
   }
 
   &:focus {
-    //cursor: pointer;
-    //background: $secondary_color;
-    //border: 3px solid $primary_1;
-    //color: $primary_1;
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
     box-shadow: none;
     outline: none;
   }
@@ -443,7 +443,7 @@ $secondary_color : #f9f9f9;
   position: fixed;
   z-index: 999;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(0.6rem);
 }
 
 .modalcontent {
