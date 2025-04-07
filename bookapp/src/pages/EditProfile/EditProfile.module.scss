@@ -441,6 +441,9 @@ $secondary_color : #f9f9f9;
   right: 0;
   bottom: 0;
   position: fixed;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
 }
 
 .modalcontent {
@@ -451,6 +454,7 @@ $secondary_color : #f9f9f9;
   right: 27rem;
   border-radius: 10px;
   border: 0.3rem solid $primary_1;
+  z-index: 1000;
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(1.6rem);
 }
