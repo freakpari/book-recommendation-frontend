@@ -10,6 +10,7 @@ import pointer from "./icons/pointer.svg";
 import explore from "./icons/explore.svg";
 import signout from "./icons/Signout.svg";
 import Book from "./icons/Book.svg";
+import logout from "./icons/logout.svg";
 import instagram from "./icons/Instagram.svg";
 import linkdine from "./icons/linkdine.svg";
 import {href, Link, useHref, useNavigate} from "react-router-dom";
@@ -80,6 +81,7 @@ export default function SearchNav() {
             {showModal && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
+                        <img src={logout} alt="logout"  />
                         <h3>واقعاً مطمئنی که می‌خوای بری؟</h3>
                         <div className={styles.modalButtons}>
                             <button 
