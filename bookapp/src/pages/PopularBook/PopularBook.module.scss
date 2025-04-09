@@ -1,53 +1,91 @@
 $primary_1:#303857;
-
+body{
+  overflow-y: hidden;
+}
 .popularbooks {
     text-align: center;
     padding: 20px;
     h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: 40px;
+    margin-bottom: 90px;
     color:$primary_1 ;
+    width: 230px;
+    height: 40px;
+    text-align: center;
+    margin-right: 618px;
+
+    
     }
 }
 .bookgrid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    row-gap: 10px;
-    justify-content: center;
+    row-gap: 20px;
+    width: 1400px;
+    margin-right: 45px;
+
     
     
   }
 
 .bookitem {
-        // width: 210px;
-        width: calc(17% - 10px);
+        width: calc(20% - 10px);
         background: #fff;
         padding: 5px;
         border-radius: 8px;
         text-align: center;
-        margin: 0;
-
+        margin: 0 4px 4px 0; 
 }
         img {
         width: 202px;
-          height: 303px;
+        height: 302px;
         }
   
         h3 {
-          font-size: 0.9rem;
-          margin: 10px 0;
+          width: 160px;
+          height: 40px;
+          font-size: 24px;
+          font-weight: 700;
+          margin-top: 15px;
+          letter-spacing: 0%;
+          line-height: 30px;
           color:$primary_1 ;
+          margin-bottom: 15px;
 
         }
   
         p {
+        
           font-size: 0.8rem;
           color:$primary_1 ;
         }
+.para{
+  font-size: 24px;
+  white-space: nowrap;
+  font-weight: 300;
+  color:$primary_1 ;
+  letter-spacing: 0%;
+  line-height: 25px;
+}  
+.avgrate{
+  font-size: 16px;
+  white-space: nowrap;
+  font-weight: 100;
+  color:$primary_1 ;
+  letter-spacing: 0%;
+  line-height: 25px;
+  margin-top: 5px;
+}      
       
     
-  
+.booktext{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 260px;
+}
 .loadmore {
     margin-top: 20px;
     width: 218px;

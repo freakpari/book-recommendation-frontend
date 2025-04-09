@@ -1,43 +1,104 @@
-import Styles from "./PopularBook.module.scss";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Styles from "./PopularBook.module.scss"; 
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
-import Book1 from "./icon/kimiagar.svg";
-import Book2 from "./icon/berda.svg";
-import Book3 from "./icon/payambar.svg";
+import not from "./icon/not.png";
 
 interface Book {
-  id: number;
+  bookid: string;
   title: string;
   author: string;
-  image: string;
+  avgrate: number;
+  imageUrl: string;
 }
 
-const baseBooks: Book[] = [
-  { id: 1, title: "کیمیاگر", author: "پائولو کوئیلو", image: Book1 },
-  { id: 2, title: " پیامبر ", author: " جبران خلیل جبران", image: Book3 },
-  { id: 3, title: "بریدا", author: "پائولو کوئیلو", image: Book2 },
-];
-const books: Book[] = Array.from({ length: 18 }, (_, i) => ({
-  ...baseBooks[i % baseBooks.length],
-  id: i + 1,
-}));
-
 export default function PopularBooks() {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const fetchBookImage = async (bookid: string) => {
+    try {
+      const response = await axios.get(
+        `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${bookid}`,
+        { responseType: 'blob' } 
+      );
+
+      if (response.status === 200) {
+        const imageUrl = URL.createObjectURL(response.data); 
+        return imageUrl;
+      }
+    } catch (error) {
+      console.error("Error fetching book image:", error);
+    }
+    return not; 
+  };
+
+  const fetchPopularBooks = async (page: number) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/popularBooks`,
+        {
+          params: { pagenum: page }
+        }
+      );
+
+      if (response.status === 200) {
+        const fetchedBooks = await Promise.all(
+          response.data.map(async (book: Book) => {
+            const imageUrl = await fetchBookImage(book.bookid); 
+            return { ...book, imageUrl };
+          })
+        );
+        if (fetchedBooks.length > 0) {
+          setBooks((prevBooks) => [...prevBooks, ...fetchedBooks]);
+        } else {
+          setHasMore(false); 
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching popular books:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPopularBooks(pageNum);
+  }, [pageNum]);
+
+  const loadMoreBooks = () => {
+    if (!loading && hasMore) {
+      setPageNum((prevPageNum) => prevPageNum + 1);
+    }
+  };
+
   return (
     <>
       <SearchNav />
       <div className={Styles.popularbooks}>
         <h2>محبوب‌ترین‌ها</h2>
         <div className={Styles.bookgrid}>
-          {books.map((book) => (
-            <div key={book.id} className={Styles.bookitem}>
-              <img src={book.image} alt={book.title} />
+          {books.slice(0, 20).map((book) => (
+            <div key={book.bookid} className={Styles.bookitem}>
+              
+              <img src={book.imageUrl || not} alt={book.title} /> 
+              <div className={Styles.booktext} >
               <h3>{book.title}</h3>
-              <p>{book.author}</p>
+              <p className={Styles.para}>{book.author}</p>
+              <p className={Styles.avgrate}>امتیاز: {book.avgrate}</p> 
+              </div>
             </div>
           ))}
         </div>
-        <button className={Styles.loadmore}>نمایش بیشتر</button>
+        {hasMore && (
+          <button className={Styles.loadmore} onClick={loadMoreBooks} disabled={loading}>
+            {loading ? "در حال بارگذاری..." : "نمایش بیشتر"}
+          </button>
+        )}
       </div>
       <Footer />
     </>
