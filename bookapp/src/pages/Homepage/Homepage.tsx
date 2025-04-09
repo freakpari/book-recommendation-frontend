@@ -3,6 +3,9 @@ import book1 from "./book1.svg";
 import book2 from "./book2.svg";
 import book3 from "./book3.svg";
 import bufkoor from "./bufkoor.svg";
+import kimia from "./kimiagar.svg";
+import payambar from "./payambar.svg";
+import ensan from "./ensan.svg";
 import book4 from "./book4.svg";
 import book5 from "./book5.svg";
 import book6 from "./book6.svg";
@@ -15,6 +18,7 @@ import icon2 from "./icon2.svg";
 
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
+import { Link } from "react-router-dom";
 const handleClick = () => {
   window.location.href =
     "https://www.16personalities.com/fa/%D8%A2%D8%B2%D9%85%D9%88%D9%86-%D8%B4%D8%AE%D8%B5%DB%8C%D8%AA";
@@ -28,6 +32,7 @@ export default function HomePage() {
           <div className={styles.descontainer}>
             <div className={styles.heading}>
               <h1>کتاب بعدی خود را کشف کنید</h1>
+              
             </div>
             <p className={styles.description}>
               محبوب‌ترین و جدیدترین کتاب‌ها در «کرم کتاب». اگر مطمئن نیستید چه
@@ -62,7 +67,12 @@ export default function HomePage() {
         <div className={styles.popularSection}>
           <div className={styles.toptext}>
             <h2>محبوب‌ترین‌ها</h2>
-            <button className={styles.showbutton}>مشاهده همه</button>
+            <button className={styles.showbutton}>
+              <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/popularbook">
+              مشاهده همه
+              </Link>
+              </button>
+
           </div>
           <div className={styles.popularBooks}>
             <div className={styles.cardwrapper}>
@@ -125,8 +135,8 @@ export default function HomePage() {
           </div>
         </div>
         <div className={styles.toptext}>
-          <h2>پیشنهادات برای تایپ علی:infj</h2>
-          <button>مشاهده همه</button>
+          <h2> پیشنهادات برای تایپ علی: infj</h2>
+          <button className={styles.showbutton2}>مشاهده همه</button>
         </div>
         <div className={styles.suggestion}>
           <div className={styles.bookcover}>
@@ -145,75 +155,65 @@ export default function HomePage() {
           </div>
           <div className={styles.bookcover}>
             <img
-              src={book10}
-              alt="شازده کوچولو"
+              src={kimia}
+              alt="کیمیاگر"
               className={styles.coverimage}
             />
-            <h2>شازده کوچولو</h2>
-            <h3>آنتوان دو سنت اگزوپری</h3>
+            <h2> کیمیاگر</h2>
+            <h3> پائولو کوئیلو</h3>
             <p>
-              «شازده کوچولو»، اثر آنتوان دو سنت‌اگزوپری، با روایت‌های شاعرانه و
-              نمادین خود، به INFJها کمک می‌کند تا به سادگی و زیبایی دنیای
-              پیرامون نگاه کنند و ارزش‌های واقعی زندگی را درک نمایند.
+            «کیمیاگر» نوشته‌ی پائولو کوئیلو، داستانی است درباره‌ی سفر درونی به سوی تحقق رویاها. این کتاب برای INFJهایی که به دنبال معنا و الهام در مسیر زندگی هستند، انتخابی فوق‌العاده است.
             </p>
           </div>
           <div className={styles.bookcover}>
             <img
-              src={book10}
-              alt="شازده کوچولو"
+              src={ensan}
+              alt="انسان در جست‌وجوی معنا"
               className={styles.coverimage}
             />
-            <h2>شازده کوچولو</h2>
-            <h3>آنتوان دو سنت اگزوپری</h3>
+            <h2> انسان در جست‌وجوی معنا</h2>
+            <h3>ویکتور فرانکل</h3>
             <p>
-              «شازده کوچولو»، اثر آنتوان دو سنت‌اگزوپری، با روایت‌های شاعرانه و
-              نمادین خود، به INFJها کمک می‌کند تا به سادگی و زیبایی دنیای
-              پیرامون نگاه کنند و ارزش‌های واقعی زندگی را درک نمایند.
+            «انسان در جستجوی معنا» نوشته‌ی ویکتور فرانکل، داستان واقعی بقا و یافتن معنا در میان چالش‌های زندگی را روایت می‌کند؛ کتابی که برای INFJها با دیدگاه عمیق به مسائل وجودی، بسیار کاربردی و الهام‌بخش است.
             </p>
           </div>
           <div className={styles.bookcover}>
             <img
-              src={book10}
-              alt="شازده کوچولو"
+              src={payambar}
+              alt="پیامبر"
               className={styles.coverimage}
             />
-            <h2>شازده کوچولو</h2>
-            <h3>آنتوان دو سنت اگزوپری</h3>
+            <h2> پیامبر</h2>
+            <h3>جبران خلیل جبران</h3>
             <p>
-              «شازده کوچولو»، اثر آنتوان دو سنت‌اگزوپری، با روایت‌های شاعرانه و
-              نمادین خود، به INFJها کمک می‌کند تا به سادگی و زیبایی دنیای
-              پیرامون نگاه کنند و ارزش‌های واقعی زندگی را درک نمایند.
+            «پیامبر» نوشته‌ی خلیل جبران، با نثری عمیق و فلسفی، برای INFJهایی که به دنبال تفکر در باب ارزش‌های انسانی و معنویت هستند، منبع الهام و تأمل است.
             </p>
           </div>
         </div>
         <div className={styles.toptext}>
           <h2>لیست های دیگر کاربران</h2>
-          <button>مشاهده همه</button>
+          <button className={styles.showbutton3}>مشاهده همه</button>
         </div>
         <div className={styles.listsWrapper}>
           <div className={styles.cardImage}>
-            <img src={icon1} alt="کتاب فانتزی" />
+            <img src={icon1} alt="کتاب فانتزی"  className={styles.fante1}/>
           </div>
           <div className={styles.listCard}>
-            <div className={styles.cardContent}>
               <h3 className={styles.category}>دنیای رنگی خیال</h3>
               <p className={styles.author}>توسط: گلنار شفیعی</p>
-              <p className={styles.description}>
-                شامل: زندگی کردن در لحظه، مهارت‌های مدیریت استرس و ...
+              <p className={styles.description2}>
+              شامل: سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت، سری کتاب‌های هابیت
               </p>
-            </div>
           </div>
           <div className={styles.cardImage}>
-            <img src={icon2} alt="کتاب فانتزی" />
+            <img src={icon2} alt="کتاب فانتزی" className={styles.fante} />
           </div>
           <div className={styles.listCard}>
-            <div className={styles.cardContent}>
               <h3 className={styles.category}>دنیای رنگی خیال</h3>
               <p className={styles.author}>توسط: گلنار شفیعی</p>
-              <p className={styles.description}>
-                شامل سری کتاب‌های هری پاتر، نغمه‌ای از یخ و آتش و ...
+              <p className={styles.description2}>
+              شامل: سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت، سری کتاب‌های هابیت
               </p>
-            </div>
           </div>
         </div>
         <Footer />
