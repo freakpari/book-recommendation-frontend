@@ -9,6 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {ChevronDown} from "lucide-react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
+import eventEmitter from "../../utils/eventEmitter";
+
 
 interface UserProfile {
     id: number;
@@ -22,7 +24,54 @@ interface UserProfile {
     email: string;
 }
 
+interface NotificationModalProps {
+    message: string;
+    type: 'success' | 'error';
+    onClose: () => void;
+}
+
+// کامپوننت جدید برای نمایش مودال پیام
+const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onClose();
+        }, 3000); // بسته شدن خودکار پس از 3 ثانیه
+
+        return () => clearTimeout(timer);
+    }, [onClose]);
+
+    return (
+        <motion.div
+            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 20, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className={styles.notificationContent}>
+                {message}
+                <button className={styles.closeButton} onClick={onClose}>
+                    &times;
+                </button>
+            </div>
+        </motion.div>
+    );
+};
+
+
 export default function EditProfile() {
+
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+
+    // تابع برای نمایش پیام
+    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
+        setNotificationMessage(message);
+        setNotificationType(type);
+        setShowNotification(true);
+    };
+
 
     const [daySelectedValue, setDaySelectedValue] = React.useState("");
     const dayStartValue = 1;
@@ -45,37 +94,6 @@ export default function EditProfile() {
         { id: 11, name: "بهمن" },
         { id: 12, name: "اسفند" },
     ];
-    const [profile, setProfile] = useState<UserProfile | null>(null);
-
-useEffect(() => {
-const fetchProfileData = async () => {
-    try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-        "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile",
-        {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        }
-    );
-
-    setProfile(response.data.user);
-    setDaySelectedValue(new Date(response.data.user.birthday).getDate().toString());
-    setMonthSelectedValue((new Date(response.data.user.birthday).getMonth() + 1).toString());
-    setYearSelectedValue(
-        (new Date(response.data.user.birthday).getFullYear() - 621).toString()
-    ); 
-    setSelectedGender(response.data.user.gender === "Male" ? "مرد" : response.data.user.gender === "Female" ? "زن" : null );
-
-    } catch (error) {
-    console.error("خطا در دریافت اطلاعات پروفایل:", error);
-    }
-};
-
-fetchProfileData();
-}, []);
-    
 
     const [selectedGender, setSelectedGender] = useState<"زن" | "مرد" | "ترجیح می‌دهم نگویم" |null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -86,53 +104,175 @@ fetchProfileData();
     const [showPasswordModalOld, setShowPasswordModalOld] = React.useState(false);
     const [showPasswordModalNew, setShowPasswordModalNew] = React.useState(false);
     const [showPasswordModalRepeat, setShowPasswordModalRepeat] = React.useState(false);
+
+
+
+
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [userName, setUserName] = useState("");
+    const [bio, setBio] = useState("");
+    const [gender, setGender] = useState("");
+    const [birthday, setBirthday] = useState(""); // yyyy-mm-dd
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [email, setEmail] = useState("");
+
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
-    const [repeatNewPassword, setRepeatNewPassword] = useState("");
-    
+    const [repeatPassword, setRepeatPassword] = useState("");
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const token = localStorage.getItem("token"); // اینجا اسم کلید رو طبق پروژه خودت تغییر بده
+            if (!token) {
+                setError("توکن یافت نشد");
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                eventEmitter.emit();
+                const user = response.data.user;
+                setProfile(user);
+
+                const birthDate = user.birthday ? new Date(user.birthday) : new Date();
+                setDaySelectedValue((birthDate.getDate() + 1).toString()); // اینجا مقدار صحیح است
+                setMonthSelectedValue((birthDate.getMonth() + 1).toString());
+                setYearSelectedValue(birthDate.getFullYear().toString());
+
+                setFirstName(user.first_name || "");
+                setLastName(user.last_name || "");
+                setUserName(user.user_name || "");
+                setBio(user.bio || "");
+                setGender(user.gender || "");
+                setBirthday(user.birthday || "");
+                setPhoneNumber(user.phone_number || "");
+                setEmail(user.email || "");
+
+                // تنظیم جنسیت
+                setSelectedGender(
+                    user.gender === "M"
+                        ? "مرد"
+                        : user.gender === "F"
+                            ? "زن"
+                            : "ترجیح می‌دهم نگویم"
+                );
+
+            } catch (err: any) {
+                if (err.response?.status === 401) {
+                    setError("دسترسی غیرمجاز");
+                } else {
+                    setError("خطا در دریافت اطلاعات کاربر");
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProfile();
+    }, []);
+
+
+    const handleProfileUpdate = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setError("توکن یافت نشد");
+            return;
+        }
+
+        // تبدیل تاریخ به فرمت yyyy-mm-dd
+        const formattedBirthday = `${yearSelectedValue}-${monthSelectedValue.padStart(2, '0')}-${daySelectedValue.padStart(2, '0')}`;
+
+        // تعریف updatedProfileData با تمام فیلدهای لازم
+        const updatedProfileData = {
+            new_firstName: firstName,
+            new_lastName: lastName,
+            new_userName: userName,
+            new_bio: bio,
+            new_gender: selectedGender === "مرد" ? "M" : "F",
+            new_birthday: formattedBirthday,
+            new_phoneNumber: phoneNumber,
+        };
+
+        try {
+            const response = await axios.put(
+                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/updateProfile",
+                updatedProfileData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            // ذخیره در localStorage
+            localStorage.setItem("userData", JSON.stringify(response.data.user));
+
+            // اطلاع به SideProfile برای به‌روزرسانی
+            eventEmitter.emit();
+
+            showNotificationMessage("پروفایل با موفقیت به‌روزرسانی شد", 'success');
+        } catch (err) {
+            showNotificationMessage("خطا در به‌روزرسانی پروفایل", 'error');
+        }
+    };
 
     const handlePasswordChange = async () => {
-        if (newPassword !== repeatNewPassword) {
-        alert("رمز عبور جدید و تکرار آن مطابقت ندارند.");
-        return;
+        // اعتبارسنجی اولیه
+        if (newPassword !== repeatPassword) {
+            setPasswordError("رمزهای عبور جدید مطابقت ندارند");
+            return;
+        }
+
+        if (newPassword.length < 8) {
+            setPasswordError("رمز عبور جدید باید حداقل ۸ کاراکتر باشد");
+            return;
         }
 
         const token = localStorage.getItem("token");
         if (!token) {
-        alert("توکن یافت نشد. لطفاً دوباره وارد شوید.");
-        return;
+            setPasswordError("توکن یافت نشد");
+            return;
         }
-      
+
         try {
-          const response = await fetch("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/newPassword", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              oldPassword: oldPassword,
-              newPassword: newPassword,
-            }),
-        });
-      
-        const data = await response.json();
-      
-        if (response.ok) {
-            alert("رمز عبور با موفقیت تغییر کرد ");
-            setOldPassword("");
-            setNewPassword("");
-            setRepeatNewPassword("");
-        } else {
-            alert(data.message || "تغییر رمز عبور با خطا مواجه شد ");
+            const response = await axios.put(
+                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/newPassword",
+                {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            showNotificationMessage("رمز عبور با موفقیت تغییر یافت", 'success');
+            // ... کدهای قبلی
+        } catch (err: any) {
+            const errorMessage = err.response?.status === 400
+                ? "رمز عبور فعلی اشتباه است"
+                : "خطا در تغییر رمز عبور";
+            showNotificationMessage(errorMessage, 'error');
         }
-        } catch (error) {
-        console.error("خطا در ارسال درخواست:", error);
-        alert("مشکلی در ارتباط با سرور پیش آمد. دوباره تلاش کنید.");
-        }
-      };
-      
-    
+    };
+
 
     useEffect(() => {
         if (modal) {
@@ -146,24 +286,55 @@ fetchProfileData();
         };
     }, [modal]);
 
+
     return (
         <div className={styles.container}>
+
+            <AnimatePresence>
+                {showNotification && (
+                    <NotificationModal
+                        message={notificationMessage}
+                        type={notificationType}
+                        onClose={() => setShowNotification(false)}
+                    />
+                )}
+            </AnimatePresence>
+
             <SearchNav/>
 
             <div className={styles.update}>
 
-                <form action="">
+                {error && <div className={styles.error}>{error}</div>}
+                {successMessage && <div className={styles.success}>{successMessage}</div>}
 
-                    <input className={styles.userName} type="text" name="userName" id="userName"
-                        placeholder="نام کاربری"
-                        value={profile?.user_name || ""}
-                        />
-                    <input className={styles.userEmail} type="email" name='email' id="email" placeholder="ایمیل"
-                    value={profile?.email || ""}/>
+                <form action="" onSubmit={(e) => e.preventDefault()}>
 
-                    <input className={styles.firstName} type="text" name="firstName" id="firstName"
-                        value={profile?.first_name || ""}
-                        placeholder="نام"/>
+                    <input className={styles.userName}
+                           type="text"
+                           name="userName"
+                           id="userName"
+                           placeholder="نام کاربری"
+                           value={userName}
+                           onChange={(e) => setUserName(e.target.value)}
+                    />
+                    <input className={styles.userEmail}
+                           type="email"
+                           name="email"
+                           id="email"
+                           // placeholder="ایمیل"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
+                           readOnly={true}
+                    />
+
+                    <input className={styles.firstName}
+                           type="text"
+                           name="firstName"
+                           id="firstName"
+                           placeholder="نام"
+                           value={firstName}
+                           onChange={(e) => setFirstName(e.target.value)}
+                    />
 
                     <select
                         className={`${styles.dayOfBirth} ${daySelectedValue ? styles.selected : ""}`}
@@ -207,123 +378,24 @@ fetchProfileData();
                         ))}
                     </select>
 
-                    <input className={styles.lastName} type="text" name="lastName" id="lastName"
-                        placeholder="نام خانوادگی"
-                        value={profile?.last_name|| ""}/>
-                    <>
-                        <input
-                            className={styles.password}
-                            type={showPassword ? "text" : "password"}
-                            name="password"
-                            id="password"
-                            minLength={8}
-                            placeholder="رمز عبور"
-                        />
-                        <button
-                            type="button"
-                            className={styles.showPasswordBtn}
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                        </button>
-                    </>
+                    <input className={styles.lastName}
+                           type="text"
+                           name="lastName"
+                           id="lastName"
+                           placeholder="نام خانوادگی"
+                           value={lastName}
+                           onChange={(e) => setLastName(e.target.value)}
+                    />
 
-
-                    <input className={styles.bio} type="text" name="bio" id="bio" maxLength={40}
-                        placeholder="یه چیزی درمورد خودت بنویس!"
-                        value={profile?.bio || ""}/>
-
-                    <button
-                        type="button"
-                        className={styles.changePassBtn}
-                        onClick={() => setModal(true)}
-                    >
-                        تغییر رمز عبور
-                    </button>
-                    {modal && (
-                        <div>
-                            <div
-                                className={styles.overlay}
-                                onClick={() => {setModal(false)}}
-                            ></div>
-                            <div className={styles.modalcontent}>
-
-                                <div className={styles.changePassPara}>
-                                    تغییر رمز عبور
-                                </div>
-
-                                <div className={styles.changePassInputs}>
-                                    <input
-                                        className={styles.password}
-                                        type={showPasswordModalOld ? "text" : "password"}
-                                        name="password"
-                                        id="password"
-                                        minLength={8}
-                                        value={oldPassword}
-                                        onChange={(e) => setOldPassword(e.target.value)}
-                                        placeholder="رمز عبور فعلی"
-                                    />
-                                    <button
-                                        type="button"
-                                        className={styles.showPasswordBtn}
-                                        onClick={() => setShowPasswordModalOld(!showPasswordModalOld)}
-                                    >
-                                        {showPasswordModalOld ? <EyeOff size={20} /> : <Eye size={20} />}
-                                    </button>
-                                </div>
-                                <div className={styles.changePassInputs}>
-                                    <input
-                                        className={styles.password}
-                                        type={showPasswordModalNew ? "text" : "password"}
-                                        name="password"
-                                        id="password"
-                                        minLength={8}
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                        placeholder="رمز عبور جدید"
-                                    />
-                                    <button
-                                        type="button"
-                                        className={styles.showPasswordBtn}
-                                        onClick={() => setShowPasswordModalNew(!showPasswordModalNew)}
-                                    >
-                                        {showPasswordModalNew ? <EyeOff size={20} /> : <Eye size={20} />}
-                                    </button>
-                                </div>
-                                <div className={styles.changePassInputs}>
-                                    <input
-                                        className={styles.password}
-                                        type={showPasswordModalRepeat ? "text" : "password"}
-                                        name="password"
-                                        id="password"
-                                        minLength={8}
-                                        value={repeatNewPassword}
-                                        onChange={(e) => setRepeatNewPassword(e.target.value)}
-                                        placeholder="تکرار رمز عبور جدید"
-                                    />
-                                    <button
-                                        type="button"
-                                        className={styles.showPasswordBtn}
-                                        onClick={() => setShowPasswordModalRepeat(!showPasswordModalRepeat)}
-                                    >
-                                        {showPasswordModalRepeat ? <EyeOff size={20} /> : <Eye size={20} />}
-                                    </button>
-                                </div>
-
-                                <input
-                                    className={styles.updatePasswordBtn}
-                                    type="submit"
-                                    name="updatePassword"
-                                    id="updatePassword"
-                                    onClick={handlePasswordChange}
-
-                                    value="ثبت"
-                                />
-                            </div>
-                        </div>
-                    )}
-
-
+                    <input className={styles.bio}
+                             type="text"
+                             name="bio"
+                             id="bio"
+                             maxLength={40}
+                             placeholder="یه چیزی درمورد خودت بنویس!"
+                             value={bio}
+                             onChange={(e) => setBio(e.target.value)}
+                    />
                     {modal && (
                         <button
                             className={styles.disableGender}
@@ -373,6 +445,7 @@ fetchProfileData();
                                                             className={styles.option}
                                                             onClick={() => {
                                                                 setSelectedGender("زن");
+                                                                setGender("F");
                                                                 setIsOpen(false);
                                                             }}
                                                         >
@@ -389,6 +462,7 @@ fetchProfileData();
                                                             className={styles.option}
                                                             onClick={() => {
                                                                 setSelectedGender("مرد");
+                                                                setGender("M");
                                                                 setIsOpen(false);
                                                             }}
                                                         >
@@ -404,6 +478,7 @@ fetchProfileData();
                                                         className={styles.option}
                                                         onClick={() => {
                                                             setSelectedGender("ترجیح می‌دهم نگویم");
+                                                            setGender("N");
                                                             setIsOpen(false);
                                                         }}
                                                     >
@@ -418,15 +493,123 @@ fetchProfileData();
 
                         </div>
                     )}
-                    <input className={styles.phoneNumber} type="number" name="phoneNumber" id="phoneNumber"
+                    <input
+                        className={styles.phoneNumber}
+                        type="number"
+                        name="phoneNumber"
+                        id="phoneNumber"
                         placeholder="۰۹۱۳۹۸۶۳۰۵۶"
-                        value={profile?.phone_number || ""}/>
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
 
 
-                    <input className={styles.updateProfileBtn} type="submit" name="updateProfile" id="updateProfile"
-                        value="به‌روزرسانی"/>
 
+                    <button
+                        type="button"
+                        className={styles.changePassBtn}
+                        onClick={() => setModal(true)}
+                    >
+                        تغییر رمز
+                    </button>
+
+                    {modal && (
+                        <div>
+                            <div className={styles.overlay} onClick={() => {
+                                setModal(false);
+                                setPasswordError(null);
+                                setPasswordSuccess(null);
+                            }}>
+
+                            </div>
+                            <div className={styles.modalcontent}>
+                                <div className={styles.changePassPara}>
+                                    تغییر رمز عبور
+                                </div>
+
+                                {passwordError && <div className={styles.error}>{passwordError}</div>}
+                                {passwordSuccess && <div className={styles.success}>{passwordSuccess}</div>}
+
+                                <div className={styles.changePassInputs}>
+                                    <input
+                                        className={styles.password}
+                                        type={showPasswordModalOld ? "text" : "password"}
+                                        name="oldPassword"
+                                        id="oldPassword"
+                                        minLength={8}
+                                        placeholder="رمز عبور فعلی"
+                                        value={oldPassword}
+                                        onChange={(e) => setOldPassword(e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        className={styles.showPasswordBtn}
+                                        onClick={() => setShowPasswordModalOld(!showPasswordModalOld)}
+                                    >
+                                        {showPasswordModalOld ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+                                <div className={styles.changePassInputs}>
+                                    <input
+                                        className={styles.password}
+                                        type={showPasswordModalNew ? "text" : "password"}
+                                        name="newPassword"
+                                        id="newPassword"
+                                        minLength={8}
+                                        placeholder="رمز عبور جدید"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        className={styles.showPasswordBtn}
+                                        onClick={() => setShowPasswordModalNew(!showPasswordModalNew)}
+                                    >
+                                        {showPasswordModalNew ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+
+                                <div className={styles.changePassInputs}>
+                                    <input
+                                        className={styles.password}
+                                        type={showPasswordModalRepeat ? "text" : "password"}
+                                        name="repeatPassword"
+                                        id="repeatPassword"
+                                        minLength={8}
+                                        placeholder="تکرار رمز عبور جدید"
+                                        value={repeatPassword}
+                                        onChange={(e) => setRepeatPassword(e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        className={styles.showPasswordBtn}
+                                        onClick={() => setShowPasswordModalRepeat(!showPasswordModalRepeat)}
+                                    >
+                                        {showPasswordModalRepeat ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+
+                                <input
+                                    className={styles.updatePasswordBtn}
+                                    onClick={handlePasswordChange}
+                                    type="button"
+                                    value="ثبت"
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    <button
+                        className={styles.updateProfileBtn}
+                        onClick={handleProfileUpdate}
+                        type="button"
+                    >
+                        به‌روزرسانی
+                    </button>
                 </form>
+                {/*{error && <div className={styles.error}>{error}</div>}*/}
+                {/*{successMessage && <div className={styles.success}>{successMessage}</div>}*/}
+
             </div>
 
             <SideProfile/>

@@ -45,17 +45,21 @@ $secondary_color : #f9f9f9;
   font-size: 16px;
   font-weight: 500;
   line-height: 150%;
+  direction: ltr;
+  color: rgba(48, 56, 87, 0.5);
 
   &:focus {
     outline: 1px solid $primary_1;
     border: 2px solid $primary_1;
-  }
-  &::placeholder {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 150%;
     color: rgba(48, 56, 87, 0.5);
+
   }
+  //&::placeholder {
+  //  font-size: 16px;
+  //  font-weight: 400;
+  //  line-height: 150%;
+  //  color: rgba(48, 56, 87, 0.5);
+  //}
 }
 
 .firstName {
@@ -213,7 +217,7 @@ $secondary_color : #f9f9f9;
   width: 429px;
   height: 49px;
   padding: 20px 14px;
-  margin: 0 50px 20px 41px;
+  //margin: 0 50px 20px 41px;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 10px;
   font-size: 16px;
@@ -230,39 +234,6 @@ $secondary_color : #f9f9f9;
     line-height: 150%;
     color: rgba(48, 56, 87, 0.5);
   }
-}
-
-.changePassBtn {
-  width: 179px;
-  height: 49px;
-  text-align-last: center;
-  margin-right: 128px;
-  color: $secondary_color;
-  font-size: 18px;
-  font-weight: 500;
-  border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-  transition: background 0.3s;
-  background-color: $primary_1;
-
-  &:hover {
-    cursor: pointer;
-    background: $secondary_color;
-    border: 3px solid $primary_1;
-    color: $primary_1;
-    box-shadow: none;
-  }
-
-  &:focus {
-    cursor: pointer;
-    background: $secondary_color;
-    border: 3px solid $primary_1;
-    color: $primary_1;
-    box-shadow: none;
-    outline: none;
-  }
-
 }
 
 .dropdown {
@@ -379,6 +350,7 @@ $secondary_color : #f9f9f9;
   letter-spacing: 1px;
   margin-right: 521px;
   text-align: left;
+  direction: ltr;
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -401,14 +373,48 @@ $secondary_color : #f9f9f9;
   }
 }
 
+.changePassBtn {
+  width: 201px;
+  height: 65px;
+  text-align-last: center;
+  margin-right: 400px;
+  color: $secondary_color;
+  margin-top: 100px;
+  font-size: 22px;
+  font-weight: 600;
+  border: 2px solid rgba(48, 56, 87, 0.5);
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s;
+  background-color: $primary_1;
+
+  &:hover {
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
+    box-shadow: none;
+  }
+
+  &:focus {
+    cursor: pointer;
+    background: $secondary_color;
+    border: 3px solid $primary_1;
+    color: $primary_1;
+    box-shadow: none;
+    outline: none;
+  }
+
+}
+
 .updateProfileBtn {
   width: 201px;
   height: 65px;
   text-align-last: center;
-  margin: 140px 400px;
+  margin: 20px 400px;
   color: $secondary_color;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 600;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 10px;
   background-color: $primary_1;
@@ -521,4 +527,51 @@ $secondary_color : #f9f9f9;
 .changePassInputs {
   text-align: center;
   margin-top: 0.6rem;
+}
+
+.error {
+  color: #c30b0b;
+  font-size: 1.2rem;
+  display: flex;
+}
+
+
+
+.notificationModal {
+  position: fixed;
+  top: 0;
+  //left: 50%;
+  right: 40%;
+  transform: translateX(-50%);
+  padding: 15px 30px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &.success {
+    background-color: #30ae33;
+  }
+
+  &.error {
+    background-color: #c30b0b;
+  }
+}
+
+.notificationContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeButton {
+  margin-right: 30px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
 }
