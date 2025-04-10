@@ -6,12 +6,33 @@ import history from "./icons/History.svg";
 import list from "./icons/list.svg";
 import defaultUser from "./icons/defaultUser.svg";
 import editPen from "./icons/editPen.svg";
-import deleteIcon from "./icons/Trash.svg"
+import deleteIcon from "./icons/Trash.svg";
+import eventEmitter from "../../utils/eventEmitter";
+import axios from "axios";
 
+interface UserProfile {
+    id: number;
+    first_name: string;
+    last_name: string;
+    user_name: string;
+    bio: string;
+    gender: string;
+    birthday: string;
+    phone_number: string;
+    email: string;
+}
 
 export default function SideProfile() {
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [loading, setLoading] = useState(true); // اضافه شده
+
+
+    const [error, setError] = useState<string | null>(null);
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [userName, setUserName] = useState("");
+    const [bio, setBio] = useState("");
+
 
     useEffect(() => {
         const savedImage = localStorage.getItem("profileImage");
@@ -20,6 +41,7 @@ export default function SideProfile() {
         }
     }, []);
 
+    // آپلود تصویر پروفایل
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -37,7 +59,6 @@ export default function SideProfile() {
 
         const imageUrl = URL.createObjectURL(file);
         setProfileImage(imageUrl);
-
         localStorage.setItem("profileImage", imageUrl);
     };
 
@@ -49,15 +70,13 @@ export default function SideProfile() {
     return (
         <div className={styles.container}>
             <div className={styles.head}>
-
                 <button className={styles.editBtn} onClick={() => fileInputRef.current?.click()}>
-                    <img src={editPen} alt="edit profile"/>
-
+                    <img src={editPen} alt="edit profile" />
                 </button>
 
                 {profileImage && (
                     <button onClick={handleDeleteImage} className={styles.deleteBtn}>
-                        <img src={deleteIcon} alt="delete profile"/>
+                        <img src={deleteIcon} alt="delete profile" />
                     </button>
                 )}
 
@@ -74,9 +93,17 @@ export default function SideProfile() {
                     className={styles.profileImage}
                 />
 
-                <h2>علی محمدی</h2>
-                <h6>یه عاشق کتاب که مهندسه</h6>
-
+                {loading ? (
+                    <div>
+                        <h2>درحال بارگذاری...</h2>
+                        <h6>درحال بارگذاری...</h6>
+                    </div>
+                    ) : (
+                    <>
+                        <h2>{userName}</h2>
+                        <h6>{bio}</h6>
+                    </>
+                )}
 
             </div>
 
@@ -102,7 +129,6 @@ export default function SideProfile() {
                     </button>
                 </a>
                 <hr className={styles.hr} />
-
                 <button>
                     <img src={list} alt="list logo" />
                     <p>لیست کتاب ها</p>

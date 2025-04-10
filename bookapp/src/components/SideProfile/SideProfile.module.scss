@@ -10,20 +10,26 @@ $primary_1: #303857;
 }
 
 .head {
+  text-align: center;
   h2 {
-    margin: 0 4.688rem 1.25rem 0.625rem;
+    margin-bottom: 0.5rem;
     font-size: 1.5rem;
     line-height: 2.5rem;
     font-weight: 900;
   }
   h6 {
-    margin: 0 1.563rem 0.813rem 0;
-    font-size: 1.25rem;
+    margin-bottom: 3.1rem;
+    font-size: 1.2em;
+    max-height: 1rem;
     font-weight: 500;
-    line-height: 2.5rem;
+    line-height: 2rem;
+    text-align: center;
+    text-wrap: wrap;
+    word-wrap: break-word;
+
   }
   img {
-    margin: -9.375rem 3.75rem 1.938rem 0;
+    margin: -9.375rem 0 1.938rem 0;
     width: 8.75rem;
     height: 8.75rem;
     border: 1px solid $primary_1;
@@ -89,7 +95,7 @@ $primary_1: #303857;
   height: 2.375rem;
   border: none;
   border-radius: 50%;
-  margin-right: -9.438rem;
+  margin-right: -9.5rem;
   margin-top: 9.25rem;
   position: absolute;
   z-index: 1;
@@ -115,7 +121,7 @@ $primary_1: #303857;
   height: 2.375rem;
   border: none;
   border-radius: 50%;
-  margin-right: 10.438rem;
+  margin-right: 7rem;
   margin-top: 9.25rem;
   position: relative;
   z-index: 1;
