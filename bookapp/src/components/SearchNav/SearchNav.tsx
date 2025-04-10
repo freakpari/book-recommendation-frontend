@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  {useRef, useEffect, useState,useCallback  } from "react";
 import styles from "./SearchNav.module.scss";
 import menu from "./icons/menu.svg";
 import user from "./icons/defaultUser.svg";
@@ -9,16 +9,29 @@ import inbox from "./icons/Inbox.svg";
 import pointer from "./icons/pointer.svg";
 import explore from "./icons/explore.svg";
 import signout from "./icons/Signout.svg";
-import Book from "./icons/Book.svg";
+import Book1 from "./icons/Book.svg";
 import logout from "./icons/logout.svg";
 import instagram from "./icons/Instagram.svg";
 import linkdine from "./icons/linkdine.svg";
-import {href, Link, useHref, useNavigate} from "react-router-dom";
+import {href, useNavigate} from "react-router-dom";
 
+interface Book {
+  id: string;
+  title: string;
+  firstname?: string;
+  lastname?: string;
+    image?: string;
+}
 
 export default function SearchNav() {
     const [isOpen, setIsOpen] = useState(false);
+    const [results, setResults] = useState<Book[]>([]);
     const [showModal, setShowModal] = useState(false);
+    const [query, setQuery] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -27,6 +40,66 @@ export default function SearchNav() {
         navigate("/login");
         setShowModal(false);
     };
+    const handleSearch = useCallback(async () => {
+      if (!query.trim()) {
+        setResults([]);
+        return;
+      }
+    
+      setIsSearching(true);
+      try {
+        const url = `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/search?query=${encodeURIComponent(query)}`;
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+    
+        const data = await response.json();
+    
+        const filtered = (data.bookData || []).filter(
+          (book: any) =>
+            book.title.trim().toLowerCase().includes(query.trim().toLowerCase())
+        ).slice(0, 5);
+        
+    
+        setResults(filtered);
+      } catch (error) {
+        console.error("خطا در دریافت نتایج:", error);
+        setResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    }, [query]);
+    
+  
+      useEffect(() => {
+      if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+      }
+  
+      debounceTimeout.current = setTimeout(() => {
+        if (query.trim()) {
+          handleSearch();
+        } else {
+          setResults([]);
+        }
+      }, 300); 
+  
+      return () => {
+        if (debounceTimeout.current) {
+          clearTimeout(debounceTimeout.current);
+        }
+      };
+    }, [query]);
+  
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        handleSearch();
+      }
+    }
+    
 
     const [profileImage, setProfileImage] = useState<string | null>(localStorage.getItem('profileImage'));
 
@@ -53,8 +126,50 @@ export default function SearchNav() {
             </a>
 
             <div className={styles.searchBar}>
-                <input type="search" placeholder="جستجو" />
-                    <img src={searchIcon} alt="search button" />
+                <input type="search" placeholder="جستجو" 
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}/>
+                    <img src={searchIcon} alt="search button"
+                    onClick={handleSearch}
+                    style={{ cursor: "pointer" }} />
+                    {isSearching && (
+          <div className={styles.searchResults}>
+          </div>
+        )}
+
+        {!isSearching && results.length > 0 && (
+          <div className={styles.searchResults}>
+            {results.map((book, index) => (
+              <div
+                key={index}
+                className={styles.resultItem}
+                onClick={() => navigate(`/book/${book.id}`)}
+              >
+                <img
+                  className={styles.bookcover}
+                  src={book.image }
+                  alt={book.title}
+/>
+
+                <div className={styles.bookdetail}>
+                  <p className={styles.bookTitle}>{book.title}</p>
+                  <p className={styles.bookAuthor}>
+                  {book.firstname && book.lastname
+                  ? `${book.firstname} ${book.lastname}`
+                  : "نویسنده نامشخص"}
+                </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {!isSearching && query && results.length === 0 && (
+          <div className={styles.searchResults}>
+            <p>نتیجه‌ای یافت نشد</p>
+          </div>
+        )}
             </div>
 
             <img className={styles.logoIcon} src={logo} alt="logo icon"/>
@@ -65,7 +180,7 @@ export default function SearchNav() {
                     <li><img src={inbox} alt="inbox" />صندوق ورودی</li>
                     <li><img src={pointer} alt="pointer" />نتیجه تست MBTI</li>
                     <li><img src={explore} alt="explore" />BookTalk</li>
-                    <li><img src={Book} alt="book" />لیست کتاب ها</li>
+                    <li><img src={Book1} alt="book" />لیست کتاب ها</li>
                     <li onClick={() => setShowModal(true)}>
                         <img src={signout} alt="signout" />خروج از حساب کاربری
                     </li>
