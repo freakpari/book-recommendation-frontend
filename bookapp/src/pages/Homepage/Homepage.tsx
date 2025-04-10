@@ -1,20 +1,20 @@
 import styles from "./Homepage.module.scss";
-import book1 from "./book1.svg";
-import book2 from "./book2.svg";
-import book3 from "./book3.svg";
-import bufkoor from "./bufkoor.svg";
-import kimia from "./kimiagar.svg";
-import payambar from "./payambar.svg";
-import ensan from "./ensan.svg";
-import book4 from "./book4.svg";
-import book5 from "./book5.svg";
-import book6 from "./book6.svg";
-import book7 from "./book7.svg";
-import book8 from "./book8.svg";
-import book9 from "./book9.svg";
-import book10 from "./shazde.svg";
-import icon1 from "./icon1.svg";
-import icon2 from "./icon2.svg";
+import book1 from "./icon/book1.svg";
+import book2 from "./icon/book2.svg";
+import book3 from "./icon/book3.svg";
+import bufkoor from "./icon/bufkoor.svg";
+import kimia from "./icon/kimiagar.svg";
+import payambar from "./icon/payambar.svg";
+import ensan from "./icon/ensan.svg";
+import book4 from "./icon/book4.svg";
+import book5 from "./icon/book5.svg";
+import book6 from "./icon/book6.svg";
+import book7 from "./icon/book7.svg";
+import book8 from "./icon/book8.svg";
+import book9 from "./icon/book9.svg";
+import book10 from "./icon/shazde.svg";
+import icon1 from "./icon/icon1.svg";
+import icon2 from "./icon/icon2.svg";
 
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
@@ -44,7 +44,6 @@ export default function HomePage() {
             </button>
           </div>
           <div className={styles.booksDisplay}>
-            <div className={styles.bookCardContainer}>
               <div className={styles.bookCardWrapper}>
                 <img src={book1} alt="book" className={styles.bookCard} />
                 <h4>اسب سیاه</h4>
@@ -60,7 +59,7 @@ export default function HomePage() {
                 <h4>نوشابه زرد</h4>
                 <p>منصور ضابطیان</p>
               </div>
-            </div>
+            
           </div>
         </div>
 
@@ -75,11 +74,7 @@ export default function HomePage() {
 
           </div>
           <div className={styles.popularBooks}>
-            <div className={styles.cardwrapper}>
-              <img src={bufkoor} alt="boof koor" />
-              <h4>بوف کور</h4>
-              <p>صادق هدایت</p>
-            </div>
+        
             <div className={styles.cardwrapper}>
               <img src={bufkoor} alt="boof koor" />
               <h4>بوف کور</h4>

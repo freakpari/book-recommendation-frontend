@@ -13,7 +13,7 @@ html,body{
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
+    background-color: $secondary_color;
     width: 100vw;
 }
 
@@ -21,33 +21,31 @@ html,body{
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
-    width: 1086px;
+    width: 1200px;
     height: 337px;
     padding: 1rem;
     margin-right: 5px;
     margin-top: 10px;
+    gap: 40px;
+
 
 }
 
 .booksDisplay {
     display: flex;
     gap: 1rem;
+
+
 }
 
-.bookCardContainer {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    background-color: white;
-    transition: transform 0.3s;
-    gap: 25px;
-}
+
 
 
 .bookCard {
     width: 156px;
     height: 248px;
     display: flex;
+
     
 }
 .bookCardWrapper {
@@ -66,33 +64,39 @@ html,body{
     width: 580px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+
+
 }
 .heading{
     width: 427px;
     height: 40px;
     color:$primary_1;
     font-weight:700 ;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 40px;
     letter-spacing: 0;
     white-space: nowrap;
     margin-bottom: 30px;
-    margin-right: 8px;
+    margin-right: 2px;
 }
 .description {
     text-align: right;
-    width: 367px; 
-    height: 86px;
+    width: 467px; 
+    height: 156px;
     color:$primary_1;
     margin-right: 20px;
-    font-size: 16px;
+    font-size: 22px;
+    margin-right: 45px;
     margin-bottom: 20px;
+    line-height: 40px;
+    font-weight: 300;
 }
 
 .mbtitest {
     width: 218px;
     height: 70px;
-    margin-right: 80px;
+    margin-right: 150px;
     background-color: $primary_1;
     color: white;
     border: none;
@@ -112,11 +116,12 @@ html,body{
 
 
 .popularSection {
-    width: 100%;
+    width: 1400px;
     text-align: right;
     margin-top: 2rem;
     align-items: center;
     margin-bottom: 142px;
+    margin-right: 100px;
     h2{
         color: $primary_1;
         font-weight: 700;
@@ -133,8 +138,19 @@ html,body{
     }
 }
 .cardwrapper{
+    width: 202px;
+    height: 393px;
+
     h4{
         color: #303857;
+        text-align: center;
+        font-weight: 700;
+        font-size: 20px;
+    }
+    p{
+        text-align: center;
+        font-weight: 300;
+        font-size: 20px;
     }
 }
 
@@ -146,14 +162,14 @@ html,body{
     color: $primary_1;
     height: 100px;
     display: flex;
-    width: 1200px;
+    width: 1400px;
     padding-top: 20px;
     white-space: nowrap;
     margin-top: 30px;
     
 }
 .showbutton{
-    margin-right: 900px;
+    margin-right: 940px;
     width: 145px ;
     height: 40px;
     border: $primary_1 1px solid;
@@ -162,7 +178,7 @@ html,body{
     margin-bottom: 100px;
 }
 .showbutton2{
-    margin-right: 700px;
+    margin-right: 900px;
     width: 145px !important;
     height: 40px;
     border: $primary_1 1px solid;
@@ -171,7 +187,7 @@ html,body{
     margin-bottom: 100px;
 }
 .showbutton3{
-    margin-right: 762px;
+    margin-right: 967px;
     width: 145px !important;
     height: 40px;
     border: $primary_1 1px solid;
@@ -183,7 +199,7 @@ html,body{
     display: flex;
     margin-right: 0 !important;
     justify-content: space-between;
-    width: 100vw;
+    width: 1600px;
     height: 587px;
     margin-top: 40px;
     align-items: center;
@@ -194,31 +210,44 @@ html,body{
 
 .content {
         margin-top: 20px;
+    
+
         
     
     h2 {
         font-family: Segoe Print;
-        margin-right: 806px;
-        color: #ffffff;
+        margin-right: 1006px;
+        width: 164px;
+        height: 40px;
+        color:$secondary_color;
         font-weight: 700;
         line-height: 40px;
+        margin-bottom: 20px;
         margin-top: 0;
+        font-size: 36px;
     }
     h4{
-        margin-right: 695px;
+        margin-right: 805px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: $secondary_color;
+
     }
     p {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-        line-height: 1.6;
-        width: 483px;
-        margin-right: 650px;
+        font-size: 22px;
+        margin-bottom: 50px;
+        line-height: 40px;
+        width: 538px;
+        font-weight: 300;
+        height: 96px;
+        margin-right: 850px;
         margin-top: 40px;
-        color: #F9F9F9;
+        color: $secondary_color;
     }
     }
     .button {
-        background-color: #F9F9F9;
+        background-color: $secondary_color;
         width: 239px;
         height: 70px;
         color: $primary_1;
@@ -227,7 +256,7 @@ html,body{
         font-size: 22px;
         font-weight: bold;
         border-radius: 10px;
-        margin-right: 750px;
+        margin-right: 980px;
         cursor: pointer;
     }
 
