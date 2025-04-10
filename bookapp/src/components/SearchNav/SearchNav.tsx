@@ -130,9 +130,11 @@ export default function SearchNav() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeyDown}/>
-                    <img src={searchIcon} alt="search button"
-                    onClick={handleSearch}
-                    style={{ cursor: "pointer" }} />
+
+                <img src={searchIcon} alt="search button"
+                     onClick={handleSearch}
+                     style={{ cursor: "pointer" }} />
+
                     {isSearching && (
           <div className={styles.searchResults}>
           </div>

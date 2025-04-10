@@ -75,7 +75,7 @@ $primary_1: #303857;
     border-radius: 3.125rem;
     padding: 0.75rem 1.8rem;
     background-color: #f9f9f9;
-    margin-top: -1.3rem;
+    margin-top: -1.6rem;
     //margin-right: 9rem;
     &:focus {
       outline: 2px solid $primary_1;
@@ -84,9 +84,9 @@ $primary_1: #303857;
   img{
     width: 2.5rem;
     height: 2.5rem;
-    position: absolute;
-    margin-right: -3.4rem;
-    margin-top: -0.5rem;
+    display: flex;
+    margin-right: 57.5rem;
+    margin-top: -3.2rem;
     &:hover {
       cursor: pointer;
       transform: scale(1.15);
