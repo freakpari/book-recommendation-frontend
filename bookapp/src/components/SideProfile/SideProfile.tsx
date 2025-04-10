@@ -39,6 +39,43 @@ export default function SideProfile() {
         if (savedImage) {
             setProfileImage(savedImage);
         }
+        // اولین بار داده‌ها را fetch کن
+        const fetchUserData = async () => {
+
+            const token = localStorage.getItem("token"); // اینجا اسم کلید رو طبق پروژه خودت تغییر بده
+            if (!token) {
+                setError("توکن یافت نشد");
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const user = response.data.user;
+                setProfile(user);
+
+                setUserName(user.user_name || "");
+                setBio(user.bio || "");
+
+            } catch (err: any) {
+                if (err.response?.status === 401) {
+                    setError("دسترسی غیرمجاز");
+                } else {
+                    setError("خطا در دریافت اطلاعات کاربر");
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        // گوش دادن به رویداد به‌روزرسانی
+        const unsubscribe = eventEmitter.subscribe(fetchUserData);
+
+        return () => unsubscribe();
     }, []);
 
     // آپلود تصویر پروفایل
