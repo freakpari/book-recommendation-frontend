@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './MyBookHistory.module.scss';
 import Footer from '../../components/Footer/Footer';
 import SideProfile from "../../components/SideProfile/SideProfile";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import BlackHourse from "./icons/blackHourse.svg"
-
+import eventEmitter from "../../utils/eventEmitter";
 
 export default function MyBookHistory() {
+
+    useEffect(() => {
+        eventEmitter.emit();
+    }, []);
+
     return (
         <div className={styles.container}>
             <SearchNav />
