@@ -98,8 +98,6 @@ export default function EditProfile() {
     const [selectedGender, setSelectedGender] = useState<"زن" | "مرد" | "ترجیح می‌دهم نگویم" |null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const [showPassword, setShowPassword] = React.useState(false);
-
     const [modal, setModal] = React.useState(false);
     const [showPasswordModalOld, setShowPasswordModalOld] = React.useState(false);
     const [showPasswordModalNew, setShowPasswordModalNew] = React.useState(false);
@@ -128,14 +126,19 @@ export default function EditProfile() {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
 
+
+    const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+    const [isChangingPassword, setIsChangingPassword] = useState(false);
+
     useEffect(() => {
         const fetchProfile = async () => {
-            const token = localStorage.getItem("token"); // اینجا اسم کلید رو طبق پروژه خودت تغییر بده
+            const token = localStorage.getItem("token");
             if (!token) {
-                setError("توکن یافت نشد");
+                console.error("توکن یافت نشد"); // فقط در کنسول نمایش داده می‌شود
                 setLoading(false);
                 return;
             }
+
 
             try {
                 const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile", {
@@ -172,9 +175,9 @@ export default function EditProfile() {
 
             } catch (err: any) {
                 if (err.response?.status === 401) {
-                    setError("دسترسی غیرمجاز");
+                    console.error("دسترسی غیرمجاز");
                 } else {
-                    setError("خطا در دریافت اطلاعات کاربر");
+                    showNotificationMessage("خطا در دریافت اطلاعات کاربر", "error");
                 }
             } finally {
                 setLoading(false);
@@ -188,25 +191,25 @@ export default function EditProfile() {
     const handleProfileUpdate = async () => {
         const token = localStorage.getItem("token");
         if (!token) {
-            setError("توکن یافت نشد");
+            console.error("توکن یافت نشد");
             return;
         }
 
-        // تبدیل تاریخ به فرمت yyyy-mm-dd
-        const formattedBirthday = `${yearSelectedValue}-${monthSelectedValue.padStart(2, '0')}-${daySelectedValue.padStart(2, '0')}`;
-
-        // تعریف updatedProfileData با تمام فیلدهای لازم
-        const updatedProfileData = {
-            new_firstName: firstName,
-            new_lastName: lastName,
-            new_userName: userName,
-            new_bio: bio,
-            new_gender: selectedGender === "مرد" ? "M" : "F",
-            new_birthday: formattedBirthday,
-            new_phoneNumber: phoneNumber,
-        };
+        setIsUpdatingProfile(true); // شروع لودینگ
 
         try {
+            const formattedBirthday = `${yearSelectedValue}-${monthSelectedValue.padStart(2, '0')}-${daySelectedValue.padStart(2, '0')}`;
+
+            const updatedProfileData = {
+                new_firstName: firstName,
+                new_lastName: lastName,
+                new_userName: userName,
+                new_bio: bio,
+                new_gender: selectedGender === "مرد" ? "M" : "F",
+                new_birthday: formattedBirthday,
+                new_phoneNumber: phoneNumber,
+            };
+
             const response = await axios.put(
                 "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/updateProfile",
                 updatedProfileData,
@@ -218,20 +221,17 @@ export default function EditProfile() {
                 }
             );
 
-            // ذخیره در localStorage
             localStorage.setItem("userData", JSON.stringify(response.data.user));
-
-            // اطلاع به SideProfile برای به‌روزرسانی
             eventEmitter.emit();
-
             showNotificationMessage("پروفایل با موفقیت به‌روزرسانی شد", 'success');
         } catch (err) {
             showNotificationMessage("خطا در به‌روزرسانی پروفایل", 'error');
+        } finally {
+            setIsUpdatingProfile(false); // پایان لودینگ
         }
     };
 
     const handlePasswordChange = async () => {
-        // اعتبارسنجی اولیه
         if (newPassword !== repeatPassword) {
             setPasswordError("رمزهای عبور جدید مطابقت ندارند");
             return;
@@ -244,9 +244,11 @@ export default function EditProfile() {
 
         const token = localStorage.getItem("token");
         if (!token) {
-            setPasswordError("توکن یافت نشد");
+            console.error("توکن یافت نشد");
             return;
         }
+
+        setIsChangingPassword(true); // شروع لودینگ
 
         try {
             const response = await axios.put(
@@ -264,12 +266,19 @@ export default function EditProfile() {
             );
 
             showNotificationMessage("رمز عبور با موفقیت تغییر یافت", 'success');
-            // ... کدهای قبلی
+            setPasswordError(null);
+            setOldPassword("");
+            setNewPassword("");
+            setRepeatPassword("");
+            setModal(false);
+            setPasswordSuccess(null);
         } catch (err: any) {
             const errorMessage = err.response?.status === 400
                 ? "رمز عبور فعلی اشتباه است"
                 : "خطا در تغییر رمز عبور";
             showNotificationMessage(errorMessage, 'error');
+        } finally {
+            setIsChangingPassword(false); // پایان لودینگ
         }
     };
 
@@ -285,7 +294,6 @@ export default function EditProfile() {
             document.body.style.overflow = 'auto';
         };
     }, [modal]);
-
 
     return (
         <div className={styles.container}>
@@ -593,7 +601,8 @@ export default function EditProfile() {
                                     className={styles.updatePasswordBtn}
                                     onClick={handlePasswordChange}
                                     type="button"
-                                    value="ثبت"
+                                    value={isChangingPassword ? "در حال تغییر..." : "ثبت"}
+                                    disabled={isChangingPassword}
                                 />
                             </div>
                         </div>
@@ -603,13 +612,16 @@ export default function EditProfile() {
                         className={styles.updateProfileBtn}
                         onClick={handleProfileUpdate}
                         type="button"
+                        disabled={isUpdatingProfile} // غیرفعال کردن دکمه هنگام لودینگ
                     >
-                        به‌روزرسانی
+                        {isUpdatingProfile ? (
+                            <span className={styles.loadingText}>در حال ذخیره...</span>
+                        ) : (
+                            "به‌روزرسانی"
+                        )}
                     </button>
-                </form>
-                {/*{error && <div className={styles.error}>{error}</div>}*/}
-                {/*{successMessage && <div className={styles.success}>{successMessage}</div>}*/}
 
+                </form>
             </div>
 
             <SideProfile/>
