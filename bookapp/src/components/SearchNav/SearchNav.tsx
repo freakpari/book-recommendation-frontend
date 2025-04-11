@@ -132,8 +132,8 @@ export default function SearchNav() {
                     onKeyDown={handleKeyDown}/>
 
                 <img src={searchIcon} alt="search button"
-                     onClick={handleSearch}
-                     style={{ cursor: "pointer" }} />
+                    onClick={handleSearch}
+                    style={{ cursor: "pointer" }} />
 
                     {isSearching && (
           <div className={styles.searchResults}>

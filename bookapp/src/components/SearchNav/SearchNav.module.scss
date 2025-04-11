@@ -105,8 +105,8 @@ $primary_1: #303857;
 .drawerMenu {
   position: fixed;
   top: 0;
-  right: -250px;
-  width: 250px;
+  right: -300px;
+  width: 300px;
   height: 832px;
   background-color: #1e2a46;
   color: white;
@@ -157,8 +157,8 @@ $primary_1: #303857;
   margin-top:60px;
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-right: 40px;
+  gap: 23px;
+  margin-right: 60px;
     img{
     width: 48px;
     
@@ -186,7 +186,7 @@ $primary_1: #303857;
     margin-bottom: 40px;
     margin-top: 10px;
     white-space: nowrap;
-    margin-right: 170px;
+    margin-right: 180px;
   }
   img{
     width: 100px;
@@ -234,7 +234,7 @@ $primary_1: #303857;
 }
 .searchResults {
   position: absolute;
-  top: 110px;
+  top: 115px;
   width: 671px;
   height: 160px;
   background-color: rgba(48, 56, 87, 0.9);
