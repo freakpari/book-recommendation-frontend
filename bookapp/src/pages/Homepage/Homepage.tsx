@@ -119,14 +119,16 @@ export default function HomePage() {
             <img src={book7} alt="کتاب 5" />
           </div>
 
-          <div className={styles.content}>
+          <div className={styles.wrapper}>
+            <div className={styles.content}>
             <h2>BookTalk</h2>
             <h4>جایی برای به اشتراک گذاشتن دیدگاه‌های شما درباره کتاب‌ها</h4>
             <p>
-              تجربیات خود درباره کتاب‌های خوانده شده را به اشتراک بگذارید و
-              نظرات خوانندگان را بر اساس جدیدترین یا محبوب‌ترین مرور کنید.
+      تجربیات خود درباره کتاب‌های خوانده شده را به اشتراک بگذارید و
+      نظرات خوانندگان را بر اساس جدیدترین یا محبوب‌ترین مرور کنید.
             </p>
             <button className={styles.button}>رفتن به BookTalk</button>
+            </div>
           </div>
         </div>
         <div className={styles.toptext}>
@@ -194,21 +196,25 @@ export default function HomePage() {
             <img src={icon1} alt="کتاب فانتزی"  className={styles.fante1}/>
           </div>
           <div className={styles.listCard}>
+          <div className={styles.wrapper2}>
               <h3 className={styles.category}>دنیای رنگی خیال</h3>
               <p className={styles.author}>توسط: گلنار شفیعی</p>
               <p className={styles.description2}>
               شامل: سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت، سری کتاب‌های هابیت
               </p>
+          </div>
           </div>
           <div className={styles.cardImage}>
             <img src={icon2} alt="کتاب فانتزی" className={styles.fante} />
           </div>
           <div className={styles.listCard}>
-              <h3 className={styles.category}>دنیای رنگی خیال</h3>
-              <p className={styles.author}>توسط: گلنار شفیعی</p>
+          <div className={styles.wrapper2}>
+              <h3 className={styles.category}>  روانشناسی</h3>
+              <p className={styles.author}>توسط: پریوش چراغی</p>
               <p className={styles.description2}>
               شامل: سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت، سری کتاب‌های هابیت
               </p>
+          </div>
           </div>
         </div>
         <Footer />
