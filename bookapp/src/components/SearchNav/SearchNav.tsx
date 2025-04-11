@@ -13,7 +13,7 @@ import Book1 from "./icons/Book.svg";
 import logout from "./icons/logout.svg";
 import instagram from "./icons/Instagram.svg";
 import linkdine from "./icons/linkdine.svg";
-import {href, useNavigate} from "react-router-dom";
+import {href, Link, useNavigate} from "react-router-dom";
 
 interface Book {
   id: string;
@@ -180,9 +180,9 @@ export default function SearchNav() {
           </div>
         )}
             </div>
-
+            <Link to="/Homepage" >
             <img className={styles.logoIcon} src={logo} alt="logo icon"/>
-            
+            </Link>
             <div className={`${styles.drawerMenu} ${isOpen ? styles.open : ""}`}>
                 <ul>
                     <li onClick={() => navigate('/editprofile')} ><img src={account} alt="account" />حساب کاربری</li>
