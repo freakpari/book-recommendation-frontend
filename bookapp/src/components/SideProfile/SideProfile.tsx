@@ -25,27 +25,30 @@ interface UserProfile {
 export default function SideProfile() {
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const [loading, setLoading] = useState(true); // اضافه شده
-
-
+    const [loading, setLoading] = useState(true);
+    const [showLoadingText, setShowLoadingText] = useState(true); // حالت جدید برای نمایش متن‌های بارگذاری
     const [error, setError] = useState<string | null>(null);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [userName, setUserName] = useState("");
     const [bio, setBio] = useState("");
-
 
     useEffect(() => {
         const savedImage = localStorage.getItem("profileImage");
         if (savedImage) {
             setProfileImage(savedImage);
         }
-        // اولین بار داده‌ها را fetch کن
-        const fetchUserData = async () => {
 
-            const token = localStorage.getItem("token"); // اینجا اسم کلید رو طبق پروژه خودت تغییر بده
+        // تایمر برای مخفی کردن متن‌های بارگذاری بعد از ۲ ثانیه
+        const loadingTimer = setTimeout(() => {
+            setShowLoadingText(false);
+        }, 2000);
+
+        const fetchUserData = async () => {
+            const token = localStorage.getItem("token");
             if (!token) {
                 setError("توکن یافت نشد");
                 setLoading(false);
+                setShowLoadingText(false); // اگر خطا داشتیم هم متن‌ها را مخفی کنیم
                 return;
             }
 
@@ -57,10 +60,8 @@ export default function SideProfile() {
                 });
                 const user = response.data.user;
                 setProfile(user);
-
                 setUserName(user.user_name || "");
                 setBio(user.bio || "");
-
             } catch (err: any) {
                 if (err.response?.status === 401) {
                     setError("دسترسی غیرمجاز");
@@ -69,16 +70,19 @@ export default function SideProfile() {
                 }
             } finally {
                 setLoading(false);
+                setShowLoadingText(false); // وقتی داده‌ها لود شدند متن‌ها را مخفی کنیم
+                clearTimeout(loadingTimer); // تایمر را پاک کنیم چون دیگر نیازی نیست
             }
         };
 
-        // گوش دادن به رویداد به‌روزرسانی
         const unsubscribe = eventEmitter.subscribe(fetchUserData);
 
-        return () => unsubscribe();
+        return () => {
+            unsubscribe();
+            clearTimeout(loadingTimer); // پاک کردن تایمر هنگام آنمونت
+        };
     }, []);
 
-    // آپلود تصویر پروفایل
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -89,7 +93,7 @@ export default function SideProfile() {
             return;
         }
 
-        if (file.size > 2 * 1024 * 1024) { // 2MB
+        if (file.size > 2 * 1024 * 1024) {
             alert("حجم فایل بیشتر از ۲ مگابایت است. لطفاً عکس کوچک‌تری انتخاب کنید.");
             return;
         }
@@ -131,17 +135,21 @@ export default function SideProfile() {
                 />
 
                 {loading ? (
-                    <div>
-                        <h2>درحال بارگذاری...</h2>
-                        <h6>درحال بارگذاری...</h6>
-                    </div>
-                    ) : (
+                    showLoadingText ? ( // فقط اگر هم loading باشد و هم showLoadingText
+                        <div>
+                            <h2>درحال بارگذاری...</h2>
+                            <h6>درحال بارگذاری...</h6>
+                        </div>
+                    ) : <div>
+                        <h2></h2>
+                        <h6></h6>
+                    </div> // بعد از ۲ ثانیه null برگردانید
+                ) : (
                     <>
                         <h2>{userName}</h2>
                         <h6>{bio}</h6>
                     </>
                 )}
-
             </div>
 
             <div className={styles.options}>
