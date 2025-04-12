@@ -8,7 +8,7 @@ import {AnimatePresence} from "framer-motion";
 
 export default function FAQContainer(){
 
-    const [activeQuastion, setActiveQuastion] = useState<number | null>(null);
+    const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
 
     const question = [
         {
@@ -48,18 +48,18 @@ export default function FAQContainer(){
             <div className={styles.container}>
                 {question.map((q) => (
                     <div key={q.id} className={styles.container}>
-                        <button onClick={() => setActiveQuastion(activeQuastion === q.id ? null : q.id)}>
+                        <button onClick={() => setActiveQuestion(activeQuestion === q.id ? null : q.id)}>
                             {q.question}
                             <motion.img
                                 className={styles.icon}
                                 src={toggleIconDown}  // فقط از یک آیکون استفاده می‌کنیم
                                 alt="toggle answer"
-                                animate={{ rotate: activeQuastion === q.id ? 180 : 0 }} // چرخش هنگام باز شدن
+                                animate={{ rotate: activeQuestion === q.id ? 180 : 0 }} // چرخش هنگام باز شدن
                                 transition={{ duration: 0.3, ease: "easeOut" }}
                             />
                         </button>
                         <AnimatePresence>
-                            {activeQuastion === q.id && (
+                            {activeQuestion === q.id && (
                                 <motion.div
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: "auto" }}
