@@ -99,8 +99,9 @@ export default function SearchNav() {
         handleSearch();
       }
     }
-    
 
+
+    const [hasToken, setHasToken] = useState<boolean>(!!localStorage.getItem('token'));
     const [profileImage, setProfileImage] = useState<string | null>(localStorage.getItem('profileImage'));
 
     useEffect(() => {
@@ -121,9 +122,15 @@ export default function SearchNav() {
                 onClick={() => setIsOpen(!isOpen)} 
             />
 
-            <a className={styles.linkToProfile} href="/editProfile">
-                <img className={styles.userIcon} src={profileImage || user} alt="user icon" onClick={() => href("/editProfile")} />
-            </a>
+            {hasToken ? (
+                <a className={styles.linkToProfile} href="/editProfile">
+                    <img className={styles.userIcon} src={profileImage || user} alt="user icon" onClick={() => href("/editProfile")} />
+                </a>
+            ) : (
+                <a className={styles.loginLink} href="/login">
+                    ورود | ثبت‌نام
+                </a>
+            )}
 
             <div className={styles.searchBar}>
                 <input type="search" placeholder="جستجو" 

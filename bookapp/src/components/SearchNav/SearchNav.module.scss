@@ -63,6 +63,18 @@ $primary_1: #303857;
   }
 }
 
+.loginLink {
+  margin-right: -1rem;
+  margin-left: 3rem;
+  margin-top: -1.1rem;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 40px;
+  vertical-align: middle;
+  text-decoration: none;
+  color: $primary_1;
+}
+
 .searchBar {
   input{
     font-size: 1.3rem;
