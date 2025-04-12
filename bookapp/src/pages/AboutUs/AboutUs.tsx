@@ -8,7 +8,7 @@ export default function AboutUs() {
       <div className={styles.aboutUs}>
         <img src={logo} alt="logo icon" />
         <h3>درباره ما</h3>
-        <h1>اسم شرکت</h1>
+        <h1>BookWorm</h1>
         <p>
           پلتفرمی منحصر به فرد برای علاقه‌مندان به کتاب و مطالعه. ما با استفاده
           از تست‌های شخصیت‌شناسی و هوش مصنوعی، کتاب‌هایی متناسب با سلیقه شما را
