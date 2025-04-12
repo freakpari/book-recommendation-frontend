@@ -59,9 +59,9 @@ export default function PopularBooks() {
         <div className={Styles.bookgrid}>
           {books.slice(0, 20).map((book) => (
             <div key={book.bookid} className={Styles.bookitem}>
-              <img src={book.imageUrl || not} alt={book.title} />
+              <img className={Styles.photo} src={book.imageUrl || not} alt={book.title} />
               <div className={Styles.booktext}>
-                <h3>{book.title}</h3>
+                <h3 className={Styles.title2}>{book.title}</h3>
                 <p className={Styles.para}>{book.author}</p>
                 <p className={Styles.avgrate}>امتیاز: {book.avgrate}</p>
               </div>
