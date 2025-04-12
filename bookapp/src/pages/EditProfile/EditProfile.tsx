@@ -233,12 +233,12 @@ export default function EditProfile() {
 
     const handlePasswordChange = async () => {
         if (newPassword !== repeatPassword) {
-            setPasswordError("رمزهای عبور جدید مطابقت ندارند");
+            showNotificationMessage("رمزهای عبور جدید مطابقت ندارند", "error");
             return;
         }
 
         if (newPassword.length < 8) {
-            setPasswordError("رمز عبور جدید باید حداقل ۸ کاراکتر باشد");
+            showNotificationMessage("رمز عبور جدید باید حداقل ۸ کاراکتر باشد", "error");
             return;
         }
 
@@ -273,7 +273,7 @@ export default function EditProfile() {
             setModal(false);
             setPasswordSuccess(null);
         } catch (err: any) {
-            const errorMessage = err.response?.status === 400
+            const errorMessage = err.response?.status === 404
                 ? "رمز عبور فعلی اشتباه است"
                 : "خطا در تغییر رمز عبور";
             showNotificationMessage(errorMessage, 'error');
@@ -329,7 +329,7 @@ export default function EditProfile() {
                            type="email"
                            name="email"
                            id="email"
-                           // placeholder="ایمیل"
+                           placeholder="ایمیل"
                            value={email}
                            onChange={(e) => setEmail(e.target.value)}
                            readOnly={true}
