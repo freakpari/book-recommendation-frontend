@@ -41,7 +41,7 @@ export default function SideProfile() {
         // تایمر برای مخفی کردن متن‌های بارگذاری بعد از ۲ ثانیه
         const loadingTimer = setTimeout(() => {
             setShowLoadingText(false);
-        }, 2000);
+        }, 1000);
 
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
