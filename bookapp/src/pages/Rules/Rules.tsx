@@ -1,14 +1,16 @@
 import styles from "./Rules.module.scss";
 import logo from "../../logo.svg";
 import Footer from "../../components/Footer/Footer";
+import SearchNav from "../../components/SearchNav/SearchNav";
 
 export default function Rules() {
   return (
     <div>
+      <div>
+        <SearchNav />
+      </div>
       <div className={styles.rules}>
-        <img src={logo} alt={"logo icon"} />
-
-        <h3 >قوانین و مقررات</h3>
+        <h3 className={styles.header}>قوانین و مقررات</h3>
         <header>
           با استفاده از وب‌سایت کرم کتاب، شما موافقت خود را با رعایت قوانین و
           مقررات زیر اعلام می‌کنید. لطفاً پیش از استفاده از خدمات، این شرایط را
