@@ -19,11 +19,57 @@ $secondary_color : #f9f9f9;
   height: 41.1rem;
 }
 
+.userEmailName{
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  padding-right: 3rem;
+}
+
+.userFNameBirth{
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  padding-right: 3rem;
+}
+
+.userLNameBio {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  padding-right: 3rem;
+}
+
+.userGenderNumber {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  padding-right: 3rem;
+}
+
+.Btns {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding-top: 8rem;
+}
+
+.Birth {
+  display: flex;
+  flex-direction: row;
+}
+
+.EditProfilefield {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 6.25rem;
+}
 
 .userName {
   width: 26.8rem;
   height: 3rem;
-  margin: 6.25rem 3.1rem 1.25rem 2.5rem;
   padding: 1.25rem 0.87rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 0.6rem;
@@ -77,7 +123,6 @@ $secondary_color : #f9f9f9;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 0.6rem;
   font-size: 1rem;
-  margin: 0 50px 20px 41px;
   font-weight: 500;
   line-height: 150%;
 
@@ -146,7 +191,6 @@ $secondary_color : #f9f9f9;
   height: 3rem;
   text-align-last: center;
   padding-left: 1rem;
-  //margin-left: 40px;
   font-size: 1rem;
   font-weight: 500;
   border: 2px solid rgba(48, 56, 87, 0.5);
@@ -170,7 +214,6 @@ $secondary_color : #f9f9f9;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 0.6rem;
   font-size: 1rem;
-  margin: 0 50px 20px 41px;
   font-weight: 500;
   line-height: 150%;
 
@@ -250,8 +293,6 @@ $secondary_color : #f9f9f9;
 }
 
 .gender {
-  margin-right: 3.1rem;
-  margin-bottom: -3.1rem;
   width: 26.8rem;
   height: 3rem;
   display: flex;
@@ -283,8 +324,6 @@ $secondary_color : #f9f9f9;
 }
 
 .disableGender {
-  margin-right: 3.1rem;
-  margin-bottom: -3.1rem;
   width: 26.8rem;
   height: 3rem;
   display: flex;
@@ -311,7 +350,7 @@ $secondary_color : #f9f9f9;
 .dropDownMenu {
   position: absolute;
   top: 2.75rem;
-  right: 4.75rem;
+  right: 1.65rem;
   width: 100%;
   margin-top: 5px;
   background: rgba(48, 56, 87, 0.9);
@@ -346,6 +385,25 @@ $secondary_color : #f9f9f9;
   border-radius: round(1px);
 }
 
+.disablePhoneNumber {
+  width: 26.8rem;
+  height: 3rem;
+  padding: 1.2rem 0.8rem;
+  border: 2px solid rgba(48, 56, 87, 0.5);
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-align: left;
+  direction: ltr;
+  &::placeholder {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 150%;
+    color: rgba(48, 56, 87, 0.5);
+  }
+}
+
 .phoneNumber {
   width: 26.8rem;
   height: 3rem;
@@ -355,7 +413,7 @@ $secondary_color : #f9f9f9;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 1px;
-  margin-right: 32.5rem;
+  margin-right: 3.5rem;
   text-align: left;
   direction: ltr;
   &::-webkit-outer-spin-button,
@@ -384,9 +442,7 @@ $secondary_color : #f9f9f9;
   width: 12.5rem;
   height: 4rem;
   text-align-last: center;
-  margin-right: 25rem;
   color: $secondary_color;
-  margin-top: 6.25rem;
   font-size: 1.3rem;
   font-weight: 600;
   border: 2px solid rgba(48, 56, 87, 0.5);
@@ -418,7 +474,6 @@ $secondary_color : #f9f9f9;
   width: 12.5rem;
   height: 4rem;
   text-align-last: center;
-  margin: 1.2rem 25rem;
   color: $secondary_color;
   font-size: 1.3rem;
   font-weight: 600;
@@ -540,12 +595,9 @@ $secondary_color : #f9f9f9;
   display: flex;
 }
 
-
-
 .notificationModal {
   position: fixed;
   top: 0;
-  //left: 50%;
   right: 40%;
   transform: translateX(-50%);
   padding: 1rem 1.8rem;
@@ -581,7 +633,6 @@ $secondary_color : #f9f9f9;
   cursor: pointer;
 }
 
-
 .loadingText {
   display: inline-flex;
   align-items: center;
@@ -612,6 +663,5 @@ $secondary_color : #f9f9f9;
 
 .updateProfileBtn:disabled,
 .updatePasswordBtn:disabled {
-  //opacity: 0.7;
   cursor: not-allowed;
 }

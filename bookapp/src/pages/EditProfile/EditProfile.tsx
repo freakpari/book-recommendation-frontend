@@ -315,315 +315,341 @@ export default function EditProfile() {
                 <SideProfile/>
 
                 <div className={styles.update}>
-
-                    {error && <div className={styles.error}>{error}</div>}
-                    {successMessage && <div className={styles.success}>{successMessage}</div>}
-
                     <form action="" onSubmit={(e) => e.preventDefault()}>
 
-                        <input className={styles.userName}
-                               type="text"
-                               name="userName"
-                               id="userName"
-                               placeholder="نام کاربری"
-                               value={userName}
-                               onChange={(e) => setUserName(e.target.value)}
-                        />
-                        <input className={styles.userEmail}
-                               type="email"
-                               name="email"
-                               id="email"
-                               placeholder="ایمیل"
-                               value={email}
-                               onChange={(e) => setEmail(e.target.value)}
-                               readOnly={true}
-                        />
+                        <div className={styles.EditProfilefield}>
 
-                        <input className={styles.firstName}
-                               type="text"
-                               name="firstName"
-                               id="firstName"
-                               placeholder="نام"
-                               value={firstName}
-                               onChange={(e) => setFirstName(e.target.value)}
-                        />
+                            <div className={styles.userEmailName}>
+                                <input className={styles.userName}
+                                       type="text"
+                                       name="userName"
+                                       id="userName"
+                                       placeholder="نام کاربری"
+                                       value={userName}
+                                       onChange={(e) => setUserName(e.target.value)}
+                                />
+                                <input className={styles.userEmail}
+                                       type="email"
+                                       name="email"
+                                       id="email"
+                                       placeholder="ایمیل"
+                                       value={email}
+                                       onChange={(e) => setEmail(e.target.value)}
+                                       readOnly={true}
+                                />
+                            </div>
 
-                        <select
-                            className={`${styles.dayOfBirth} ${daySelectedValue ? styles.selected : ""}`}
-                            id="dayOfBirth"
-                            name="dayOfBirth"
-                            value={daySelectedValue}
-                            onChange={(e) => setDaySelectedValue(e.target.value)}
+                            <div className={styles.userFNameBirth}>
+                                <input className={styles.firstName}
+                                       type="text"
+                                       name="firstName"
+                                       id="firstName"
+                                       placeholder="نام"
+                                       value={firstName}
+                                       onChange={(e) => setFirstName(e.target.value)}
+                                />
+                                <div className={styles.Birth}>
+                                    <select
+                                        className={`${styles.dayOfBirth} ${daySelectedValue ? styles.selected : ""}`}
+                                        id="dayOfBirth"
+                                        name="dayOfBirth"
+                                        value={daySelectedValue}
+                                        onChange={(e) => setDaySelectedValue(e.target.value)}
 
-                        >
-                            {Array.from({length: 31}, (_, i) => (
-                                <option key={i + dayStartValue} value={i + dayStartValue}>
-                                    {i + dayStartValue}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            className={`${styles.monthOfBirth} ${monthSelectedValue ? styles.selected : ""}`}
-                            id="monthOfBirth"
-                            name="monthOfBirth"
-                            value={monthSelectedValue}
-                            onChange={(e) => setMonthSelectedValue(e.target.value)}
-                        >
-                            {months.map((month) => (
-                                <option key={month.id} value={month.id}>
-                                    {month.name}
-                                    <ChevronDown/>
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            className={`${styles.yearOfBirth} ${yearSelectedValue ? styles.selected : ""}`}
-                            id="yearOfBirth"
-                            name="yearOfBirth"
-                            value={yearSelectedValue}
-                            onChange={(e) => setYearSelectedValue(e.target.value)}
-                        >
-                            {Array.from({length: 81}, (_, i) => (
-                                <option key={i + yearStartValue} value={i + yearStartValue}>
-                                    {i + yearStartValue}
-                                </option>
-                            ))}
-                        </select>
+                                    >
+                                        {Array.from({length: 31}, (_, i) => (
+                                            <option key={i + dayStartValue} value={i + dayStartValue}>
+                                                {i + dayStartValue}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <select
+                                        className={`${styles.monthOfBirth} ${monthSelectedValue ? styles.selected : ""}`}
+                                        id="monthOfBirth"
+                                        name="monthOfBirth"
+                                        value={monthSelectedValue}
+                                        onChange={(e) => setMonthSelectedValue(e.target.value)}
+                                    >
+                                        {months.map((month) => (
+                                            <option key={month.id} value={month.id}>
+                                                {month.name}
+                                                <ChevronDown/>
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <select
+                                        className={`${styles.yearOfBirth} ${yearSelectedValue ? styles.selected : ""}`}
+                                        id="yearOfBirth"
+                                        name="yearOfBirth"
+                                        value={yearSelectedValue}
+                                        onChange={(e) => setYearSelectedValue(e.target.value)}
+                                    >
+                                        {Array.from({length: 81}, (_, i) => (
+                                            <option key={i + yearStartValue} value={i + yearStartValue}>
+                                                {i + yearStartValue}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
 
-                        <input className={styles.lastName}
-                               type="text"
-                               name="lastName"
-                               id="lastName"
-                               placeholder="نام خانوادگی"
-                               value={lastName}
-                               onChange={(e) => setLastName(e.target.value)}
-                        />
+                            <div className={styles.userLNameBio}>
+                                <input className={styles.lastName}
+                                       type="text"
+                                       name="lastName"
+                                       id="lastName"
+                                       placeholder="نام خانوادگی"
+                                       value={lastName}
+                                       onChange={(e) => setLastName(e.target.value)}
+                                />
 
-                        <input className={styles.bio}
-                               type="text"
-                               name="bio"
-                               id="bio"
-                               maxLength={40}
-                               placeholder="یه چیزی درمورد خودت بنویس!"
-                               value={bio}
-                               onChange={(e) => setBio(e.target.value)}
-                        />
-                        {modal && (
-                            <button
-                                className={styles.disableGender}
-                            >
-                                {selectedGender ? selectedGender : "جنسیت"}
-                                <ChevronDown />
-                            </button>
-                        )}
+                                <input className={styles.bio}
+                                       type="text"
+                                       name="bio"
+                                       id="bio"
+                                       maxLength={40}
+                                       placeholder="یه چیزی درمورد خودت بنویس!"
+                                       value={bio}
+                                       onChange={(e) => setBio(e.target.value)}
+                                />
+                            </div>
 
-                        {!modal && (
-                            <div>
-
-                                {isOpen && (
-                                    <div className={styles.genderoverlay}
-                                         onClick={() => {setIsOpen(false)}}>
-                                    </div>
-                                )}
-                                <div className={styles.dropdown}>
+                            <div className={styles.userGenderNumber}>
+                                {modal && (
                                     <button
-                                        type="button"
-                                        className={`${styles.gender} ${selectedGender ? styles.selected : ""}`}
-                                        onClick={() => setIsOpen(!isOpen)}
+                                        className={styles.disableGender}
                                     >
                                         {selectedGender ? selectedGender : "جنسیت"}
-                                        <motion.div
-                                            animate={{ rotate: isOpen ? 180 : 0 }}
-                                            transition={{ duration: 0.3, ease: "easeOut" }}
-                                            className={styles.iconWrapper}
-                                        >
-                                            <ChevronDown />
-                                        </motion.div>
+                                        <ChevronDown />
                                     </button>
 
-                                    <AnimatePresence>
+                                )}
+
+                                {!modal && (
+                                    <div>
+
                                         {isOpen && (
-                                            <motion.div
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 1, height: "auto" }}
-                                                exit={{ opacity: 0, height: 0 }}
-                                                transition={{ duration: 0.3, ease: "backInOut" }}
-                                            >
-                                                <div className={styles.dropDownMenu}>
-                                                    {selectedGender !== "زن" && (
-                                                        <>
-                                                            <button
-                                                                type="button"
-                                                                className={styles.option}
-                                                                onClick={() => {
-                                                                    setSelectedGender("زن");
-                                                                    setGender("F");
-                                                                    setIsOpen(false);
-                                                                }}
-                                                            >
-                                                                زن
-                                                            </button>
-                                                            <hr className={styles.hr} />
-                                                        </>
-                                                    )}
-
-                                                    {selectedGender !== "مرد" && (
-                                                        <>
-                                                            <button
-                                                                type="button"
-                                                                className={styles.option}
-                                                                onClick={() => {
-                                                                    setSelectedGender("مرد");
-                                                                    setGender("M");
-                                                                    setIsOpen(false);
-                                                                }}
-                                                            >
-                                                                مرد
-                                                            </button>
-                                                            {selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
-                                                        </>
-                                                    )}
-
-                                                    {selectedGender !== "ترجیح می‌دهم نگویم" && (
-                                                        <button
-                                                            type="button"
-                                                            className={styles.option}
-                                                            onClick={() => {
-                                                                setSelectedGender("ترجیح می‌دهم نگویم");
-                                                                setGender("N");
-                                                                setIsOpen(false);
-                                                            }}
-                                                        >
-                                                            ترجیح می‌دهم نگویم
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </motion.div>
+                                            <div className={styles.genderoverlay}
+                                                 onClick={() => {setIsOpen(false)}}>
+                                            </div>
                                         )}
-                                    </AnimatePresence>
-                                </div>
+                                        <div className={styles.dropdown}>
+                                            <button
+                                                type="button"
+                                                className={`${styles.gender} ${selectedGender ? styles.selected : ""}`}
+                                                onClick={() => setIsOpen(!isOpen)}
+                                            >
+                                                {selectedGender ? selectedGender : "جنسیت"}
+                                                <motion.div
+                                                    animate={{ rotate: isOpen ? 180 : 0 }}
+                                                    transition={{ duration: 0.3, ease: "easeOut" }}
+                                                    className={styles.iconWrapper}
+                                                >
+                                                    <ChevronDown />
+                                                </motion.div>
+                                            </button>
 
-                            </div>
-                        )}
-                        <input
-                            className={styles.phoneNumber}
-                            type="number"
-                            name="phoneNumber"
-                            id="phoneNumber"
-                            placeholder="۰۹۱۳۹۸۶۳۰۵۶"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                        />
+                                            <AnimatePresence>
+                                                {isOpen && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, height: 0 }}
+                                                        animate={{ opacity: 1, height: "auto" }}
+                                                        exit={{ opacity: 0, height: 0 }}
+                                                        transition={{ duration: 0.3, ease: "backInOut" }}
+                                                    >
+                                                        <div className={styles.dropDownMenu}>
+                                                            {selectedGender !== "زن" && (
+                                                                <>
+                                                                    <button
+                                                                        type="button"
+                                                                        className={styles.option}
+                                                                        onClick={() => {
+                                                                            setSelectedGender("زن");
+                                                                            setGender("F");
+                                                                            setIsOpen(false);
+                                                                        }}
+                                                                    >
+                                                                        زن
+                                                                    </button>
+                                                                    <hr className={styles.hr} />
+                                                                </>
+                                                            )}
 
+                                                            {selectedGender !== "مرد" && (
+                                                                <>
+                                                                    <button
+                                                                        type="button"
+                                                                        className={styles.option}
+                                                                        onClick={() => {
+                                                                            setSelectedGender("مرد");
+                                                                            setGender("M");
+                                                                            setIsOpen(false);
+                                                                        }}
+                                                                    >
+                                                                        مرد
+                                                                    </button>
+                                                                    {selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
+                                                                </>
+                                                            )}
 
+                                                            {selectedGender !== "ترجیح می‌دهم نگویم" && (
+                                                                <button
+                                                                    type="button"
+                                                                    className={styles.option}
+                                                                    onClick={() => {
+                                                                        setSelectedGender("ترجیح می‌دهم نگویم");
+                                                                        setGender("N");
+                                                                        setIsOpen(false);
+                                                                    }}
+                                                                >
+                                                                    ترجیح می‌دهم نگویم
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
 
-                        <button
-                            type="button"
-                            className={styles.changePassBtn}
-                            onClick={() => setModal(true)}
-                        >
-                            تغییر رمز
-                        </button>
-
-                        {modal && (
-                            <div>
-                                <div className={styles.overlay} onClick={() => {
-                                    setModal(false);
-                                    setPasswordError(null);
-                                    setPasswordSuccess(null);
-                                }}>
-
-                                </div>
-                                <div className={styles.modalcontent}>
-                                    <div className={styles.changePassPara}>
-                                        تغییر رمز عبور
                                     </div>
+                                )}
 
-                                    {passwordError && <div className={styles.error}>{passwordError}</div>}
-                                    {passwordSuccess && <div className={styles.success}>{passwordSuccess}</div>}
-
-                                    <div className={styles.changePassInputs}>
-                                        <input
-                                            className={styles.password}
-                                            type={showPasswordModalOld ? "text" : "password"}
-                                            name="oldPassword"
-                                            id="oldPassword"
-                                            minLength={8}
-                                            placeholder="رمز عبور فعلی"
-                                            value={oldPassword}
-                                            onChange={(e) => setOldPassword(e.target.value)}
-                                        />
-                                        <button
-                                            type="button"
-                                            className={styles.showPasswordBtn}
-                                            onClick={() => setShowPasswordModalOld(!showPasswordModalOld)}
-                                        >
-                                            {showPasswordModalOld ? <EyeOff size={20} /> : <Eye size={20} />}
-                                        </button>
-                                    </div>
-                                    <div className={styles.changePassInputs}>
-                                        <input
-                                            className={styles.password}
-                                            type={showPasswordModalNew ? "text" : "password"}
-                                            name="newPassword"
-                                            id="newPassword"
-                                            minLength={8}
-                                            placeholder="رمز عبور جدید"
-                                            value={newPassword}
-                                            onChange={(e) => setNewPassword(e.target.value)}
-                                        />
-                                        <button
-                                            type="button"
-                                            className={styles.showPasswordBtn}
-                                            onClick={() => setShowPasswordModalNew(!showPasswordModalNew)}
-                                        >
-                                            {showPasswordModalNew ? <EyeOff size={20} /> : <Eye size={20} />}
-                                        </button>
-                                    </div>
-
-                                    <div className={styles.changePassInputs}>
-                                        <input
-                                            className={styles.password}
-                                            type={showPasswordModalRepeat ? "text" : "password"}
-                                            name="repeatPassword"
-                                            id="repeatPassword"
-                                            minLength={8}
-                                            placeholder="تکرار رمز عبور جدید"
-                                            value={repeatPassword}
-                                            onChange={(e) => setRepeatPassword(e.target.value)}
-                                        />
-                                        <button
-                                            type="button"
-                                            className={styles.showPasswordBtn}
-                                            onClick={() => setShowPasswordModalRepeat(!showPasswordModalRepeat)}
-                                        >
-                                            {showPasswordModalRepeat ? <EyeOff size={20} /> : <Eye size={20} />}
-                                        </button>
-                                    </div>
-
+                                {modal && (
                                     <input
-                                        className={styles.updatePasswordBtn}
-                                        onClick={handlePasswordChange}
-                                        type="button"
-                                        value={isChangingPassword ? "در حال تغییر..." : "ثبت"}
-                                        disabled={isChangingPassword}
+                                        className={styles.disablePhoneNumber}
+                                        type="number"
+                                        name="phoneNumber"
+                                        id="phoneNumber"
+                                        placeholder="۰۹۱۳۹۸۶۳۰۵۶"
+                                        value={phoneNumber}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
                                     />
-                                </div>
-                            </div>
-                        )}
+                                )}
 
-                        <button
-                            className={styles.updateProfileBtn}
-                            onClick={handleProfileUpdate}
-                            type="button"
-                            disabled={isUpdatingProfile} // غیرفعال کردن دکمه هنگام لودینگ
-                        >
-                            {isUpdatingProfile ? (
-                                <span className={styles.loadingText}>در حال ذخیره...</span>
-                            ) : (
-                                "به‌روزرسانی"
-                            )}
-                        </button>
+                                {!modal && (
+                                    <input
+                                        className={styles.phoneNumber}
+                                        type="number"
+                                        name="phoneNumber"
+                                        id="phoneNumber"
+                                        placeholder="۰۹۱۳۹۸۶۳۰۵۶"
+                                        value={phoneNumber}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
+                                    />
+                                )}
+                            </div>
+
+                            <div className={styles.Btns}>
+                                <button
+                                    type="button"
+                                    className={styles.changePassBtn}
+                                    onClick={() => setModal(true)}
+                                >
+                                    تغییر رمز
+                                </button>
+
+                                {modal && (
+                                    <div>
+                                        <div className={styles.overlay} onClick={() => {
+                                            setModal(false);
+                                            setPasswordError(null);
+                                            setPasswordSuccess(null);
+                                        }}>
+
+                                        </div>
+                                        <div className={styles.modalcontent}>
+                                            <div className={styles.changePassPara}>
+                                                تغییر رمز عبور
+                                            </div>
+
+                                            {passwordError && <div className={styles.error}>{passwordError}</div>}
+                                            {passwordSuccess && <div className={styles.success}>{passwordSuccess}</div>}
+
+                                            <div className={styles.changePassInputs}>
+                                                <input
+                                                    className={styles.password}
+                                                    type={showPasswordModalOld ? "text" : "password"}
+                                                    name="oldPassword"
+                                                    id="oldPassword"
+                                                    minLength={8}
+                                                    placeholder="رمز عبور فعلی"
+                                                    value={oldPassword}
+                                                    onChange={(e) => setOldPassword(e.target.value)}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className={styles.showPasswordBtn}
+                                                    onClick={() => setShowPasswordModalOld(!showPasswordModalOld)}
+                                                >
+                                                    {showPasswordModalOld ? <EyeOff size={20} /> : <Eye size={20} />}
+                                                </button>
+                                            </div>
+                                            <div className={styles.changePassInputs}>
+                                                <input
+                                                    className={styles.password}
+                                                    type={showPasswordModalNew ? "text" : "password"}
+                                                    name="newPassword"
+                                                    id="newPassword"
+                                                    minLength={8}
+                                                    placeholder="رمز عبور جدید"
+                                                    value={newPassword}
+                                                    onChange={(e) => setNewPassword(e.target.value)}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className={styles.showPasswordBtn}
+                                                    onClick={() => setShowPasswordModalNew(!showPasswordModalNew)}
+                                                >
+                                                    {showPasswordModalNew ? <EyeOff size={20} /> : <Eye size={20} />}
+                                                </button>
+                                            </div>
+
+                                            <div className={styles.changePassInputs}>
+                                                <input
+                                                    className={styles.password}
+                                                    type={showPasswordModalRepeat ? "text" : "password"}
+                                                    name="repeatPassword"
+                                                    id="repeatPassword"
+                                                    minLength={8}
+                                                    placeholder="تکرار رمز عبور جدید"
+                                                    value={repeatPassword}
+                                                    onChange={(e) => setRepeatPassword(e.target.value)}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className={styles.showPasswordBtn}
+                                                    onClick={() => setShowPasswordModalRepeat(!showPasswordModalRepeat)}
+                                                >
+                                                    {showPasswordModalRepeat ? <EyeOff size={20} /> : <Eye size={20} />}
+                                                </button>
+                                            </div>
+
+                                            <input
+                                                className={styles.updatePasswordBtn}
+                                                onClick={handlePasswordChange}
+                                                type="button"
+                                                value={isChangingPassword ? "در حال تغییر..." : "ثبت"}
+                                                disabled={isChangingPassword}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+
+                                <button
+                                    className={styles.updateProfileBtn}
+                                    onClick={handleProfileUpdate}
+                                    type="button"
+                                    disabled={isUpdatingProfile} // غیرفعال کردن دکمه هنگام لودینگ
+                                >
+                                    {isUpdatingProfile ? (
+                                        <span className={styles.loadingText}>در حال ذخیره...</span>
+                                    ) : (
+                                        "به‌روزرسانی"
+                                    )}
+                                </button>
+                            </div>
+
+                        </div>
 
                     </form>
                 </div>
