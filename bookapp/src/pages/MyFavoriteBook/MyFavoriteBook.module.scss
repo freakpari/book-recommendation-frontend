@@ -1,15 +1,21 @@
-$primary_1: #303857;
+@use "../../styles/variables" as vars;
 
 .container {
-  background-color: #f9f9f9;
+  background-color: vars.$primary_2;
+}
+
+.favoriteSide {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding-right: 5rem;
+  padding-bottom: 3rem;
 }
 
 .MyFave {
-  background-color: #ffffff;
+  background-color: vars.$secondary_1;
   width: 62.5rem;
   height: 41.125rem;
-  margin-right: 23.438rem;
-  margin-top: 0.938rem;
 }
 
 .header {
@@ -19,7 +25,7 @@ $primary_1: #303857;
   font-weight: 700;
   font-size: 1.5rem;
   text-align: right;
-  color: $primary_1;
+  color: vars.$primary_1;
 }
 
 .MyFaveGenre {
@@ -39,21 +45,21 @@ $primary_1: #303857;
   }
   &::-webkit-scrollbar-track {
     border-radius: 0.6rem;
-    background: rgba(48, 56, 87, 0.5);
+    background: vars.$secondary_2;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 0.6rem;
-    background-color: $primary_1;
+    background-color: vars.$primary_1;
   }
 }
 
 .Genres {
-  color: $primary_1;
+  color: vars.$primary_1;
   width: 7.2rem;
   height: 2.563rem;
-  border: 1px solid $primary_1;
+  border: 1px solid vars.$primary_1;
   border-radius: 0.6rem;
-  background-color: rgba(48, 56, 87, 0.35);
+  background-color: vars.$secondary_3;
   text-align: center;
   align-content: center;
 }
@@ -73,11 +79,11 @@ $primary_1: #303857;
 
   &:hover {
     cursor: pointer;
-    background: rgba(48, 56, 87, 0.06);
+    background: vars.$hover-opacity;
     transition: 0.3s;
   }
   &:focus {
-    background: rgba(48, 56, 87, 0.06);
+    background: vars.$hover-opacity;
     transition: 0.3s;
     outline: none;
   }
@@ -87,14 +93,14 @@ $primary_1: #303857;
   font-weight: 700;
   font-size: 1.5rem;
   text-align: right;
-  color: $primary_1;
+  color: vars.$primary_1;
   padding-top: 1.875rem;
   padding-right: 2.813rem;
 }
 
 .scrollbar {
   overflow-y: scroll;
-  background: rgb(255, 255, 255);
+  background: vars.$secondary_1;
   width: 54.813rem;
   height: 28.125rem;
   margin: 0.6rem 4.625rem;
@@ -104,11 +110,11 @@ $primary_1: #303857;
   }
   &::-webkit-scrollbar-track {
     border-radius: 0.6rem;
-    background: rgba(48, 56, 87, 0.5);
+    background: vars.$secondary_2;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 0.6rem;
-    background-color: $primary_1;
+    background-color: vars.$primary_1;
     min-height: 3rem;
   }
 
@@ -135,7 +141,7 @@ $primary_1: #303857;
     font-weight: bold;
     font-size: 1rem;
     text-align: center;
-    color: $primary_1;
+    color: vars.$primary_1;
     inline-size: 8.125rem;
     display: inline-block;
     width: 6.875rem;
@@ -147,17 +153,17 @@ $primary_1: #303857;
     font-weight: lighter;
     font-size: 0.875rem;
     text-align: center;
-    color: $primary_1;
+    color: vars.$primary_1;
   }
   &:hover {
     cursor: pointer;
     transform: scale(1.04);
-    background: rgba(48, 56, 87, 0.06);
+    background: vars.$hover-opacity;
     transition: 0.3s;
   }
   &:focus {
     transform: scale(1.04);
-    background: rgba(48, 56, 87, 0.06);
+    background: vars.$hover-opacity;
     transition: 0.3s;
     outline: none;
   }

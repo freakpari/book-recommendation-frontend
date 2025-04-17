@@ -1,7 +1,9 @@
+@use "../../styles/variables" as vars;
+
 .container {
-  width: 900px;
-  margin-right: 146px;
-  margin-bottom: 91px;
+  width: 56.25rem;
+  margin-right: 9.125rem;
+  margin-bottom: 5.7rem;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -9,43 +11,43 @@
 }
 
 .Answer {
-  background-color: #303857;
-  border-radius: 0 0 25px 25px;
+  background-color: vars.$primary_1;
+  border-radius: 0 0 1.5rem 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 290px;
-  margin-top: 100px;
-  margin-bottom: -100px;
+  margin-left: 18.125rem;
+  margin-top: 6.25rem;
+  margin-bottom: -6.25rem;
 }
 
 .container p {
   font-weight: 400;
-  font-size: 28px;
-  line-height: 40px;
+  font-size: 1.75rem;
+  line-height: 1.5rem;
   text-align: justify;
   text-justify: inter-word;
-  padding: 57px 113px 0 114px;
-  color: white;
-  width: 904px;
-  height: 267px;
+  padding: 3.5rem 7rem 0 7rem;
+  color: vars.$secondary_1;
+  width: 56.5rem;
+  height: 16.7rem;
 }
 
 .container button{
-  background-color: white;
+  background-color: vars.$secondary_1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 500;
-  line-height: 40px;
+  line-height: 2.5rem;
   text-align: justify;
-  border: 1px solid #303857;
-  margin: 50px 0 -100px 290px;
-  border-radius: 10px;
-  width: 980px;
-  padding: 29px 30px;
-  color: #303857;
+  border: 1px solid vars.$primary_1;
+  margin: 3.125rem 0 -6.25rem 18.125rem;
+  border-radius: 0.6rem;
+  width: 61.25rem;
+  padding: 1.9rem 1.9rem;
+  color: vars.$primary_1;
   transition: background 0.3s;
 }
 
@@ -55,8 +57,8 @@
 }
 
 .container button img {
-  width: 24px;
-  height: 12px;
+  width: 1.5rem;
+  height: 0.75rem;
   display: flex;
   margin-right: 3px;
   margin-top: 3px;

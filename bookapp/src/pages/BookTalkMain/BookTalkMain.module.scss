@@ -1,0 +1,278 @@
+@use "../../styles/_variables.scss" as vars;
+
+.container {
+  background: vars.$primary_2;
+  //width: 65rem;
+  //height: 100vh;
+  text-align: center;
+  align-items: center;
+  //gap: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  color: vars.$primary_1;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.bookTalk{
+  background: vars.$secondary_1;
+  height: 49rem;
+  width: 67rem;
+  padding: 1.8rem 1rem;
+  margin-bottom: 3rem;
+}
+
+.scrollBar {
+  background: vars.$secondary_1;
+  height: 45rem;
+  width: 63rem;
+  overflow-y : auto;
+  margin-bottom: 3rem;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 0.6rem;
+    background: vars.$secondary_2;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.6rem;
+    background-color: vars.$primary_1;
+    min-height: 3rem;
+  }
+}
+
+.scrollBarContent {
+  padding: 1.5rem;
+  gap: 1.2rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.hashtag{
+  color: #518EF8;
+}
+
+.minComment {
+  background: vars.$primary_2;
+  width: 215px;
+  height: 168px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: vars.$primary_1;
+  border: 2px solid vars.$primary_1;
+  border-radius: 0.6rem;
+}
+
+.minCommentInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 1.3rem;
+}
+
+.minUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: right;
+  width: 120px;
+}
+
+.minUserName{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.minUserId {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.minCommentContent {
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: right;
+}
+
+.midComment {
+  background: vars.$primary_2;
+  width: 215px;
+  height: 210px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: vars.$primary_1;
+  border: 2px solid vars.$primary_1;
+  border-radius: 0.6rem;
+}
+
+.midCommentInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 1.3rem;
+}
+
+.midUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: right;
+  width: 120px;
+}
+
+.midUserName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.midUserId {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.midCommentContent {
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: right;
+}
+
+.maxComment {
+  background: vars.$primary_2;
+  width: 215px;
+  height: 274px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: vars.$primary_1;
+  border: 2px solid vars.$primary_1;
+  border-radius: 0.6rem;
+  margin-top: -2.5rem;
+}
+
+.maxComment2 {
+  background: vars.$primary_2;
+  width: 215px;
+  height: 274px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: vars.$primary_1;
+  border: 2px solid vars.$primary_1;
+  border-radius: 0.6rem;
+  margin-top: -4.1rem;
+}
+
+.maxCommentInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 1.3rem;
+}
+
+.maxUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: right;
+  width: 120px;
+}
+
+.maxUserName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.maxUserId {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.maxCommentContent {
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: right;
+}
+
+.tinyComment {
+  background: vars.$primary_2;
+  width: 215px;
+  height: 158px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: vars.$primary_1;
+  border: 2px solid vars.$primary_1;
+  border-radius: 0.6rem;
+}
+
+.tinyCommentInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 1.3rem;
+}
+
+.tinyUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: right;
+  width: 120px;
+}
+
+.tinyUserName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.tinyUserId {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.tinyCommentContent {
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: right;
+}

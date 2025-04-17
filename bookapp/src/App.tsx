@@ -17,6 +17,8 @@ import MyBookHistory from "./pages/MyBookHistory/MyBookHistory";
 import MyFavoriteBook from "./pages/MyFavoriteBook/MyFavoriteBook";
 import SuggestionBook from "./pages/SuggestionBook/SuggestionBook";
 import MbtiResult from "./pages/MbtiResult/MbtiResult";
+import BookTalkMain from "./pages/BookTalkMain/BookTalkMain";
+import BookTalkPerson from "./pages/BookTalkPerson/BookTalkPerson";
 // import Test from "./pages/test/test";
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
         <Route path="/myFavoriteBook" element={<MyFavoriteBook/>} />
         <Route path="/suggestionBook" element={<SuggestionBook/>} />
         <Route path="/mbtiresult" element={<MbtiResult/>} />
+        <Route path="/bookTalkMain" element={<BookTalkMain/>} />
+        <Route path="/bookTalkPerson" element={<BookTalkPerson/>} />
         {/*<Route path="/test" element={<Test/>} />*/}
 
       </Routes>
