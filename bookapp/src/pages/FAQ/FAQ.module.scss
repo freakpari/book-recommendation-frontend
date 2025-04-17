@@ -1,3 +1,5 @@
+@use "../../styles/variables" as vars;
+
 .container {
   display: flex;
   text-align: right;
@@ -5,8 +7,8 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #303857;
-  background-color: #f9f9f9;
+  color: vars.$primary_1;
+  background-color: vars.$primary_2;
 }
 //.container img {
 //  width: 136px;
@@ -16,7 +18,7 @@
 
 .header {
   font-weight: 700;
-  font-size: 36px;
-  line-height: 40px;
-  margin: 0 0 20px 0;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  margin: 0 0 1.3rem 0;
 }
