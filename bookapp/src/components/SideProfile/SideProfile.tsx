@@ -109,76 +109,86 @@ export default function SideProfile() {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.head}>
-                <button className={styles.editBtn} onClick={() => fileInputRef.current?.click()}>
-                    <img src={editPen} alt="edit profile" />
-                </button>
+      <div className={styles.container}>
+          <div className={styles.profile}>
+              <div>
+                  <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                  />
 
-                {profileImage && (
-                    <button onClick={handleDeleteImage} className={styles.deleteBtn}>
-                        <img src={deleteIcon} alt="delete profile" />
-                    </button>
-                )}
+                  <img
+                      src={profileImage || defaultUser}
+                      alt="user image"
+                      className={styles.profileImage}
+                  />
+              </div>
+              <div className={styles.editBtns}>
+                  {profileImage && (
+                      <button onClick={handleDeleteImage} className={styles.deleteBtn}>
+                          <img src={deleteIcon} alt="delete profile" />
+                      </button>
+                  )}
+                  {!profileImage && (
+                      <button className={styles.deleteBtnNotVisible}>
+                          <img src={deleteIcon} alt="delete profile" />
+                      </button>
+                  )}
+                  <button className={styles.editBtn} onClick={() => fileInputRef.current?.click()}>
+                      <img src={editPen} alt="edit profile" />
+                  </button>
+              </div>
+              <div className={styles.userInfo}>
+                  {loading ? (
+                      showLoadingText ? (
+                          <div>
+                              <h2 className={styles.userName}>...درحال بارگذاری</h2>
+                              <h6 className={styles.bio}>...درحال بارگذاری</h6>
+                          </div>
+                      ) : <div>
+                          <h2 className={styles.userName}></h2>
+                          <h6 className={styles.bio}></h6>
+                      </div>
+                  ) : (
+                      <>
+                          <h2 className={styles.userName}>{userName}</h2>
+                          <h6 className={styles.bio}>{bio}</h6>
+                      </>
+                  )}
+              </div>
+              <div className={styles.optionBtns}>
 
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                />
-
-                <img
-                    src={profileImage || defaultUser}
-                    alt="user image"
-                    className={styles.profileImage}
-                />
-
-                {loading ? (
-                    showLoadingText ? ( // فقط اگر هم loading باشد و هم showLoadingText
-                        <div>
-                            <h2>درحال بارگذاری...</h2>
-                            <h6>درحال بارگذاری...</h6>
-                        </div>
-                    ) : <div>
-                        <h2></h2>
-                        <h6></h6>
-                    </div> // بعد از ۲ ثانیه null برگردانید
-                ) : (
-                    <>
-                        <h2>{userName}</h2>
-                        <h6>{bio}</h6>
-                    </>
-                )}
-            </div>
-
-            <div className={styles.options}>
-                <a href="/editProfile">
-                    <button>
-                        <img src={pencil} alt="pencil logo" />
-                        <p>ویرایش حساب کاربری</p>
-                    </button>
-                </a>
-                <hr className={styles.hr} />
-                <a href="/myFavoriteBook">
-                    <button>
-                        <img src={heart} alt="heart logo" />
-                        <p>مورد علاقه‌ها</p>
-                    </button>
-                </a>
-                <hr className={styles.hr} />
-                <a href="/myBookHistory">
-                    <button>
-                        <img src={history} alt="history logo" />
-                        <p>تاریخچه</p>
-                    </button>
-                </a>
-                <hr className={styles.hr} />
-                <button>
-                    <img src={list} alt="list logo" />
-                    <p>لیست کتاب ها</p>
-                </button>
-            </div>
-        </div>
+                  <a href="/editProfile">
+                      <button>
+                          <img src={pencil} alt="pencil logo" />
+                          <p>ویرایش حساب کاربری</p>
+                      </button>
+                  </a>
+                  <hr className={styles.hr} />
+                  <a href="/myFavoriteBook">
+                      <button>
+                          <img src={heart} alt="heart logo" />
+                          <p>مورد علاقه‌ها</p>
+                      </button>
+                  </a>
+                  <hr className={styles.hr} />
+                  <a href="/myBookHistory">
+                      <button>
+                          <img src={history} alt="history logo" />
+                          <p>تاریخچه</p>
+                      </button>
+                  </a>
+                  <hr className={styles.hr} />
+                  <a>
+                      <button>
+                          <img src={list} alt="list logo" />
+                          <p>لیست کتاب ها</p>
+                      </button>
+                  </a>
+              </div>
+          </div>
+      </div>
     );
 }
