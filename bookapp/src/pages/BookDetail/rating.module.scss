@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    align-items: center;
+    gap: 46px;
+    direction: ltr;
+    margin-left: 400px;
+    width: 350.86px;
+
+    
+}
+  
+  .stepWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .step {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #303857;
+    background-color: white;
+    color: #303857;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .filled {
+    background-color: #303857;
+    color: white;
+  }
+  
+  .connector {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 47px;
+    z-index: 0;
+  }
+  
+  .filledConnector {
+    background-color: #303857;
+  }
+  
+  .emptyConnector {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
