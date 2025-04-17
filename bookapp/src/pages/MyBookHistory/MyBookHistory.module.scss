@@ -1,20 +1,28 @@
 .container {
   background-color: #f9f9f9;
 }
+
+.historySide {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding-right: 5rem;
+  padding-bottom: 3rem;
+
+}
+
 .MyBookHistory {
   background-color: #ffffff;
-  width: 1000px;
-  height: 658px;
-  margin-right: 375px;
-  margin-top: 15px;
+  width: 62.5rem;
+  height: 41.1rem;
 }
 
 .header {
-  padding-top: 38px;
-  padding-right: 45px;
+  padding-top: 2.1rem;
+  padding-right: 2.8rem;
   font-weight: 700;
-  font-size: 28px;
-  line-height: 40px;
+  font-size: 1.7rem;
+  line-height: 2.5rem;
   text-align: right;
   color: #303857;
 }
@@ -22,55 +30,55 @@
 .scrollbar {
   overflow-y: scroll;
   background: rgb(255, 255, 255);
-  width: 877px;
-  height: 520px;
-  margin: 20px auto;
+  width: 54.8rem;
+  height: 32.5rem;
+  margin: 1.2rem auto;
 
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 0.5rem;
   }
   &::-webkit-scrollbar-track {
-    border-radius: 10px;
+    border-radius: 0.6rem;
     background: rgba(48, 56, 87, 0.5);
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    border-radius: 0.6rem;
     background-color: #303857;
   }
 }
 
 .myBookCards {
   display: flex;
-  gap: 10px;
+  gap: 0.6rem;
 }
 
 .bookCard {
   background: none;
   border: none;
-  width: 133px;
-  height: 250px;
-  margin-bottom: 20px;
+  width: 8.3rem;
+  height: 15.6rem;
+  margin-bottom: 1.2rem;
   text-align: center;
   img {
-    margin-top: -13px;
-    width: 128px;
-    height: 184px;
+    margin-top: -0.8rem;
+    width: 8rem;
+    height: 11.5rem;
   }
   h4 {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
     text-align: center;
     color: #303857;
-    inline-size: 130px;
+    inline-size: 8.1rem;
     display: inline-block;
-    width: 110px;
+    width: 6.8rem;
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
   }
   p {
     font-weight: lighter;
-    font-size: 14px;
+    font-size: 0.8rem;
     text-align: center;
     color: #303857;
   }
