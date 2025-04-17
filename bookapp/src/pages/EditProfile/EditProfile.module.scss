@@ -5,22 +5,29 @@ $secondary_color : #f9f9f9;
   background-color: $secondary_color;
 }
 
-.update {
-  background-color: white;
-  width: 1000px;
-  height: 658px;
-  margin-right: 375px;
-  margin-top: 15px;
+.editSide{
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding-right: 5rem;
+  padding-bottom: 3rem;
 }
 
+.update {
+  background-color: white;
+  width: 62.5rem;
+  height: 41.1rem;
+}
+
+
 .userName {
-  width: 429px;
-  height: 49px;
-  margin: 100px 50px 20px 41px;
-  padding: 20px 14px;
+  width: 26.8rem;
+  height: 3rem;
+  margin: 6.25rem 3.1rem 1.25rem 2.5rem;
+  padding: 1.25rem 0.87rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   font-weight: 500;
   line-height: 150%;
 
@@ -29,7 +36,7 @@ $secondary_color : #f9f9f9;
     border: 2px solid $primary_1;
   }
   &::placeholder {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 150%;
     color: rgba(48, 56, 87, 0.5);
@@ -37,12 +44,12 @@ $secondary_color : #f9f9f9;
 }
 
 .userEmail {
-  width: 429px;
-  height: 49px;
-  padding: 20px 14px;
+  width: 26.8rem;
+  height: 3rem;
+  padding: 1.25rem 0.87rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   font-weight: 500;
   line-height: 150%;
   direction: ltr;
@@ -64,13 +71,13 @@ $secondary_color : #f9f9f9;
 }
 
 .firstName {
-  width: 429px;
-  height: 49px;
-  margin: 0 50px 20px 41px;
-  padding: 20px 14px;
+  width: 26.8rem;
+  height: 3rem;
+  padding: 1.25rem 0.87rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  margin: 0 50px 20px 41px;
   font-weight: 500;
   line-height: 150%;
 
@@ -88,15 +95,15 @@ $secondary_color : #f9f9f9;
 
 .dayOfBirth {
   appearance: none;
-  width: 117px;
-  height: 49px;
+  width: 7.3rem;
+  height: 3rem;
   text-align-last: center;
-  padding-left: 20px;
+  padding-left: 1.25rem;
   margin-left: 5px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
+  border-radius: 0.6rem;
   color: rgba(48, 56, 87, 0.5);
   background: url(icons/downIcon.svg) no-repeat left center ;
 
@@ -112,14 +119,14 @@ $secondary_color : #f9f9f9;
 
 .monthOfBirth {
   appearance: none;
-  width: 176px;
-  height: 49px;
+  width: 11rem;
+  height: 3rem;
   text-align-last: center;
-  padding-left: 10px;
+  padding-left: 0.6ren;
   margin-left: 5px;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   font-weight: 500;
   color: rgba(48, 56, 87, 0.5);
   background: url(icons/downIcon.svg) no-repeat left center ;
@@ -135,12 +142,12 @@ $secondary_color : #f9f9f9;
 
 .yearOfBirth {
   appearance: none;
-  width: 126px;
-  height: 49px;
+  width: 7.9rem;
+  height: 3rem;
   text-align-last: center;
-  padding-left: 15px;
+  padding-left: 1rem;
   //margin-left: 40px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   border: 2px solid rgba(48, 56, 87, 0.5);
   border-radius: 10px;
@@ -157,13 +164,13 @@ $secondary_color : #f9f9f9;
 }
 
 .lastName {
-  width: 429px;
-  height: 49px;
-  padding: 20px 14px;
-  margin: 0 50px 20px 41px;
+  width: 26.8rem;
+  height: 3rem;
+  padding: 1.25rem 0.87rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  margin: 0 50px 20px 41px;
   font-weight: 500;
   line-height: 150%;
 
@@ -180,13 +187,13 @@ $secondary_color : #f9f9f9;
 }
 
 .password {
-  width: 429px;
-  height: 49px;
+  width: 26.8rem;
+  height: 3rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   padding-top: 5px;
-  padding-right: 14px;
-  font-size: 16px;
+  padding-right: 0.8rem;
   font-weight: 400;
   letter-spacing: 1px;
   color: $primary_1;
@@ -209,19 +216,18 @@ $secondary_color : #f9f9f9;
   position: absolute;
   border: none;
   background: none;
-  margin-right: -30px;
-  margin-top: 15px;
+  margin-right: -1.8rem;
+  margin-top: 1rem;
   color: rgba(48, 56, 87, 0.5);
 }
 
 .bio {
-  width: 429px;
-  height: 49px;
-  padding: 20px 14px;
-  //margin: 0 50px 20px 41px;
+  width: 26.8rem;
+  height: 3rem;
+  padding: 1.25rem 0.87rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   font-weight: 500;
   line-height: 150%;
   color: $primary_1;
@@ -239,22 +245,22 @@ $secondary_color : #f9f9f9;
 
 .dropdown {
   position: relative;
-  width: 373px;
+  width: 23.3rem;
   height: 0;
 }
 
 .gender {
-  margin-right: 50px;
-  margin-bottom: -50px;
-  width: 429px;
-  height: 49px;
+  margin-right: 3.1rem;
+  margin-bottom: -3.1rem;
+  width: 26.8rem;
+  height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 20px;
+  padding: 0.8rem 1.2rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 150%;
   color: rgba(48, 56, 87, 0.5);
@@ -277,17 +283,17 @@ $secondary_color : #f9f9f9;
 }
 
 .disableGender {
-  margin-right: 50px;
-  margin-bottom: -49px;
-  width: 429px;
-  height: 49px;
+  margin-right: 3.1rem;
+  margin-bottom: -3.1rem;
+  width: 26.8rem;
+  height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 20px;
+  padding: 0.8rem 1.2rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 150%;
   color: rgba(48, 56, 87, 0.5);
@@ -298,26 +304,26 @@ $secondary_color : #f9f9f9;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: -12px;
+  margin-left: -0.75rem;
   color: rgba(48, 56, 87, 0.5);
 }
 
 .dropDownMenu {
   position: absolute;
-  top: 44px;
-  right: 76px;
+  top: 2.75rem;
+  right: 4.75rem;
   width: 100%;
   margin-top: 5px;
   background: rgba(48, 56, 87, 0.9);
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
   overflow: hidden;
 }
 
 .option {
   width: 100%;
-  padding: 10px 15px;
-  font-size: 16px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
   color: $secondary_color;
   border: none;
   background: none;
@@ -334,22 +340,22 @@ $secondary_color : #f9f9f9;
 }
 
 .hr {
-  width: 291px;
+  width: 18rem;
   border: 1px solid rgba(249, 249, 249, 0.5);
   margin: 0 auto 0;
   border-radius: round(1px);
 }
 
 .phoneNumber {
-  width: 429px;
-  height: 49px;
-  padding: 20px 14px;
+  width: 26.8rem;
+  height: 3rem;
+  padding: 1.2rem 0.8rem;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.6rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 1px;
-  margin-right: 521px;
+  margin-right: 32.5rem;
   text-align: left;
   direction: ltr;
   &::-webkit-outer-spin-button,
@@ -367,7 +373,7 @@ $secondary_color : #f9f9f9;
   }
 
   &::placeholder {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 150%;
     color: rgba(48, 56, 87, 0.5);
@@ -375,16 +381,16 @@ $secondary_color : #f9f9f9;
 }
 
 .changePassBtn {
-  width: 201px;
-  height: 65px;
+  width: 12.5rem;
+  height: 4rem;
   text-align-last: center;
-  margin-right: 400px;
+  margin-right: 25rem;
   color: $secondary_color;
-  margin-top: 100px;
-  font-size: 22px;
+  margin-top: 6.25rem;
+  font-size: 1.3rem;
   font-weight: 600;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
+  border-radius: 0.6rem;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   transition: background 0.3s;
   background-color: $primary_1;
@@ -409,15 +415,15 @@ $secondary_color : #f9f9f9;
 }
 
 .updateProfileBtn {
-  width: 201px;
-  height: 65px;
+  width: 12.5rem;
+  height: 4rem;
   text-align-last: center;
-  margin: 20px 400px;
+  margin: 1.2rem 25rem;
   color: $secondary_color;
-  font-size: 22px;
+  font-size: 1.3rem;
   font-weight: 600;
   border: 2px solid rgba(48, 56, 87, 0.5);
-  border-radius: 10px;
+  border-radius: 0.6rem;
   background-color: $primary_1;
   transition: background 0.3s;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -542,8 +548,8 @@ $secondary_color : #f9f9f9;
   //left: 50%;
   right: 40%;
   transform: translateX(-50%);
-  padding: 15px 30px;
-  border-radius: 8px;
+  padding: 1rem 1.8rem;
+  border-radius: 0.5rem;
   color: white;
   font-weight: bold;
   z-index: 1002;
@@ -567,11 +573,11 @@ $secondary_color : #f9f9f9;
 }
 
 .closeButton {
-  margin-right: 30px;
+  margin-right: 1.8rem;
   background: none;
   border: none;
   color: white;
-  font-size: 20px;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
@@ -579,21 +585,24 @@ $secondary_color : #f9f9f9;
 .loadingText {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   text-align: center;
   justify-content: space-between;
-  color: $primary_1;
+  color: $secondary_color;
 
   &::after {
     content: "";
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     border: 2px solid $primary_1;
     color: $primary_1;
     border-radius: 50%;
     border-top-color: white;
     animation: spin 1s ease-in-out infinite;
+  }
+  &:hover{
+    color: $primary_1;
   }
 }
 
