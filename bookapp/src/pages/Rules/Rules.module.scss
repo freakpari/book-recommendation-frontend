@@ -1,43 +1,44 @@
+@use "../../styles/variables" as vars;
+
 .rules {
-  color: #303857;
+  color: vars.$primary_1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: right;
   height: 100%;
   text-align: right;
-  background-color: #f9f9f9;
+  background-color: vars.$primary_2;
 }
 
 .rules img {
-  width: 136px;
-  height: 102px;
+  width: 8.5rem;
+  height: 6.3rem;
   margin-top: 1px;
 }
 
 .header {
   font-weight: 700;
-  font-size: 36px;
-  line-height: 40px;
-  //margin-top: 106px;
+  font-size: 2.2rem;
+  line-height: 2.5rem;
 }
 
 .rules header{
   font-weight: 300;
-  font-size: 20px;
-  line-height: 40px;
+  font-size: 1.2rem;
+  line-height: 2.5rem;
   padding-right: 0;
   text-align: justify;
   text-justify: inter-word;
-  margin: 90px 220px 0 220px;
+  margin: 5.6rem 13.75rem 0 13.75rem;
 }
 
 .rules ul {
   list-style: disc;
-  padding-right: 22px;
+  padding-right: 1.3rem;
   font-weight: 300;
-  font-size: 20px;
-  line-height: 40px;
+  font-size: 1.2rem;
+  line-height: 2.5rem;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -46,37 +47,37 @@
   list-style: decimal;
   padding: 0;
   font-weight: 300;
-  font-size: 20px;
+  font-size: 1.2rem;
   line-height: 2.5;
   text-align: justify;
   text-justify: inter-word;
-  margin: -15px 220px 0 220px;
+  margin: -1rem 13.75rem 0 13.75rem;
 }
 .rules ol li {
-  margin-top: 15px;
+  margin-top: 1rem;
   margin-bottom: 5px;
-  font-size: 24px ;
+  font-size: 1.5rem;
   font-weight: 1000;
 }
 
 .rules ul li {
-  margin-right: -20px;
+  margin-right: -1.2rem;
   font-weight: 300;
-  font-size: 20px;
+  font-size: 1.2rem;
   line-height: 1.5;
   text-align: justify;
   text-justify: inter-word;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
 }
 
 .li {
   list-style: none;
   font-weight: 300;
-  font-size: 20px;
+  font-size: 1.2rem;
   text-align: justify;
   text-justify: inter-word;
   line-height: 2.5;
-  margin: -5px -20px -5px 0;
+  margin: -5px -1.2rem -5px 0;
 }
 
