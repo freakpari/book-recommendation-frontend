@@ -133,7 +133,7 @@ export default function HomePage() {
         </div>
         <div className={styles.toptext}>
           <h2> پیشنهادات برای تایپ علی: infj</h2>
-          <button className={styles.showbutton2}>مشاهده همه</button>
+          <button className={styles.showbutton}>مشاهده همه</button>
         </div>
         <div className={styles.suggestion}>
           <div className={styles.bookcover}>
@@ -189,7 +189,7 @@ export default function HomePage() {
         </div>
         <div className={styles.toptext}>
           <h2>لیست های دیگر کاربران</h2>
-          <button className={styles.showbutton3}>مشاهده همه</button>
+          <button className={styles.showbutton}>مشاهده همه</button>
         </div>
         <div className={styles.listsWrapper}>
           <div className={styles.cardImage}>

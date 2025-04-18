@@ -159,17 +159,18 @@ html,body{
     gap: 15px;
 }
 .toptext{
+    display: flex;
+    justify-content: space-between;
     color: $primary_1;
     height: 100px;
     display: flex;
-    width: 1400px;
+    width: 1270px;
     padding-top: 20px;
     white-space: nowrap;
     margin-top: 30px;
     
 }
 .showbutton{
-    margin-right: 940px;
     width: 145px ;
     height: 40px;
     border: $primary_1 1px solid;
@@ -177,24 +178,7 @@ html,body{
     border-radius: 10px;
     margin-bottom: 100px;
 }
-.showbutton2{
-    margin-right: 900px;
-    width: 145px !important;
-    height: 40px;
-    border: $primary_1 1px solid;
-    color: $primary_1;
-    border-radius: 10px;
-    margin-bottom: 100px;
-}
-.showbutton3{
-    margin-right: 967px;
-    width: 145px !important;
-    height: 40px;
-    border: $primary_1 1px solid;
-    color: $primary_1;
-    border-radius: 10px;
-    margin-bottom: 100px;
-}
+
 .bookTalk {
     display: flex;
     margin-right: 0 !important;
