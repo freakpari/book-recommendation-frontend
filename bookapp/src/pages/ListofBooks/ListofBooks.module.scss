@@ -1,0 +1,78 @@
+.text{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    color: #303857;
+    width: 233px;
+    height: 40px;
+    margin-top: 89px  !important;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: 0%;
+    white-space: nowrap;
+}
+.popularSection {
+    width: 1400px;
+    text-align: right;
+    margin-top: 2rem;
+    align-items: center;
+    margin-bottom: 142px;
+    margin-right: 100px;
+    h2{
+        color: #303857;
+        font-weight: 700;
+        line-height: 40px;
+        letter-spacing: 0;
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+}
+.bookCardWrapper{
+    h4{
+        color: #303857;
+    }
+}
+.cardwrapper{
+    width: 202px;
+    height: 393px;
+
+    h4{
+        color: #303857;
+        text-align: center;
+        font-weight: 700;
+        font-size: 20px;
+    }
+    p{
+        text-align: center;
+        font-weight: 300;
+        font-size: 20px;
+    }
+}
+.popularBooks {
+    display: flex;
+    gap: 15px;
+}
+.toptext{
+    display: flex;
+    color: #303857;
+    justify-content: space-between;
+    height: 100px;
+    display: flex;
+    width: 1280px;
+    padding-top: 20px;
+    white-space: nowrap;
+    margin-top: 30px;
+
+
+}
+.showbutton{
+
+    width: 145px ;
+    height: 40px;
+    border:#303857 1px solid;
+    color: #303857;
+    border-radius: 10px;
+    margin-bottom: 100px;
+}
