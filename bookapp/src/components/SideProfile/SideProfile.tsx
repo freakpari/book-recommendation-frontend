@@ -121,7 +121,7 @@ export default function SideProfile() {
 
                   <img
                       src={profileImage || defaultUser}
-                      alt="user image"
+                      alt=""
                       className={styles.profileImage}
                   />
               </div>
