@@ -115,74 +115,80 @@ export default function SearchNav() {
 
     return (
         <div className={styles.container}>
-            <img 
-                className={styles.menu} 
-                src={menu} 
-                alt="menu" 
-                onClick={() => setIsOpen(!isOpen)} 
-            />
+            <div className={styles.searchNavigasion}>
+                <img
+                    className={styles.menu}
+                    src={menu}
+                    alt="menu"
+                    onClick={() => setIsOpen(!isOpen)}
+                />
 
-            {hasToken ? (
-                <a className={styles.linkToProfile} href="/editProfile">
-                    <img className={styles.userIcon} src={profileImage || user} alt="user icon" onClick={() => href("/editProfile")} />
-                </a>
-            ) : (
-                <a className={styles.loginLink} href="/login">
-                    ورود | ثبت‌نام
-                </a>
-            )}
+                {hasToken ? (
+                    <Link className={styles.linkToProfile} to="/editProfile">
+                        <img className={styles.userIcon} src={profileImage || user} alt="" onClick={() => href("/editProfile")} />
+                    </Link>
+                ) : (
+                    <Link className={styles.loginLink} to="/login">
+                        ورود | ثبت‌نام
+                    </Link>
+                )}
 
-            <div className={styles.searchBar}>
-                <input type="search" placeholder="جستجو" 
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}/>
+                <div className={styles.searchBar}>
+                    <input type="search" placeholder="جستجو"
+                           value={query}
+                           onChange={(e) => setQuery(e.target.value)}
+                           onKeyDown={handleKeyDown}/>
 
-                <img src={searchIcon} alt="search button"
-                    onClick={handleSearch}
-                    style={{ cursor: "pointer" }} />
+                    <img src={searchIcon} alt="search button"
+                         onClick={handleSearch}
+                         style={{ cursor: "pointer" }} />
 
                     {isSearching && (
-          <div className={styles.searchResults}>
-          </div>
-        )}
+                        <div className={styles.searchResults}></div>
+                    )}
 
-        {!isSearching && results.length > 0 && (
-          <div className={styles.searchResults}>
-            {results.map((book, index) => (
-              <div
-                key={index}
-                className={styles.resultItem}
-                onClick={() => navigate(`/book/${book.id}`)}
-              >
-                <img
-                  className={styles.bookcover}
-                  src={book.image }
-                  alt={book.title}
-/>
+                    {!isSearching && results.length > 0 && (
+                        <div className={styles.searchResults}>
+                            {results.map((book, index) => (
+                                <div
+                                    key={index}
+                                    className={styles.resultItem}
+                                    onClick={() => navigate(`/book/${book.id}`)}
+                                >
+                                    <img
+                                        className={styles.bookcover}
+                                        src={book.image }
+                                        alt={book.title}
+                                    />
 
-                <div className={styles.bookdetail}>
-                  <p className={styles.bookTitle}>{book.title}</p>
-                  <p className={styles.bookAuthor}>
-                  {book.firstname && book.lastname
-                  ? `${book.firstname} ${book.lastname}`
-                  : "نویسنده نامشخص"}
-                </p>
+                                    <div className={styles.bookdetail}>
+                                        <p className={styles.bookTitle}>{book.title}</p>
+                                        <p className={styles.bookAuthor}>
+                                            {book.firstname && book.lastname
+                                                ? `${book.firstname} ${book.lastname}`
+                                                : "نویسنده نامشخص"}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {!isSearching && query && results.length === 0 && (
+                        <div className={styles.searchResults}>
+                            <p>نتیجه‌ای یافت نشد</p>
+                        </div>
+                    )}
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
 
-        {!isSearching && query && results.length === 0 && (
-          <div className={styles.searchResults}>
-            <p>نتیجه‌ای یافت نشد</p>
-          </div>
-        )}
+                <Link to="/Homepage" >
+                    <img className={styles.logoIcon} src={logo} alt="logo icon"/>
+                </Link>
+
             </div>
-            <Link to="/Homepage" >
-            <img className={styles.logoIcon} src={logo} alt="logo icon"/>
-            </Link>
+
+
+
             <div className={`${styles.drawerMenu} ${isOpen ? styles.open : ""}`}>
                 <ul>
                     <li onClick={() => navigate('/editprofile')} ><img src={account} alt="account" />حساب کاربری</li>
@@ -201,21 +207,21 @@ export default function SearchNav() {
             </div>
 
             {isOpen && <div className={styles.overlay} onClick={() => setIsOpen(false)} />}
-            
+
             {showModal && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
                         <img src={logout} alt="logout"  />
                         <h3>واقعاً مطمئنی که می‌خوای بری؟</h3>
                         <div className={styles.modalButtons}>
-                            <button 
-                                className={styles.confirm} 
+                            <button
+                                className={styles.confirm}
                                 onClick={handleLogout}
                             >
                                 آره بای
                             </button>
-                            <button 
-                                className={styles.cancel} 
+                            <button
+                                className={styles.cancel}
                                 onClick={() => setShowModal(false)}
                             >
                                 نه فعلا
