@@ -18,7 +18,7 @@ export default function Listofbooks() {
         <div className={styles.toptext}>
             <h2>پیشنهادات جدید برای علی</h2>
             <button className={styles.showbutton}>
-            <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/popularbook">
+            <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/recommendbooks">
             مشاهده همه
             </Link>
             </button>
@@ -38,7 +38,7 @@ export default function Listofbooks() {
         <div className={styles.toptext}>
             <h2> تاریخچه پیشنهادها</h2>
             <button className={styles.showbutton}>
-            <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/popularbook">
+            <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/recommendhistory">
             مشاهده همه
             </Link>
             </button>
@@ -58,10 +58,10 @@ export default function Listofbooks() {
         <div className={styles.toptext}>
             <h2>لیست کتاب‌‌های محبوب من</h2>
             <button className={styles.showbutton}>
-              <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/popularbook">
-              مشاهده همه
-              </Link>
-              </button>
+            <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/popularbook">
+            مشاهده همه
+            </Link>
+            </button>
 
         </div>
         <div className={styles.popularBooks}>

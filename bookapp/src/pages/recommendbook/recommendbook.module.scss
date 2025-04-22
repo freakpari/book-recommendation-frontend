@@ -1,0 +1,70 @@
+$primary_1:#303857;
+
+.text{
+    font-size: 34px;
+    margin-bottom: 90px;
+    color:$primary_1 ;
+    width: 230px;
+    height: 40px;
+    text-align: center;
+    margin-right: 510px;
+    white-space: nowrap;
+    margin-top: 20px;
+}
+.popularBooks {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 0;
+    margin-right: 55px;
+}
+.cardwrapper{
+    width: 202px;
+    height: 393px;
+
+    h4{
+        color: #303857;
+        text-align: center;
+        font-weight: 700;
+        font-size: 20px;
+    }
+    p{
+        text-align: center;
+        font-weight: 300;
+        font-size: 20px;
+    }
+}
+.popularBooks {
+    display: grid;
+    
+    gap: 15px;
+}
+.loadmore {
+    margin-top: 20px;
+    width: 218px;
+    height: 70px;
+    padding: 8px 15px;
+    font-size: 20px;
+    background:$primary_1;
+    color: white;
+    border: none;
+    margin-right: 680px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    &:hover {
+      cursor: pointer;
+      background: #f9f9f9;
+      border: 3px solid #303857;
+      color: #303857;
+      box-shadow: none;
+    }
+  
+    &:focus {
+      cursor: pointer;
+      background: #f9f9f9;
+      border: 3px solid #303857;
+      color: #303857;
+      box-shadow: none;
+      outline: none;
+    }
+    }
