@@ -1,0 +1,310 @@
+@use "../../styles/variables" as vars;
+
+.overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0.6rem);
+}
+
+.modalOverlay {
+  position: fixed;
+  z-index: 1001;
+  width: 52rem;
+  height: 30rem;
+  top: 11rem;
+  right: 20.5rem;
+  border-radius: 0.6rem;
+  border: 0.3rem solid vars.$primary_1;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1.2rem);
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.halfBorderCircle {
+  width: 11.875rem;
+  height: 12.188rem;
+  border-radius: 50%;
+  position: relative;
+  top: -6.1rem;
+  right: 20rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 0.3rem solid vars.$primary_1;
+    border-radius: 50%;
+    clip-path: inset(0 0 50% 0);
+    background: #ffffff;
+
+  }
+
+  .circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 80%;
+
+    img {
+      position: absolute;
+      top: -5.3rem;
+      right: -0.3rem;
+    }
+  }
+
+  .hideMainBorder {
+    position: absolute;
+    top: -5.36rem;
+    right: -0.875rem;
+    width: 11.25rem;
+    height: 5.375rem;
+    border-radius: 62.5rem 62.5rem 0 0;
+    border-bottom: 0.3rem solid vars.$primary_2;
+  }
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: -6rem;
+  gap: 5.5rem;
+
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .userId {
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 2.5rem;
+    color: vars.$primary_1;
+    direction: ltr;
+    width: 22rem;
+  }
+
+  .userNameType {
+    display: flex;
+    flex-direction: row;
+    color: vars.$primary_1;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 2.5rem;
+    text-align: right;
+    align-content: center;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 22rem;
+  }
+
+  .userName {
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .userBio {
+    padding-right: 0.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 2.5rem;
+    text-align: center;
+    color: #30385780;
+    width: 25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sendMessageBtn {
+    width: 8.5rem;
+    height: 3.5rem;
+    background: vars.$primary_1;
+    border: 3px solid vars.$primary_1;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    transition: background 0.3s;
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
+    &:hover {
+      cursor: pointer;
+      background: vars.$primary_2;
+      border: 3px solid vars.$primary_1;
+      box-shadow: none;
+
+      .sendIcon {
+        color: vars.$primary_1;
+      }
+
+      p {
+        color: vars.$primary_1;
+      }
+    }
+
+    p {
+      color: vars.$primary_2;
+      font-weight: 400;
+      font-size: 1rem;
+    }
+
+    .sendIcon {
+      color: vars.$primary_2;
+    }
+  }
+}
+
+.listHeader {
+  text-align: right;
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 100%;
+  color: vars.$primary_1;
+  padding: 1rem 2.5rem;
+}
+
+.bookListContainer {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 3.35rem;
+  width: 100%;
+  white-space: nowrap;
+  overflow: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    height: 0.4rem;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 0.6rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.6rem;
+    min-height: 3rem;
+    background: vars.$secondary_2;
+    transition: background 0.3s ease;
+  }
+
+  .userListDrawer {
+    display: flex;
+    flex-direction: row;
+    height: 9rem;
+    background: vars.$primary_1;
+    align-items: center;
+  }
+}
+
+.noList {
+  text-align: center;
+  width: 823px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 40px;
+  color: #939393;
+}
+
+.listContent {
+  display: flex;
+  flex-direction: row;
+  padding-right: 1rem;
+  padding-top: 3.3rem;
+  min-width: 30rem;
+  width: 30rem;
+
+  .listPic {
+    img {
+      width: auto;
+      height: 12rem;
+    }
+  }
+
+  .listDescription {
+    display: flex;
+    flex-direction: column;
+    padding-right: 1rem;
+    color: vars.$primary_2;
+    text-align: right;
+    width: 100%;
+    padding-top: 0.6rem;
+    gap: 0.6rem;
+    overflow: hidden;
+  }
+
+  .titlePlusIcon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .listTitle {
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
+    letter-spacing: -5%;
+    }
+
+  .listIncludes {
+    font-weight: 900;
+    font-size: 1rem;
+    line-height: 1.8rem;
+    letter-spacing: -5%;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    max-height: 3.6rem;
+  }
+
+    .plusCircleIcon {
+      color: vars.$primary_2;
+      transition: color 0.3s;
+      border-radius: 50%;
+      &:hover {
+        color: #28B446;
+        cursor: pointer;
+      }
+    }
+}
+
+
+
+
+
+
+
+
+
