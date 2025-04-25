@@ -2,15 +2,13 @@
 
 .container {
   background: vars.$primary_2;
-  //width: 65rem;
-  //height: 100vh;
   text-align: center;
   align-items: center;
-  //gap: 3rem;
   display: flex;
   flex-direction: column;
 }
 .header {
+  font-family:'sego' , sans-serif;
   color: vars.$primary_1;
   font-weight: 700;
   font-size: 3rem;
@@ -32,6 +30,8 @@
   width: 63rem;
   overflow-y : auto;
   margin-bottom: 3rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
     width: 0.5rem;
@@ -44,6 +44,7 @@
     border-radius: 0.6rem;
     background-color: vars.$primary_1;
     min-height: 3rem;
+    transition: background 0.3s ease;
   }
 }
 
