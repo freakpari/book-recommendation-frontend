@@ -1,5 +1,5 @@
 import styles from './Bookdetail.module.scss';
-import { useState  } from "react";
+import {useEffect, useState} from "react";
 import SearchNav from '../../components/SearchNav/SearchNav';
 import Footer from '../../components/Footer/Footer';
 import shazde from "./icons/shazde.svg";
@@ -7,21 +7,44 @@ import heart from "./icons/Heart.svg";
 import check from "./icons/Check.svg";
 import comment from "./icons/Comment.svg";
 import profile  from "./icons/profile.svg";
+import {ReactComponent as CircleAdd } from "./icons/CircleAdd.svg";
 import { useNavigate } from 'react-router-dom';
 import StepRating from "./rating";
+import UserProfileModal from "../../components/UserProfileModal/UserProfileModal"
+import AddBookToListModal from "../../components/AddBookToListModal/AddBookToListModal"
 
 export default function Bookdetail () {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
+  const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
+  const [isAddBookToListModalOpen, setIsAddBookToListModalOpen] = useState(false);
+  // const navigate = useNavigate();
   const [rating, setRating] = useState(4);
-  const handleCheckClick = () => {
-  const token = localStorage.getItem("token"); // Adjust the key if you use a different one
-  if (!token) {
-    navigate("/signup");
-  } else {
-    console.log("User is authenticated, do something else...");
-  }
-};
+
+//   const handleCheckClick = () => {
+//   const token = localStorage.getItem("token"); // Adjust the key if you use a different one
+//   if (!token) {
+//     navigate("/signup");
+//   } else {
+//     console.log("User is authenticated, do something else...");
+//   }
+// };
+
+
+    useEffect(() => {
+        if (isUserProfileModalOpen || isModalOpen || isAddBookToListModalOpen) {
+            document.body.style.overflow = "hidden";
+            document.documentElement.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
+        }
+
+        return () => {
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
+        };
+    }, [isUserProfileModalOpen || isModalOpen || isAddBookToListModalOpen]);
+
     return (
     <>
     <SearchNav />
@@ -30,7 +53,7 @@ export default function Bookdetail () {
     <div className={styles.icons}>
         <img src={heart} className={styles.heartIcon} />
         <img  onClick={() => setIsModalOpen(true)} src={comment}  className={styles.commentIcon} />
-        <img  onClick={handleCheckClick} src={check} className={styles.checkIcon} />
+        <CircleAdd className={styles.circleAdd} onClick={() => setIsAddBookToListModalOpen(true)} />
         </div>
         <img
         src={shazde}
@@ -52,27 +75,42 @@ export default function Bookdetail () {
         <div className={styles.reviews}>
           <div className={styles.reviewCard}>
             <div className={styles.profile}>
-          <img src={profile} alt='profile' />
-          <span> علی محمدی</span>
-          </div>
+                <button
+                    className={styles.profileBtn}
+                    onClick={() => setIsUserProfileModalOpen(true)}
+                >
+                    <img src={profile} alt='profile' />
+                    <h1>علی محمدی</h1>
+                </button>
+            </div>
             <p>
               "شازده کوچولو ترکیبی از سادگی و فلسفه است. روایت‌های شاعرانه و مفاهیم عمیقی که در قالب داستانی کودکانه بیان می‌شوند، واقعاً تاثیرگذارند."
             </p>
           </div>
           <div className={styles.reviewCard}>
-          <div className={styles.profile}>
-          <img src={profile} alt='profile' />
-          <span>مریم حسینی</span>
-          </div>
+            <div className={styles.profile}>
+                <button
+                    className={styles.profileBtn}
+                    onClick={() => setIsUserProfileModalOpen(true)}
+                    >
+                    <img src={profile} alt='profile' />
+                    <h1>مریم حسینی</h1>
+                </button>
+            </div>
             <p>
               "این کتاب، سفری به دنیای درون است. هر بار که می‌خوانمش، نکته جدیدی کشف می‌کنم."
             </p>
           </div>
           <div className={styles.reviewCard}>
-          <div className={styles.profile}>
-          <img src={profile} alt='profile' />
-          <span>شاهین رشیدی</span>
-          </div>
+            <div className={styles.profile}>
+                <button
+                    className={styles.profileBtn}
+                    onClick={() => setIsUserProfileModalOpen(true)}
+                >
+                    <img src={profile} alt='profile' />
+                    <span>شاهین رشیدی</span>
+                </button>
+            </div>
             <p>
               "شازده کوچولو بی‌نظیره. باید همه بخوننش!"
             </p>
@@ -91,6 +129,14 @@ export default function Bookdetail () {
           </p>
         </div>
     </div>
+        {isUserProfileModalOpen && (
+            <UserProfileModal onClose={() => setIsUserProfileModalOpen(false)} />
+        )}
+
+        {isAddBookToListModalOpen && (
+            <AddBookToListModal onClose={() => setIsAddBookToListModalOpen(false)} />
+        )}
+
     {isModalOpen && (
   <div style={{
     position: "fixed",
@@ -163,7 +209,9 @@ export default function Bookdetail () {
 )}
 
     <Footer />
+
     </>
+
 );
 };
 
