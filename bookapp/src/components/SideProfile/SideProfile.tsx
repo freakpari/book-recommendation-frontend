@@ -9,6 +9,7 @@ import editPen from "./icons/editPen.svg";
 import deleteIcon from "./icons/Trash.svg";
 import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 interface UserProfile {
     id: number;
@@ -160,33 +161,33 @@ export default function SideProfile() {
               </div>
               <div className={styles.optionBtns}>
 
-                  <a href="/editProfile">
+                  <Link to="/editProfile">
                       <button>
                           <img src={pencil} alt="pencil logo" />
                           <p>ویرایش حساب کاربری</p>
                       </button>
-                  </a>
+                  </Link>
                   <hr className={styles.hr} />
-                  <a href="/myFavoriteBook">
+                  <Link to="/myFavoriteBook">
                       <button>
                           <img src={heart} alt="heart logo" />
                           <p>مورد علاقه‌ها</p>
                       </button>
-                  </a>
+                  </Link>
                   <hr className={styles.hr} />
-                  <a href="/myBookHistory">
+                  <Link to="/myBookHistory">
                       <button>
                           <img src={history} alt="history logo" />
                           <p>تاریخچه</p>
                       </button>
-                  </a>
+                  </Link>
                   <hr className={styles.hr} />
-                  <a>
+                  <Link to="/myBookList">
                       <button>
                           <img src={list} alt="list logo" />
                           <p>لیست کتاب ها</p>
                       </button>
-                  </a>
+                  </Link>
               </div>
           </div>
       </div>
