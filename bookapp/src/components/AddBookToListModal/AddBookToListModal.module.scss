@@ -1,0 +1,159 @@
+@use "../../styles/variables" as vars;
+
+.overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0.6rem);
+}
+
+.modalOverlay {
+  position: fixed;
+  z-index: 1001;
+  width: 52rem;
+  height: 32rem;
+  top: 11rem;
+  right: 20.5rem;
+  border-radius: 0.6rem;
+  border: 0.3rem solid vars.$primary_1;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1.2rem);
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.bookListContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 24rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    width: 0.2rem;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 0.6rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.6rem;
+    min-height: 3rem;
+    background: vars.$secondary_2;
+    transition: background 0.3s ease;
+  }
+
+}
+
+.userListDrawer {
+  display: flex;
+  flex-direction: column;
+  width: 51.25rem;
+  padding-top: 1rem;
+  gap: 3rem;
+}
+
+.listContent {
+  display: flex;
+  flex-direction: row;
+  background: vars.$primary_1;
+  height: 8rem;
+  gap: 0.5rem;
+
+  .listPic {
+    padding-right: 1.3rem;
+  }
+
+  .listDescription {
+    display: flex;
+    flex-direction: column;
+    padding-right: 1rem;
+    color: vars.$primary_2;
+    text-align: right;
+    padding-top: 0.6rem;
+    gap: 0.6rem;
+    width: 85%;
+  }
+
+  .listTitle {
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 95%;
+    width: 95%;
+  }
+
+  .listIncludes {
+    width: 40rem;
+    font-weight: 900;
+    font-size: 1rem;
+    line-height: 1.8rem;
+    letter-spacing: -5%;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    max-height: 3.6rem;
+  }
+}
+
+.createListContainer {
+  text-align: center;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.createListBtn {
+  width: 13rem;
+  height: 3.5rem;
+  border: 3px solid vars.$primary_1;
+  border-radius: 0.6rem;
+  background: vars.$primary_1;
+  color: vars.$primary_2;
+  font-weight: 700;
+  font-size: 1.3rem;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    background: vars.$secondary_1;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
+    box-shadow: none;
+  }
+
+  &:focus {
+    cursor: pointer;
+    background: vars.$secondary_1;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.btnContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
