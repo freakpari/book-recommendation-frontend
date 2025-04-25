@@ -39,6 +39,8 @@
   flex-wrap: wrap;
   text-align: right;
   gap: 0.6rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
     width: 0.5rem;
@@ -50,6 +52,7 @@
   &::-webkit-scrollbar-thumb {
     border-radius: 0.6rem;
     background-color: vars.$primary_1;
+    transition: background 0.3s ease;
   }
 }
 
