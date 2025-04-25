@@ -585,8 +585,16 @@ $secondary_color : #f9f9f9;
 }
 
 .changePassInputs {
+  position: relative;
   text-align: center;
   margin-top: 0.6rem;
+}
+
+.eyeIcon {
+  position: absolute;
+  top: 0.8rem;
+  left: 6rem;
+  cursor: pointer;
 }
 
 .error {

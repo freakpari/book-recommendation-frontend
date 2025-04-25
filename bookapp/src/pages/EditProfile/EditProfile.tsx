@@ -7,10 +7,11 @@ import SideProfile from "../../components/SideProfile/SideProfile";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import { motion, AnimatePresence } from "framer-motion";
 import {ChevronDown} from "lucide-react";
-import { Eye, EyeOff } from "lucide-react";
+// import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import eventEmitter from "../../utils/eventEmitter";
-
+import Eye from "./icons/visibility.svg";
+import CloseEye from "./icons/visibilityoff.svg"
 
 interface UserProfile {
     id: number;
@@ -60,6 +61,11 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, on
 
 
 export default function EditProfile() {
+
+    const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+    const [showNewPassword, setShowNewPassword] = React.useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+
 
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
@@ -285,13 +291,16 @@ export default function EditProfile() {
 
     useEffect(() => {
         if (modal) {
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = "hidden";
+            document.documentElement.style.overflow = "hidden";
         } else {
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
         }
 
         return () => {
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
         };
     }, [modal]);
 
@@ -568,7 +577,7 @@ export default function EditProfile() {
                                             <div className={styles.changePassInputs}>
                                                 <input
                                                     className={styles.password}
-                                                    type={showPasswordModalOld ? "text" : "password"}
+                                                    type={showCurrentPassword ? "text" : "password"}
                                                     name="oldPassword"
                                                     id="oldPassword"
                                                     minLength={8}
@@ -576,18 +585,17 @@ export default function EditProfile() {
                                                     value={oldPassword}
                                                     onChange={(e) => setOldPassword(e.target.value)}
                                                 />
-                                                <button
-                                                    type="button"
-                                                    className={styles.showPasswordBtn}
-                                                    onClick={() => setShowPasswordModalOld(!showPasswordModalOld)}
-                                                >
-                                                    {showPasswordModalOld ? <EyeOff size={20} /> : <Eye size={20} />}
-                                                </button>
+                                                <span className={styles.eyeIcon} onClick={() => setShowCurrentPassword(!showCurrentPassword)}>
+                                                    <img
+                                                        src={!showCurrentPassword ? Eye : CloseEye}
+                                                        alt="showPass"
+                                                    />
+                                                </span>
                                             </div>
                                             <div className={styles.changePassInputs}>
                                                 <input
                                                     className={styles.password}
-                                                    type={showPasswordModalNew ? "text" : "password"}
+                                                    type={showNewPassword ? "text" : "password"}
                                                     name="newPassword"
                                                     id="newPassword"
                                                     minLength={8}
@@ -595,19 +603,18 @@ export default function EditProfile() {
                                                     value={newPassword}
                                                     onChange={(e) => setNewPassword(e.target.value)}
                                                 />
-                                                <button
-                                                    type="button"
-                                                    className={styles.showPasswordBtn}
-                                                    onClick={() => setShowPasswordModalNew(!showPasswordModalNew)}
-                                                >
-                                                    {showPasswordModalNew ? <EyeOff size={20} /> : <Eye size={20} />}
-                                                </button>
+                                                <span className={styles.eyeIcon} onClick={() => setShowNewPassword(!showNewPassword)}>
+                                                    <img
+                                                        src={!showNewPassword ? Eye : CloseEye}
+                                                        alt="showPass"
+                                                    />
+                                                </span>
                                             </div>
 
                                             <div className={styles.changePassInputs}>
                                                 <input
                                                     className={styles.password}
-                                                    type={showPasswordModalRepeat ? "text" : "password"}
+                                                    type={showConfirmPassword ? "text" : "password"}
                                                     name="repeatPassword"
                                                     id="repeatPassword"
                                                     minLength={8}
@@ -615,13 +622,14 @@ export default function EditProfile() {
                                                     value={repeatPassword}
                                                     onChange={(e) => setRepeatPassword(e.target.value)}
                                                 />
-                                                <button
-                                                    type="button"
-                                                    className={styles.showPasswordBtn}
-                                                    onClick={() => setShowPasswordModalRepeat(!showPasswordModalRepeat)}
-                                                >
-                                                    {showPasswordModalRepeat ? <EyeOff size={20} /> : <Eye size={20} />}
-                                                </button>
+
+                                                <span className={styles.eyeIcon} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                                    <img
+                                                        src={!showConfirmPassword ? Eye : CloseEye}
+                                                        alt="showPass"
+                                                    />
+                                                </span>
+
                                             </div>
 
                                             <input
