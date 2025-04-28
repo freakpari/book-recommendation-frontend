@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styles from "./MyFavoriteBook.module.scss";
-import { useState } from "react";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
@@ -13,14 +13,39 @@ export default function MyFavoriteBook() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
+    const token = localStorage.getItem("token");
+
     useEffect(() => {
-        // فراخوانی eventEmitter در صورت نیاز
+        if (!token) {
+            console.error("توکن کاربر یافت نشد.");
+            return;
+        }
+
+        const fetchUserGenres = async () => {
+            try {
+                const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/genres", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                setSelectedGenres(response.data);
+            } catch (error) {
+                console.error("خطا در دریافت ژانرها: ", error);
+            }
+        };
+        const unsubscribe = eventEmitter.subscribe(fetchUserGenres);
+        return () => {
+            unsubscribe();
+        };
+    }, [token]);
+
+    useEffect(() => {
         eventEmitter.emit();
 
-        // مدیریت overflow صفحه
         if (isModalOpen) {
             document.body.style.overflow = "hidden";
-            document.documentElement.style.overflow = "hidden"; // برای برخی مرورگرها
+            document.documentElement.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
             document.documentElement.style.overflow = "auto";
@@ -34,7 +59,7 @@ export default function MyFavoriteBook() {
 
     const handleEditGenresClick = () => {
         setIsModalOpen(true);
-        eventEmitter.emit(); // اگر نیاز به emit رویداد جداگانه دارید
+        eventEmitter.emit();
     };
 
     return (
@@ -47,305 +72,27 @@ export default function MyFavoriteBook() {
                     <div className={styles.header}>ژانر‌های محبوب من</div>
 
                     <div className={styles.MyFaveGenre}>
-                        {selectedGenres.map((genre) => (
-                            <div key={genre} className={styles.Genres}>
-                                {genre}
-                            </div>
-                        ))}
+                        {selectedGenres.length > 0 ? (
+                            selectedGenres.map((genre) => (
+                                <div key={genre} className={styles.Genres}>
+                                    {genre}
+                                </div>
+                            ))
+                        ) : (
+                            <div></div>
+                        )}
                         <button
                             className={styles.editGenresBtn}
-                            onClick={handleEditGenresClick} // استفاده از تابع جدید
+                            onClick={handleEditGenresClick}
                         >
                             <img src={Pencil} alt="edit genres" />
                         </button>
                     </div>
 
-
                     <div className={styles.MyFaveBooks}>کتاب‌های محبوب من</div>
 
                     <div className={styles.scrollbar}>
                         <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
                             <button className={styles.bookCard}>
                                 <img src={BlackHourse} alt="Black Hourse" />
                                 <h4>اسب سیاه</h4>
@@ -368,6 +115,5 @@ export default function MyFavoriteBook() {
                 />
             )}
         </div>
-
-    )
+    );
 }
