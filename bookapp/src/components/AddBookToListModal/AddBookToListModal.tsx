@@ -41,77 +41,87 @@ export default function UserProfileModal ({ onClose }: Props) {
 
     return (
         <div>
-            <div
-                className={styles.overlay}
-                onClick={onClose}
-            >
-            </div>
-
             {!isCreateListModalOpen && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modalContent}>
-                        <div className={styles.bookListContainer}>
-                            <div className={styles.userListDrawer}>
-                                {userList.map((list, index) => (
-                                    <BookListCard
-                                        key={`my-list-${index}`}
-                                        title={list.title}
-                                        includes={list.includes}
-                                        image={list.image}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                        <div className={styles.createListContainer}>
-                            <button
-                                className={styles.createListBtn}
-                            >
-                                <div
-                                    className={styles.btnContent}
-                                    onClick={() => {setIsCreateListModalOpen(true);}}
-                                >
-                                    ساخت لیست جدید
+                <div>
+                    <div
+                        className={styles.overlay}
+                        onClick={onClose}
+                    >
+                    </div>
+                    <div className={styles.modalOverlay}>
+                        <div className={styles.modalContent}>
+                            <div className={styles.bookListContainer}>
+                                <div className={styles.userListDrawer}>
+                                    {userList.map((list, index) => (
+                                        <BookListCard
+                                            key={`my-list-${index}`}
+                                            title={list.title}
+                                            includes={list.includes}
+                                            image={list.image}
+                                        />
+                                    ))}
                                 </div>
-                            </button>
+                            </div>
+                            <div className={styles.createListContainer}>
+                                <button
+                                    className={styles.createListBtn}
+                                >
+                                    <div
+                                        className={styles.btnContent}
+                                        onClick={() => {setIsCreateListModalOpen(true);}}
+                                    >
+                                        ساخت لیست جدید
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
             {isCreateListModalOpen && (
-                <div className={styles.clModalOverlay}>
-                    <div className={styles.clModalContent}>
-                        <div className={styles.clListPhoto}>
-                            <Plus
-                                className={styles.clPlusIcon}
-                            />
-                        </div>
-                        <div className={styles.clListInfo}>
-                            <div>
-                                <input
-                                    className={styles.clListNameInput}
-                                    type="text"
-                                    name="listName"
-                                    placeholder="نام لیست شما"
+                <div>
+                    <div
+                        className={styles.overlay}
+                        onClick={() => {setIsCreateListModalOpen(false);}}
+                    >
+                    </div>
+                    <div
+                        className={styles.clModalOverlay}
+                    >
+                        <div className={styles.clModalContent}>
+                            <div className={styles.clListPhoto}>
+                                <Plus
+                                    className={styles.clPlusIcon}
                                 />
                             </div>
-                            <div className={styles.clListNameMode}>
-                                <div className={styles.clPrivateListSection}>
-                                    لیست خصوصی
-                                    <button
-                                        className={`${styles.clPrivateBtn} ${privateList ? styles.selected : ""}`}
-                                        onClick={() => {setPrivateList(!privateList)}}
-                                    >
-                                        <div className={`${styles.clCircleInBtn} ${privateList ? styles.selected : ""}`}></div>
-                                    </button>
-                                </div>
+                            <div className={styles.clListInfo}>
                                 <div>
-                                    <button
-                                        className={styles.clSubmitListBtn}
-                                        onClick={() => {setIsCreateListModalOpen(false);}}
-                                    >
-                                        ساخت لیست
-                                    </button>
+                                    <input
+                                        className={styles.clListNameInput}
+                                        type="text"
+                                        name="listName"
+                                        placeholder="نام لیست شما"
+                                    />
+                                </div>
+                                <div className={styles.clListNameMode}>
+                                    <div className={styles.clPrivateListSection}>
+                                        لیست خصوصی
+                                        <button
+                                            className={`${styles.clPrivateBtn} ${privateList ? styles.selected : ""}`}
+                                            onClick={() => {setPrivateList(!privateList)}}
+                                        >
+                                            <div className={`${styles.clCircleInBtn} ${privateList ? styles.selected : ""}`}></div>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button
+                                            className={styles.clSubmitListBtn}
+                                            onClick={() => {setIsCreateListModalOpen(false);}}
+                                        >
+                                            ساخت لیست
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
