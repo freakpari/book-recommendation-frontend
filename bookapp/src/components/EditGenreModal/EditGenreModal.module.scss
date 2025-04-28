@@ -97,7 +97,6 @@ $primary_1: #303857;
   gap: 0.5rem;
   text-align: center;
   justify-content: space-between;
-  color: #f9f9f9;
 
   &::after {
     content: "";
@@ -110,9 +109,6 @@ $primary_1: #303857;
     border-top-color: white;
     animation: spin 1s ease-in-out infinite;
 
-    &:hover {
-      color: $primary_1;
-    }
   }
   &:hover{
     color: $primary_1;
