@@ -89,7 +89,7 @@ export default function EditProfile() {
         { id: 12, name: "اسفند" },
     ];
     const [selectedGender, setSelectedGender] = useState<"زن" | "مرد" | "ترجیح می‌دهم نگویم" |null>(null);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isGenderOpen, setIsGenderOpen] = useState(false);
     const [modal, setModal] = React.useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -101,8 +101,6 @@ export default function EditProfile() {
     const [email, setEmail] = useState("");
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
@@ -242,6 +240,9 @@ export default function EditProfile() {
             setRepeatPassword("");
             setModal(false);
             setPasswordSuccess(null);
+            setShowCurrentPassword(false);
+            setShowNewPassword(false);
+            setShowConfirmPassword(false);
         } catch (err: any) {
             const errorMessage = err.response?.status === 404
                 ? "رمز عبور فعلی اشتباه است"
@@ -394,20 +395,20 @@ export default function EditProfile() {
                                 {!modal && (
                                     <div>
 
-                                        {isOpen && (
+                                        {isGenderOpen && (
                                             <div className={styles.genderoverlay}
-                                                 onClick={() => {setIsOpen(false)}}>
+                                                 onClick={() => {setIsGenderOpen(false)}}>
                                             </div>
                                         )}
                                         <div className={styles.dropdown}>
                                             <button
                                                 type="button"
                                                 className={`${styles.gender} ${selectedGender ? styles.selected : ""}`}
-                                                onClick={() => setIsOpen(!isOpen)}
+                                                onClick={() => setIsGenderOpen(!isGenderOpen)}
                                             >
                                                 {selectedGender ? selectedGender : "جنسیت"}
                                                 <motion.div
-                                                    animate={{ rotate: isOpen ? 180 : 0 }}
+                                                    animate={{ rotate: isGenderOpen ? 180 : 0 }}
                                                     transition={{ duration: 0.3, ease: "easeOut" }}
                                                     className={styles.iconWrapper}
                                                 >
@@ -416,7 +417,7 @@ export default function EditProfile() {
                                             </button>
 
                                             <AnimatePresence>
-                                                {isOpen && (
+                                                {isGenderOpen && (
                                                     <motion.div
                                                         initial={{ opacity: 0, height: 0 }}
                                                         animate={{ opacity: 1, height: "auto" }}
@@ -432,12 +433,12 @@ export default function EditProfile() {
                                                                         onClick={() => {
                                                                             setSelectedGender("زن");
                                                                             setGender("F");
-                                                                            setIsOpen(false);
+                                                                            setIsGenderOpen(false);
                                                                         }}
                                                                     >
                                                                         زن
                                                                     </button>
-                                                                    <hr className={styles.hr} />
+                                                                    { selectedGender ==="ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
                                                                 </>
                                                             )}
 
@@ -449,28 +450,28 @@ export default function EditProfile() {
                                                                         onClick={() => {
                                                                             setSelectedGender("مرد");
                                                                             setGender("M");
-                                                                            setIsOpen(false);
+                                                                            setIsGenderOpen(false);
                                                                         }}
                                                                     >
                                                                         مرد
                                                                     </button>
-                                                                    {selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
+                                                                    {/*{selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}*/}
                                                                 </>
                                                             )}
 
-                                                            {selectedGender !== "ترجیح می‌دهم نگویم" && (
-                                                                <button
-                                                                    type="button"
-                                                                    className={styles.option}
-                                                                    onClick={() => {
-                                                                        setSelectedGender("ترجیح می‌دهم نگویم");
-                                                                        setGender("N");
-                                                                        setIsOpen(false);
-                                                                    }}
-                                                                >
-                                                                    ترجیح می‌دهم نگویم
-                                                                </button>
-                                                            )}
+                                                            {/*{selectedGender !== "ترجیح می‌دهم نگویم" && (*/}
+                                                            {/*    <button*/}
+                                                            {/*        type="button"*/}
+                                                            {/*        className={styles.option}*/}
+                                                            {/*        onClick={() => {*/}
+                                                            {/*            setSelectedGender("ترجیح می‌دهم نگویم");*/}
+                                                            {/*            setGender("N");*/}
+                                                            {/*            setIsOpen(false);*/}
+                                                            {/*        }}*/}
+                                                            {/*    >*/}
+                                                            {/*        ترجیح می‌دهم نگویم*/}
+                                                            {/*    </button>*/}
+                                                            {/*)}*/}
                                                         </div>
                                                     </motion.div>
                                                 )}
