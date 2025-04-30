@@ -23,6 +23,8 @@ import Bookdetail from "./pages/BookDetail/Bookdetail";
 import Listofbooks from "./pages/ListofBooks/ListofBooks";
 import Recommendbook from "./pages/recommendbook/recommendbook";
 import Recommendhistory from "./pages/Recommendhistory/Recommendhistory";
+import Chatpage from "./pages/chatpage/chatpage";
+import NotificationList from "./pages/Notification/Notification";
 // import Test from "./pages/test/test";
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
         <Route path="/listofbooks" element={<Listofbooks />}></Route>
         <Route path="/recommendbooks" element={<Recommendbook />}></Route>
         <Route path="/recommendhistory" element={<Recommendhistory />}></Route>
+        <Route path="/chat"  element={<Chatpage />}></Route>
+        <Route path="/notification" element={<NotificationList />}></Route>
 
         {/*<Route path="/test" element={<Test/>} />*/}
 
