@@ -48,7 +48,7 @@ export default function SearchNav() {
     
       setIsSearching(true);
       try {
-        const url = `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/search?query=${encodeURIComponent(query)}`;
+        const url = `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/searchurl?query=${encodeURIComponent(query)}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
