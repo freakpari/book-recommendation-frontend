@@ -4,41 +4,88 @@ import styles from "./MyFavoriteBook.module.scss";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
-import BlackHourse from "./icons/blackHourse.svg";
 import Pencil from "./icons/Pencil.svg";
 import EditGenreModal from "../../components/EditGenreModal/EditGenreModal";
 import eventEmitter from "../../utils/eventEmitter";
+import DefaultBook from "./icons/defaultBook.svg"
+
+interface FavoriteBooks {
+    BookID: number;
+    Title: string;
+    AuthorID: number;
+    PublisherID: number;
+    GenreID1: number;
+    GenreID2: number;
+    GenreID3: number;
+    LIKECOUNT: number;
+}
+
 
 export default function MyFavoriteBook() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-
-    const token = localStorage.getItem("token");
+    const [faveBooks, setFaveBooks] = useState<FavoriteBooks[]>([]);
 
     useEffect(() => {
+
+        const token = localStorage.getItem("token");
         if (!token) {
             console.error("توکن کاربر یافت نشد.");
             return;
         }
 
-        const fetchUserGenres = async () => {
+        const fetchUserFavoriteBooks = async () => {
+
             try {
-                const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/genres", {
+                 const response = await axios.get<FavoriteBooks[]>("https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/favorit", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
 
-                setSelectedGenres(response.data);
-            } catch (error) {
-                console.error("خطا در دریافت ژانرها: ", error);
+                 setFaveBooks(response.data);
             }
-        };
+            catch (err: any) {
+                if(err.response?.status === 204) {
+                    console.error("No Favorite Book")
+                }
+                if (err.response?.status === 500) {
+                    console.error("server error");
+                }
+                else {
+                    console.error(err);
+                }
+            }
+        }
+
+
+        fetchUserFavoriteBooks();
         const unsubscribe = eventEmitter.subscribe(fetchUserGenres);
         return () => {
             unsubscribe();
         };
-    }, [token]);
+    }, []);
+
+    const fetchUserGenres = async () => {
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("توکن کاربر یافت نشد.");
+            return;
+        }
+
+        try {
+            const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/genres", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            setSelectedGenres(response.data);
+        } catch (error) {
+            console.error("خطا در دریافت ژانرها: ", error);
+        }
+    };
 
     useEffect(() => {
         eventEmitter.emit();
@@ -92,16 +139,27 @@ export default function MyFavoriteBook() {
                     <div className={styles.MyFaveBooks}>کتاب‌های محبوب من</div>
 
                     <div className={styles.scrollbar}>
-                        <div className={styles.myBookCards}>
-                            <button className={styles.bookCard}>
-                                <img src={BlackHourse} alt="Black Hourse" />
-                                <h4>اسب سیاه</h4>
-                                <p>تاد رز واگی راس</p>
-                            </button>
-                        </div>
+                        {faveBooks.map((book) => (
+                            <div key={book.BookID}>
+                                <div className={styles.bookCard}>
+                                    <div className={styles.bookImage}>
+                                        <img
+                                            src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
+                                            alt=""
+                                            onError={(e) => { e.currentTarget.src = "./icons/defaultBook.svg"; }}
+                                        />
+                                    </div>
+                                    <div className={styles.bookInfo}>
+                                        <div className={styles.bookName}>{book.Title}</div>
+                                        <div className={styles.bookAuthor}>نویسنده: {book.AuthorID}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </div>
 
+
+                </div>
             </div>
 
             <div>
