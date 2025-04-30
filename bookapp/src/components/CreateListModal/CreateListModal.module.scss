@@ -1,0 +1,157 @@
+@use "../../styles/variables" as vars;
+
+.overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0.6rem);
+}
+
+.modalOverlay {
+  position: fixed;
+  z-index: 1001;
+  width: 63rem;
+  height: 24rem;
+  top: 12rem;
+  right: 14rem;
+  border-radius: 0.6rem;
+  border: 0.3rem solid vars.$primary_1;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(1.6rem);
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: row;
+  padding: 3rem;
+  gap: 5.5rem;
+}
+
+.listPhoto {
+  background: vars.$primary_2;
+  width: 12rem;
+  height: 17rem;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  text-align: center;
+  align-content: center;
+  padding-bottom: 1.5rem;
+}
+
+.plusIcon {
+  width: 5.3rem;
+  height: 5.3rem;
+  color: vars.$primary_1;
+}
+
+.listInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.listNameInput {
+  width: 36rem;
+  height: 3rem;
+  padding: 1.25rem 0.87rem;
+  border: 2px solid vars.$secondary_2;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 150%;
+  background: rgba(255, 255, 255, 0.30);
+  //background: none;
+  &:focus {
+    outline: 1px solid vars.$primary_1;
+    border: 2px solid vars.$primary_1;
+  }
+  &::placeholder {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 150%;
+    color: rgba(48, 56, 87, 0.5);
+  }
+}
+
+.listNameMode {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15.1rem;
+  color: vars.$secondary_2;
+}
+
+.privateListSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.privateBtn {
+  width: 4.5rem;
+  height: 2.3rem;
+  border-radius: 30px;
+  border: 3px solid vars.$primary_1;
+  background: vars.$primary_2;
+  padding: 0 0.2rem;
+  transition: padding-right 0.5s ease-in-out , background 0.5s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.selected {
+    background: vars.$primary_1;
+    padding-right: 2.3rem;
+  }
+}
+
+.circleInBtn {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: vars.$primary_1;
+  border-radius: 50%;
+  padding: 0 0.5rem;
+  transition: background 0.5s ease-in-out;
+  &.selected {
+    background: vars.$primary_2;
+  }
+}
+
+.submitListBtn {
+  width: 9rem;
+  height: 3.5rem;
+  border-radius: 0.6rem;
+  background: vars.$primary_1;
+  border: 3px solid vars.$primary_1;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+  color: vars.$primary_2;
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+    background: vars.$primary_2;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
+  }
+  &:focus {
+    outline: none;
+    background: vars.$primary_2;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
+  }
+}

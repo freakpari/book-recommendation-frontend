@@ -7,10 +7,10 @@ import SideProfile from "../../components/SideProfile/SideProfile";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import { motion, AnimatePresence } from "framer-motion";
 import {ChevronDown} from "lucide-react";
-import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import eventEmitter from "../../utils/eventEmitter";
-
+import Eye from "./icons/visibility.svg";
+import CloseEye from "./icons/visibilityoff.svg"
 
 interface UserProfile {
     id: number;
@@ -30,16 +30,14 @@ interface NotificationModalProps {
     onClose: () => void;
 }
 
-// کامپوننت جدید برای نمایش مودال پیام
 const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-        }, 3000); // بسته شدن خودکار پس از 3 ثانیه
+        }, 3000);
 
         return () => clearTimeout(timer);
     }, [onClose]);
-
     return (
         <motion.div
             className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
@@ -58,27 +56,23 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, on
     );
 };
 
-
 export default function EditProfile() {
 
+    const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+    const [showNewPassword, setShowNewPassword] = React.useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
-
-    // تابع برای نمایش پیام
     const showNotificationMessage = (message: string, type: 'success' | 'error') => {
         setNotificationMessage(message);
         setNotificationType(type);
         setShowNotification(true);
     };
-
-
     const [daySelectedValue, setDaySelectedValue] = React.useState("");
     const dayStartValue = 1;
-
     const [yearSelectedValue, setYearSelectedValue] = React.useState("");
     const yearStartValue = 1320;
-
     const [monthSelectedValue, setMonthSelectedValue] = React.useState("");
     const months = [
         { id: 1, name: "فروردین" },
@@ -94,18 +88,9 @@ export default function EditProfile() {
         { id: 11, name: "بهمن" },
         { id: 12, name: "اسفند" },
     ];
-
     const [selectedGender, setSelectedGender] = useState<"زن" | "مرد" | "ترجیح می‌دهم نگویم" |null>(null);
-    const [isOpen, setIsOpen] = useState(false);
-
+    const [isGenderOpen, setIsGenderOpen] = useState(false);
     const [modal, setModal] = React.useState(false);
-    const [showPasswordModalOld, setShowPasswordModalOld] = React.useState(false);
-    const [showPasswordModalNew, setShowPasswordModalNew] = React.useState(false);
-    const [showPasswordModalRepeat, setShowPasswordModalRepeat] = React.useState(false);
-
-
-
-
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [userName, setUserName] = useState("");
@@ -114,19 +99,13 @@ export default function EditProfile() {
     const [birthday, setBirthday] = useState(""); // yyyy-mm-dd
     const [phoneNumber, setPhoneNumber] = useState("");
     const [email, setEmail] = useState("");
-
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
-
-
     const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
     const [isChangingPassword, setIsChangingPassword] = useState(false);
 
@@ -139,7 +118,6 @@ export default function EditProfile() {
                 return;
             }
 
-
             try {
                 const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile", {
                     headers: {
@@ -149,12 +127,10 @@ export default function EditProfile() {
                 eventEmitter.emit();
                 const user = response.data.user;
                 setProfile(user);
-
                 const birthDate = user.birthday ? new Date(user.birthday) : new Date();
                 setDaySelectedValue((birthDate.getDate() + 1).toString()); // اینجا مقدار صحیح است
                 setMonthSelectedValue((birthDate.getMonth() + 1).toString());
                 setYearSelectedValue(birthDate.getFullYear().toString());
-
                 setFirstName(user.first_name || "");
                 setLastName(user.last_name || "");
                 setUserName(user.user_name || "");
@@ -163,8 +139,6 @@ export default function EditProfile() {
                 setBirthday(user.birthday || "");
                 setPhoneNumber(user.phone_number || "");
                 setEmail(user.email || "");
-
-                // تنظیم جنسیت
                 setSelectedGender(
                     user.gender === "M"
                         ? "مرد"
@@ -183,10 +157,8 @@ export default function EditProfile() {
                 setLoading(false);
             }
         };
-
         fetchProfile();
     }, []);
-
 
     const handleProfileUpdate = async () => {
         const token = localStorage.getItem("token");
@@ -195,11 +167,10 @@ export default function EditProfile() {
             return;
         }
 
-        setIsUpdatingProfile(true); // شروع لودینگ
+        setIsUpdatingProfile(true);
 
         try {
             const formattedBirthday = `${yearSelectedValue}-${monthSelectedValue.padStart(2, '0')}-${daySelectedValue.padStart(2, '0')}`;
-
             const updatedProfileData = {
                 new_firstName: firstName,
                 new_lastName: lastName,
@@ -209,7 +180,6 @@ export default function EditProfile() {
                 new_birthday: formattedBirthday,
                 new_phoneNumber: phoneNumber,
             };
-
             const response = await axios.put(
                 "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/updateProfile",
                 updatedProfileData,
@@ -227,7 +197,7 @@ export default function EditProfile() {
         } catch (err) {
             showNotificationMessage("خطا در به‌روزرسانی پروفایل", 'error');
         } finally {
-            setIsUpdatingProfile(false); // پایان لودینگ
+            setIsUpdatingProfile(false);
         }
     };
 
@@ -236,19 +206,17 @@ export default function EditProfile() {
             showNotificationMessage("رمزهای عبور جدید مطابقت ندارند", "error");
             return;
         }
-
         if (newPassword.length < 8) {
             showNotificationMessage("رمز عبور جدید باید حداقل ۸ کاراکتر باشد", "error");
             return;
         }
-
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("توکن یافت نشد");
             return;
         }
 
-        setIsChangingPassword(true); // شروع لودینگ
+        setIsChangingPassword(true);
 
         try {
             const response = await axios.put(
@@ -272,32 +240,35 @@ export default function EditProfile() {
             setRepeatPassword("");
             setModal(false);
             setPasswordSuccess(null);
+            setShowCurrentPassword(false);
+            setShowNewPassword(false);
+            setShowConfirmPassword(false);
         } catch (err: any) {
             const errorMessage = err.response?.status === 404
                 ? "رمز عبور فعلی اشتباه است"
                 : "خطا در تغییر رمز عبور";
             showNotificationMessage(errorMessage, 'error');
         } finally {
-            setIsChangingPassword(false); // پایان لودینگ
+            setIsChangingPassword(false);
         }
     };
 
-
     useEffect(() => {
         if (modal) {
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = "hidden";
+            document.documentElement.style.overflow = "hidden";
         } else {
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
         }
-
         return () => {
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
         };
     }, [modal]);
 
     return (
         <div className={styles.container}>
-
             <AnimatePresence>
                 {showNotification && (
                     <NotificationModal
@@ -311,14 +282,10 @@ export default function EditProfile() {
             <SearchNav/>
 
             <div className={styles.editSide}>
-
                 <SideProfile/>
-
                 <div className={styles.update}>
                     <form action="" onSubmit={(e) => e.preventDefault()}>
-
                         <div className={styles.EditProfilefield}>
-
                             <div className={styles.userEmailName}>
                                 <input className={styles.userName}
                                        type="text"
@@ -428,20 +395,20 @@ export default function EditProfile() {
                                 {!modal && (
                                     <div>
 
-                                        {isOpen && (
+                                        {isGenderOpen && (
                                             <div className={styles.genderoverlay}
-                                                 onClick={() => {setIsOpen(false)}}>
+                                                 onClick={() => {setIsGenderOpen(false)}}>
                                             </div>
                                         )}
                                         <div className={styles.dropdown}>
                                             <button
                                                 type="button"
                                                 className={`${styles.gender} ${selectedGender ? styles.selected : ""}`}
-                                                onClick={() => setIsOpen(!isOpen)}
+                                                onClick={() => setIsGenderOpen(!isGenderOpen)}
                                             >
                                                 {selectedGender ? selectedGender : "جنسیت"}
                                                 <motion.div
-                                                    animate={{ rotate: isOpen ? 180 : 0 }}
+                                                    animate={{ rotate: isGenderOpen ? 180 : 0 }}
                                                     transition={{ duration: 0.3, ease: "easeOut" }}
                                                     className={styles.iconWrapper}
                                                 >
@@ -450,7 +417,7 @@ export default function EditProfile() {
                                             </button>
 
                                             <AnimatePresence>
-                                                {isOpen && (
+                                                {isGenderOpen && (
                                                     <motion.div
                                                         initial={{ opacity: 0, height: 0 }}
                                                         animate={{ opacity: 1, height: "auto" }}
@@ -466,12 +433,12 @@ export default function EditProfile() {
                                                                         onClick={() => {
                                                                             setSelectedGender("زن");
                                                                             setGender("F");
-                                                                            setIsOpen(false);
+                                                                            setIsGenderOpen(false);
                                                                         }}
                                                                     >
                                                                         زن
                                                                     </button>
-                                                                    <hr className={styles.hr} />
+                                                                    { selectedGender ==="ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
                                                                 </>
                                                             )}
 
@@ -483,28 +450,28 @@ export default function EditProfile() {
                                                                         onClick={() => {
                                                                             setSelectedGender("مرد");
                                                                             setGender("M");
-                                                                            setIsOpen(false);
+                                                                            setIsGenderOpen(false);
                                                                         }}
                                                                     >
                                                                         مرد
                                                                     </button>
-                                                                    {selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}
+                                                                    {/*{selectedGender !== "ترجیح می‌دهم نگویم" && <hr className={styles.hr} />}*/}
                                                                 </>
                                                             )}
 
-                                                            {selectedGender !== "ترجیح می‌دهم نگویم" && (
-                                                                <button
-                                                                    type="button"
-                                                                    className={styles.option}
-                                                                    onClick={() => {
-                                                                        setSelectedGender("ترجیح می‌دهم نگویم");
-                                                                        setGender("N");
-                                                                        setIsOpen(false);
-                                                                    }}
-                                                                >
-                                                                    ترجیح می‌دهم نگویم
-                                                                </button>
-                                                            )}
+                                                            {/*{selectedGender !== "ترجیح می‌دهم نگویم" && (*/}
+                                                            {/*    <button*/}
+                                                            {/*        type="button"*/}
+                                                            {/*        className={styles.option}*/}
+                                                            {/*        onClick={() => {*/}
+                                                            {/*            setSelectedGender("ترجیح می‌دهم نگویم");*/}
+                                                            {/*            setGender("N");*/}
+                                                            {/*            setIsOpen(false);*/}
+                                                            {/*        }}*/}
+                                                            {/*    >*/}
+                                                            {/*        ترجیح می‌دهم نگویم*/}
+                                                            {/*    </button>*/}
+                                                            {/*)}*/}
                                                         </div>
                                                     </motion.div>
                                                 )}
@@ -568,7 +535,7 @@ export default function EditProfile() {
                                             <div className={styles.changePassInputs}>
                                                 <input
                                                     className={styles.password}
-                                                    type={showPasswordModalOld ? "text" : "password"}
+                                                    type={showCurrentPassword ? "text" : "password"}
                                                     name="oldPassword"
                                                     id="oldPassword"
                                                     minLength={8}
@@ -576,18 +543,17 @@ export default function EditProfile() {
                                                     value={oldPassword}
                                                     onChange={(e) => setOldPassword(e.target.value)}
                                                 />
-                                                <button
-                                                    type="button"
-                                                    className={styles.showPasswordBtn}
-                                                    onClick={() => setShowPasswordModalOld(!showPasswordModalOld)}
-                                                >
-                                                    {showPasswordModalOld ? <EyeOff size={20} /> : <Eye size={20} />}
-                                                </button>
+                                                <span className={styles.eyeIcon} onClick={() => setShowCurrentPassword(!showCurrentPassword)}>
+                                                    <img
+                                                        src={!showCurrentPassword ? Eye : CloseEye}
+                                                        alt="showPass"
+                                                    />
+                                                </span>
                                             </div>
                                             <div className={styles.changePassInputs}>
                                                 <input
                                                     className={styles.password}
-                                                    type={showPasswordModalNew ? "text" : "password"}
+                                                    type={showNewPassword ? "text" : "password"}
                                                     name="newPassword"
                                                     id="newPassword"
                                                     minLength={8}
@@ -595,19 +561,18 @@ export default function EditProfile() {
                                                     value={newPassword}
                                                     onChange={(e) => setNewPassword(e.target.value)}
                                                 />
-                                                <button
-                                                    type="button"
-                                                    className={styles.showPasswordBtn}
-                                                    onClick={() => setShowPasswordModalNew(!showPasswordModalNew)}
-                                                >
-                                                    {showPasswordModalNew ? <EyeOff size={20} /> : <Eye size={20} />}
-                                                </button>
+                                                <span className={styles.eyeIcon} onClick={() => setShowNewPassword(!showNewPassword)}>
+                                                    <img
+                                                        src={!showNewPassword ? Eye : CloseEye}
+                                                        alt="showPass"
+                                                    />
+                                                </span>
                                             </div>
 
                                             <div className={styles.changePassInputs}>
                                                 <input
                                                     className={styles.password}
-                                                    type={showPasswordModalRepeat ? "text" : "password"}
+                                                    type={showConfirmPassword ? "text" : "password"}
                                                     name="repeatPassword"
                                                     id="repeatPassword"
                                                     minLength={8}
@@ -615,22 +580,24 @@ export default function EditProfile() {
                                                     value={repeatPassword}
                                                     onChange={(e) => setRepeatPassword(e.target.value)}
                                                 />
-                                                <button
-                                                    type="button"
-                                                    className={styles.showPasswordBtn}
-                                                    onClick={() => setShowPasswordModalRepeat(!showPasswordModalRepeat)}
-                                                >
-                                                    {showPasswordModalRepeat ? <EyeOff size={20} /> : <Eye size={20} />}
-                                                </button>
-                                            </div>
 
-                                            <input
+                                                <span className={styles.eyeIcon} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                                    <img
+                                                        src={!showConfirmPassword ? Eye : CloseEye}
+                                                        alt="showPass"
+                                                    />
+                                                </span>
+                                            </div>
+                                            <button
                                                 className={styles.updatePasswordBtn}
                                                 onClick={handlePasswordChange}
-                                                type="button"
-                                                value={isChangingPassword ? "در حال تغییر..." : "ثبت"}
-                                                disabled={isChangingPassword}
-                                            />
+                                            >
+                                                {isChangingPassword ? (
+                                                    <span className={styles.loadingText}>در حال تغییر</span>
+                                                ) : (
+                                                    "ثبت"
+                                                )}
+                                            </button>
                                         </div>
                                     </div>
                                 )}
@@ -639,7 +606,7 @@ export default function EditProfile() {
                                     className={styles.updateProfileBtn}
                                     onClick={handleProfileUpdate}
                                     type="button"
-                                    disabled={isUpdatingProfile} // غیرفعال کردن دکمه هنگام لودینگ
+                                    disabled={isUpdatingProfile}
                                 >
                                     {isUpdatingProfile ? (
                                         <span className={styles.loadingText}>در حال ذخیره...</span>
@@ -648,19 +615,13 @@ export default function EditProfile() {
                                     )}
                                 </button>
                             </div>
-
                         </div>
-
                     </form>
                 </div>
-
             </div>
-
-
             <div>
                 <Footer/>
             </div>
-
         </div>
     )
 }

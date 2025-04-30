@@ -31,6 +31,8 @@ $secondary_color: #f9f9f9;
   width: 54.813rem;
   height: 32.5rem;
   margin: 1.3rem auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -42,6 +44,7 @@ $secondary_color: #f9f9f9;
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #303857;
+    transition: background 0.3s ease;
   }
 }
 

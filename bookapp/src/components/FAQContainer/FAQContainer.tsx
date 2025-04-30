@@ -64,9 +64,9 @@ export default function FAQContainer(){
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: "auto" }}
                                     exit={{ opacity: 0, height: 0 }}
-                                    className={styles.Answer}
+                                    className={styles.AnswerContainer}
                                 >
-                                    <p>{q.answer}</p>
+                                    <p className={styles.Answer}>{q.answer}</p>
                                 </motion.div>
                             )}
                         </AnimatePresence>

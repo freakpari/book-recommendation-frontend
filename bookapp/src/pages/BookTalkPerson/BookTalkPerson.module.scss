@@ -12,6 +12,7 @@
 }
 
 .header {
+  font-family:'sego' , sans-serif;
   color: vars.$primary_1;
   font-weight: 700;
   font-size: 3rem;
@@ -126,7 +127,8 @@
   overflow-y: auto;
   color: vars.$primary_1;
   margin-bottom: 10px;
-  //gap: 1rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
     width: 0.5rem;
@@ -139,6 +141,7 @@
     border-radius: 0.6rem;
     background-color: vars.$primary_1;
     min-height: 3rem;
+    transition: background 0.3s ease;
   }
 }
 

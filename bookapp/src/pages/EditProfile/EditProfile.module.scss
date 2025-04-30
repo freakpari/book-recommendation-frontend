@@ -537,7 +537,7 @@ $secondary_color : #f9f9f9;
 
 .updatePasswordBtn {
   position: fixed;
-  width: 9.2rem;
+  width: 10rem;
   height: 3rem;
   border-radius: 0.6rem;
   background: $primary_1;
@@ -585,8 +585,16 @@ $secondary_color : #f9f9f9;
 }
 
 .changePassInputs {
+  position: relative;
   text-align: center;
   margin-top: 0.6rem;
+}
+
+.eyeIcon {
+  position: absolute;
+  top: 0.8rem;
+  left: 6rem;
+  cursor: pointer;
 }
 
 .error {
@@ -639,7 +647,7 @@ $secondary_color : #f9f9f9;
   gap: 0.5rem;
   text-align: center;
   justify-content: space-between;
-  color: $secondary_color;
+  //color: $secondary_color;
 
   &::after {
     content: "";
@@ -647,10 +655,14 @@ $secondary_color : #f9f9f9;
     width: 1rem;
     height: 1rem;
     border: 2px solid $primary_1;
-    color: $primary_1;
+    //color: $secondary_color;
     border-radius: 50%;
     border-top-color: white;
     animation: spin 1s ease-in-out infinite;
+
+    &:hover {
+      color: $primary_1;
+    }
   }
   &:hover{
     color: $primary_1;

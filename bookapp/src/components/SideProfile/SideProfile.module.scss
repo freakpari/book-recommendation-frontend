@@ -44,11 +44,11 @@
   }
   &:hover {
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   &:focus {
     outline: none;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
 }
@@ -68,11 +68,11 @@
   }
   &:hover {
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   &:focus {
     outline: none;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 }
 
@@ -133,7 +133,7 @@
 
 .optionBtns {
 
-  margin-top: 1.5rem;
+  margin-top: 1.6rem;
 
   button {
     border: none;
