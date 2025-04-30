@@ -96,7 +96,7 @@ const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: Genre
     return (
         <div
             className={styles.modalOverlay}
-            onClick={closeModal}
+            // onClick={closeModal}
         >
             <div className={styles.modalContent}>
                 <h2>ویرایش ژانرها</h2>
