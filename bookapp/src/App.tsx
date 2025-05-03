@@ -26,6 +26,9 @@ import Recommendhistory from "./pages/Recommendhistory/Recommendhistory";
 import MyBookList from "./pages/MyBookList/MyBookList";
 import Chatpage from "./pages/chatpage/chatpage";
 import NotificationList from "./pages/Notification/Notification";
+import ReplyComment from "./pages/ReplyComment/ReplyComment";
+
+
 function App() {
   return (
     <Router>
@@ -55,6 +58,7 @@ function App() {
         <Route path="/myBookList" element={<MyBookList/>} />
         <Route path="/chat"  element={<Chatpage />}></Route>
         <Route path="/notification" element={<NotificationList />}></Route>
+        <Route path="/replyComment" element={<ReplyComment/>} />
 
       </Routes>
     </Router>
