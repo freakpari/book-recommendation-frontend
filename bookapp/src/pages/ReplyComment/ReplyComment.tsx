@@ -45,11 +45,12 @@ export default function ReplyComment() {
                         </div>
                     </div>
                     <div className={styles.postContent}><span className={styles.hashtag}>#ورونیکا_تصمیم_می‌گیرد_بمیرد</span> تأثیر عمیقی بر من گذاشت؛ روایت ساده و فلسفی ورونیکا باعث شد تا دوباره به ارزش‌های زندگی و مرگ فکر کنم. تجربه‌ای منحصر به فرد و اندیشمندانه.</div>
+                    <div className={styles.arrowIcon}>
+                        <img src={Arrow} alt="arrow icon" />
+                    </div>
                 </div>
 
-                <div className={styles.arrowIcon}>
-                    <img src={Arrow} alt="arrow icon" />
-                </div>
+
 
                 <div className={styles.reply}>
                     <textarea
