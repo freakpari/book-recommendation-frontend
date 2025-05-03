@@ -1,0 +1,204 @@
+@use "../../styles/_variables.scss" as vars;
+
+.container {
+  background: vars.$primary_2;
+  //width: 100vw;
+  //height: 100vh;
+  text-align: center;
+  align-items: center;
+  //gap: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  font-family:'sego' , sans-serif;
+  color: vars.$primary_1;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.bookTalk {
+  background: vars.$secondary_1;
+  height: 45rem;
+  width: 67rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.commentReply {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.post {
+  width: 40rem;
+  height: auto;
+  border-radius: 0.6rem;
+  border: 1px solid vars.$primary_1;
+  background: vars.$primary_2;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  color: vars.$primary_1;
+}
+
+.postInfoOptions {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.postUserIcon {
+  img {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+}
+
+.postUserInfo {
+  width: 25rem;
+  text-align: right;
+  line-height: 2.5rem;
+}
+
+.postUserName {
+  font-weight: 700;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postUserId {
+  font-weight: 300;
+  font-size: 1.3rem;
+  direction: ltr;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postIcons {
+  display: flex;
+  flex-direction: row;
+  gap: 1.3rem;
+  img {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    transition: background 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      background: vars.$hover-opacity;
+      border-radius: 50%;
+      transform: scale(1.02);
+    }
+  }
+}
+
+.postContent {
+  font-weight: 300;
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+  text-align: right;
+}
+
+.hashtag {
+  color: #518EF8;
+}
+
+.arrowIcon {
+  position: absolute;
+  top: 19rem;
+  left: 63.85rem;
+}
+
+.reply {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.replyBox {
+  width: 35.8rem;
+  height: 11rem;
+  border: 1px solid #30385775;
+  border-radius: 0.6rem;
+  background: vars.$primary_2;
+  resize: none;
+  padding: 0.5rem 0.5rem;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: vars.$primary_1;
+
+  &:focus {
+    outline: 1px solid vars.$primary_1;
+    border: 1px solid vars.$primary_1;
+  }
+
+  &::placeholder {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: vars.$secondary_2;
+  }
+}
+
+.Btns {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding-bottom: 3rem;
+}
+
+.cancleBtn {
+  width: 9rem;
+  height: 3.5rem;
+  border-radius: 0.6rem;
+  border: 2px solid vars.$primary_1;
+  background: vars.$primary_2;
+  color: vars.$primary_1;
+  font-weight: 500;
+  font-size: 1.3rem;
+  transition: background 0.3s, border 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    border: 2px solid #c30b0b;
+    background: #c30b0b;
+    color: vars.$primary_2;
+  }
+}
+
+.submitBtn {
+  width: 9rem;
+  height: 3.5rem;
+  border-radius: 0.6rem;
+  border: 2px solid vars.$primary_1;
+  background: vars.$primary_1;
+  color: vars.$primary_2;
+  font-weight: 500;
+  font-size: 1.3rem;
+  transition: background 0.3s, border 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    border: 2px solid #30ae33;
+    background: #28B446;
+    color: vars.$primary_2;
+  }
+}
