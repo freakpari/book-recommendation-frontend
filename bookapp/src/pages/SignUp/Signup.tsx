@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import styles from "./Signup.module.scss";
@@ -231,6 +231,15 @@ export default function SignUp() {
                 />
               </span>
               </div>
+
+              {isLogin && (
+                  <div className={styles.forgetPassContainer}>
+                    <Link className={styles.linkToForgetPass} to="/verifyEmail">
+                      رمز عبور خود را فراموش کردم
+                    </Link>
+                  </div>
+              )}
+
               {!isLogin && (
                   <div className={styles.passwordInput}>
                     <input

@@ -200,9 +200,14 @@ input::placeholder,input:focus {
   color: red;
 }
 
+.forgetPassContainer {
+  padding-right: 17.5rem;
+}
 
-
-
-
-
-
+.linkToForgetPass {
+  text-decoration: none;
+  color: #303857;
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 100%;
+}
