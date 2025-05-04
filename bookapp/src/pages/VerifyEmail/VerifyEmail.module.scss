@@ -1,0 +1,140 @@
+@use "../../styles/variables" as vars;
+
+.VerifyEmailContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: vars.$primary_2;
+  gap: 5rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 100%;
+  text-align: center;
+  color: vars.$primary_1;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16.25rem;
+}
+
+.emailForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+.hintPara {
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  text-align: right;
+  color: vars.$primary_1;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+.emailInput {
+  position: relative;
+  width: 26rem;
+  height: 3.5rem;
+  border-radius: 0.6rem;
+  border: 2px solid vars.$primary_1;
+  padding: 0.5rem;
+  color: vars.$primary_1;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 150%;
+
+  &:focus {
+    outline: none;
+    border: 3px solid vars.$primary_1;
+  }
+
+  &::placeholder {
+    color: vars.$secondary_2;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 150%;
+    letter-spacing: 0;
+  }
+}
+
+.linkToVerifyPassword {
+  text-decoration: none;
+}
+
+.submitBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 13rem;
+  height: 4rem;
+
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 100%;
+
+  border-radius: 1.3rem;
+  border: none;
+  color: vars.$primary_2;
+  background: vars.$primary_1;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+  transition: background 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    background: vars.$primary_2;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
+    box-shadow: none;
+  }
+
+  &:focus {
+    cursor: pointer;
+    background: vars.$primary_2;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.rememberPass {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 150%;
+  text-align: center;
+  color: vars.$secondary_3;
+}
+
+.backToLogin {
+  text-decoration: none;
+  color: vars.$primary_1;
+}
