@@ -27,6 +27,10 @@ import MyBookList from "./pages/MyBookList/MyBookList";
 import Chatpage from "./pages/chatpage/chatpage";
 import NotificationList from "./pages/Notification/Notification";
 import ReplyComment from "./pages/ReplyComment/ReplyComment";
+import SetNewPassword from "./pages/SetNewPassword/SetNewPassword";
+import VerifyForgetPasswordCode from "./pages/VerifyForgetPasswordCode/VerifyForgetPasswordCode";
+import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
+
 
 
 function App() {
@@ -59,6 +63,10 @@ function App() {
         <Route path="/chat"  element={<Chatpage />}></Route>
         <Route path="/notification" element={<NotificationList />}></Route>
         <Route path="/replyComment" element={<ReplyComment/>} />
+        <Route path="/setNewPass" element={<SetNewPassword/>} />
+        <Route path="/verifyPass" element={<VerifyForgetPasswordCode/>} />
+        <Route path="/verifyEmail" element={<VerifyEmail/>} />
+
 
       </Routes>
     </Router>
