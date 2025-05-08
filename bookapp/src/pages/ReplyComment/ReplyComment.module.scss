@@ -176,12 +176,23 @@
   font-weight: 500;
   font-size: 1.3rem;
   transition: background 0.3s, border 0.3s;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 
   &:hover {
     cursor: pointer;
     border: 2px solid #c30b0b;
     background: #c30b0b;
     color: vars.$primary_2;
+    box-shadow: none;
+  }
+
+  &:focus {
+    outline: none;
+    cursor: pointer;
+    border: 2px solid #c30b0b;
+    background: #c30b0b;
+    color: vars.$primary_2;
+    box-shadow: none;
   }
 }
 
@@ -191,6 +202,7 @@
   border-radius: 0.6rem;
   border: 2px solid vars.$primary_1;
   background: vars.$primary_1;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   color: vars.$primary_2;
   font-weight: 500;
   font-size: 1.3rem;
@@ -201,5 +213,15 @@
     border: 2px solid #30ae33;
     background: #28B446;
     color: vars.$primary_2;
+    box-shadow: none;
+  }
+
+  &:focus {
+    outline: none;
+    cursor: pointer;
+    border: 2px solid #30ae33;
+    background: #28B446;
+    color: vars.$primary_2;
+    box-shadow: none;
   }
 }
