@@ -32,7 +32,10 @@ function BookListCard({ title, includes, image }: { title: string, includes: str
                 <div className={styles.listTitle}>
                     {title}
                 </div>
-                    <PlusCircle className={styles.plusCircleIcon} />
+                    <div className={styles.tooltipContainer}>
+                        <PlusCircle className={styles.plusCircleIcon} />
+                        <span className={styles.tooltipText}>اضافه کردن به لیست</span>
+                    </div>
                 </div>
                 <div className={styles.listIncludes}>{includes}</div>
             </div>

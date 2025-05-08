@@ -293,6 +293,7 @@
       color: vars.$primary_2;
       transition: color 0.3s;
       border-radius: 50%;
+
       &:hover {
         color: #28B446;
         cursor: pointer;
@@ -300,6 +301,32 @@
     }
 }
 
+.tooltipContainer {
+  position: relative;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.tooltipText {
+  visibility: hidden;
+  background-color: #333;
+  color: vars.$primary_2;
+  padding: 6px 8px;
+  border-radius: 0.6rem;
+  position: absolute;
+  top: 50%;
+  left: 110%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 0.8rem;
+  z-index: 1000;
+}
+
+.tooltipContainer:hover .tooltipText {
+  visibility: visible;
+}
 
 
 
