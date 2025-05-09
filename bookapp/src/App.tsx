@@ -30,8 +30,8 @@ import ReplyComment from "./pages/ReplyComment/ReplyComment";
 import SetNewPassword from "./pages/SetNewPassword/SetNewPassword";
 import VerifyForgetPasswordCode from "./pages/VerifyForgetPasswordCode/VerifyForgetPasswordCode";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
-
-
+import BookInMyList from "./pages/BooksInMyList/BooksInMyList";
+import BooksInUserList from "./pages/BooksInUserList/BooksInUserList";
 
 function App() {
   return (
@@ -66,7 +66,8 @@ function App() {
         <Route path="/setNewPass" element={<SetNewPassword/>} />
         <Route path="/verifyPass" element={<VerifyForgetPasswordCode/>} />
         <Route path="/verifyEmail" element={<VerifyEmail/>} />
-
+        <Route path="/bookInList" element={<BookInMyList/>} />
+        <Route path="/bookInListUser" element={<BooksInUserList/>} />
 
       </Routes>
     </Router>
