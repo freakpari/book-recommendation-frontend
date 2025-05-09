@@ -4,6 +4,7 @@ import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import not from "./icon/not.png";
 import { fetchPopularBooksFromAPI, fetchBookImageFromAPI } from "../../services/Bookservice"; 
+import { Link } from "react-router-dom";
 
 interface Book {
   bookid: string;
@@ -41,9 +42,35 @@ export default function PopularBooks() {
     }
   };
 
-  useEffect(() => {
-    fetchPopularBooks(pageNum);
-  }, [pageNum]);
+useEffect(() => {
+  const fetchBooks = async () => {
+    setLoading(true);
+    try {
+      const responseBooks = await fetchPopularBooksFromAPI(pageNum);
+      setBooks((prevBooks) => [...prevBooks, ...responseBooks]);
+
+      responseBooks.forEach(async (book: Book) => {
+        const imageUrl = await fetchBookImageFromAPI(book.bookid);
+        setBooks((prevBooks) =>
+          prevBooks.map((b) =>
+            b.bookid === book.bookid ? { ...b, imageUrl: imageUrl || not } : b
+          )
+        );
+      });
+
+      if (responseBooks.length === 0) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error("Error fetching popular books:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchBooks();
+}, [pageNum]);
+
 
   const loadMoreBooks = () => {
     if (!loading && hasMore) {
@@ -58,14 +85,20 @@ export default function PopularBooks() {
         <h2>محبوب‌ترین‌ها</h2>
         <div className={Styles.bookgrid}>
           {books.slice(0, 20).map((book) => (
-            <div key={book.bookid} className={Styles.bookitem}>
+            <Link style={{textDecoration:"none"}} to={`/bookdetail/${book.bookid}`}   key={book.bookid}
+              state={{ imageUrl: book.imageUrl,
+                title: book.title,
+                author: book.author
+               }}
+              className={Styles.bookitem}>
+            
               <img className={Styles.photo} src={book.imageUrl || not} alt={book.title} />
               <div className={Styles.booktext}>
                 <h3 className={Styles.title2}>{book.title}</h3>
                 <p className={Styles.para}>{book.author}</p>
                 <p className={Styles.avgrate}>امتیاز: {book.avgrate}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         {hasMore && (
