@@ -8,6 +8,7 @@ import { useState } from "react";
 import profile2 from "./icon/profile2.svg";
 import smile from "./icon/smile.svg";
 import { Link } from "react-router-dom";
+import empty from "./icon/empty.svg";
 export default function Chatpage () {
   const [activeTab, setActiveTab] = useState<'messages' | 'notifications'>('messages');
   const [newMessage, setNewMessage] = useState('');
@@ -67,15 +68,27 @@ export default function Chatpage () {
         ))}
       </div>
       <div className={styles.chatBox}>
+      {messages.length === 0 ? (
+       <div className={styles.emptyState}>
+       <img src={empty} alt="هیچ پیامی نیست" className={styles.emptyIcon} />
+       <p className={styles.emptyText}> جایی برای تبادل افکار و تجربه‌ها و البته کتاب‌ها.</p>
+    </div>
+  ) : (
+    <>
         {messages.map((msg, index) => (
           
-          <div key={index} className={`${styles.message} ${msg.sender === 'user' ? styles.userMsg : styles.friendMsg}`}>
+            <div key={index} className={`${styles.message} ${msg.sender === 'user' ? styles.userMsg : styles.friendMsg}`}>
             {msg.sender === 'user' && <img src={profile2} className={styles.profileImg} alt="user" />}
 
             <div className={styles.messageText}>{msg.text}</div>
 
-          </div>
+        </div>
         ))}
+    </>
+      
+
+        )}
+        
           <div>
 
             <input
