@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './rating.module.scss';
 
 interface StepRatingProps {
-  rating: number;
+  rating?: number | null;
   onRate: (value: number) => void;
   maxSteps?: number;
 }
@@ -13,7 +13,7 @@ const StepRating: React.FC<StepRatingProps> = ({ rating, onRate, maxSteps = 5 })
 
       {Array.from({ length: maxSteps }, (_, i) => {
         const step = i + 1;
-        const isFilled = rating >= step;
+        const isFilled = rating != null && rating >= step;
 
         return (
           <div key={step} className={styles.stepWrapper}>
@@ -23,7 +23,7 @@ const StepRating: React.FC<StepRatingProps> = ({ rating, onRate, maxSteps = 5 })
             >
               {step}
             </button>
-            {step <= maxSteps && (
+            {step < maxSteps && (
               <div className={`${styles.connector} ${isFilled ? styles.filledConnector : styles.emptyConnector}`} />
             )}
           </div>
