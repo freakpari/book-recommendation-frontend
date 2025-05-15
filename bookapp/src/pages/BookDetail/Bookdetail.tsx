@@ -15,6 +15,8 @@ import axios from 'axios';
 import likeEventEmitter from '../../utils/likeEventEmitter';
 import not from "../PopularBook/icon/not.png";
 import { TextField } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 
 interface LocationState {
@@ -24,6 +26,37 @@ interface LocationState {
   avgrate: number;
   commentText:string;
 }
+interface NotificationModalProps {
+    message: string;
+    type: 'success' | 'error';
+    onClose: () => void;
+}
+
+const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onClose();
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [onClose]);
+    return (
+        <motion.div
+            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 20, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className={styles.notificationContent}>
+                {message}
+                <button className={styles.closeButton} onClick={onClose}>
+                    &times;
+                </button>
+            </div>
+        </motion.div>
+    );
+};
 
 
 
@@ -43,15 +76,21 @@ export default function Bookdetail () {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const state = location.state as LocationState | null;
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
-
+const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
+        setNotificationMessage(message);
+        setNotificationType(type);
+        setShowNotification(true);
+    };
 const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
   setCommentText(event.target.value); 
 };
 useEffect(() => {
   const fetchLikeStatus = async () => {
     const token = localStorage.getItem("token");
-    const userid = localStorage.getItem("userid"); // اطمینان حاصل کن که user id در localStorage ذخیره شده
-
+    const userid = localStorage.getItem("userid"); 
     if (!token || !userid || !id) return;
 
     try {
@@ -80,7 +119,7 @@ const handleHeartClick = async () => {
   const userid = localStorage.getItem("userid");
 
   if (!token) {
-    alert("برای لایک کردن باید وارد شوید.");
+    showNotificationMessage("برای لایک کردن باید وارد شوید.","error");
     return;
   }
 
@@ -94,7 +133,7 @@ const handleHeartClick = async () => {
         }
       );
       setIsLiked(false);
-      alert("کتاب از لیست موردعلاقه ها حذف شد")
+      showNotificationMessage("کتاب از لیست موردعلاقه ها حذف شد","success")
     } else {
       await axios.post(
         "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/like",
@@ -107,7 +146,7 @@ const handleHeartClick = async () => {
         }
       );
       setIsLiked(true);
-      alert("کتاب به لیست موردعلاقه ها اضافه شد")
+      showNotificationMessage("کتاب به لیست موردعلاقه ها اضافه شد","success")
 
     }
   } catch (error) {
@@ -120,17 +159,17 @@ const submit = async () => {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    alert("برای ثبت امتیاز لطفاً وارد شوید.");
+    showNotificationMessage("برای ثبت امتیاز لطفاً وارد شوید.","error");
     return;
   }
 
   if (!rating) {
-    alert("لطفاً امتیاز خود را انتخاب کنید.");
+    showNotificationMessage("لطفاً امتیاز خود را انتخاب کنید.",'error');
     return;
   }
 
   if (!commentText.trim()) {
-    alert("لطفاً نظر خود را وارد کنید.");
+    showNotificationMessage("لطفاً نظر خود را وارد کنید.","error");
     return;
   }
    setIsSubmitting(true); 
@@ -168,7 +207,7 @@ const submit = async () => {
 
     console.log("Comment response:", commentResponse.data);
 
-    alert("امتیاز و نظر شما با موفقیت ثبت شد");
+    showNotificationMessage("امتیاز و نظر شما با موفقیت ثبت شد","success");
     setIsModalOpen(false);
     setCommentText("");
     setRating(0); 
@@ -211,6 +250,16 @@ const submit = async () => {
 
     return (
     <>
+     <AnimatePresence>
+                    {showNotification && (
+                        <NotificationModal
+                            message={notificationMessage}
+                            type={notificationType}
+                            onClose={() => setShowNotification(false)}
+                        />
+                    )}
+                </AnimatePresence>
+  
     <SearchNav />
     <div className={styles.container}>
     <div className={styles.rightSection}>
