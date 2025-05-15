@@ -2,33 +2,136 @@ import styles from './Bookdetail.module.scss';
 import {useEffect, useState} from "react";
 import SearchNav from '../../components/SearchNav/SearchNav';
 import Footer from '../../components/Footer/Footer';
-import shazde from "./icons/shazde.svg";
 import heart from "./icons/Heart.svg";
-import check from "./icons/Check.svg";
+import filledHeart from "./icons/filled.png";
 import comment from "./icons/Comment.svg";
 import profile  from "./icons/profile.svg";
 import {ReactComponent as CircleAdd } from "./icons/CircleAdd.svg";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import StepRating from "./rating";
-import UserProfileModal from "../../components/UserProfileModal/UserProfileModal"
-import AddBookToListModal from "../../components/AddBookToListModal/AddBookToListModal"
+import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
+import AddBookToListModal from "../../components/AddBookToListModal/AddBookToListModal";
+import axios from 'axios';
+import eventEmitter from "../../utils/eventEmitter";
+import not from "../PopularBook/icon/not.png";
+import { setCommentRange } from 'typescript';
+import { TextField } from "@mui/material";
+
+
+
+interface LocationState {
+  imageUrl: string;
+  title: string;
+  author: string;
+  avgrate: number;
+  commentText:string;
+}
+
+
+
 
 export default function Bookdetail () {
+  const { id } = useParams();
+  useEffect(() => {
+    console.log("Book ID:", id);
+  }, [id]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  eventEmitter.emit();
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
   const [isAddBookToListModalOpen, setIsAddBookToListModalOpen] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [commentText, setCommentText] = useState("");
   const [rating, setRating] = useState(4);
+  const location = useLocation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const state = location.state as LocationState | null;
+const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  setCommentText(event.target.value); 
+};
+  
+const submit = async () => {
+  const token = localStorage.getItem("token");
 
-//   const handleCheckClick = () => {
-//   const token = localStorage.getItem("token"); // Adjust the key if you use a different one
-//   if (!token) {
-//     navigate("/signup");
-//   } else {
-//     console.log("User is authenticated, do something else...");
-//   }
-// };
+  if (!token) {
+    alert("برای ثبت امتیاز لطفاً وارد شوید.");
+    return;
+  }
 
+  // Validate inputs before making any API calls
+  if (!rating) {
+    alert("لطفاً امتیاز خود را انتخاب کنید.");
+    return;
+  }
+
+  if (!commentText.trim()) {
+    alert("لطفاً نظر خود را وارد کنید.");
+    return;
+  }
+   setIsSubmitting(true); 
+
+  console.log("Submitting:", { bookid: id, rate: rating, text: commentText });
+
+  try {
+    // Submit rating first
+    const ratingResponse = await axios.post(
+      "https://intelligent-shockley-8ynjnlm8e.liara.run/api/rate",
+      {
+        bookid: id,
+        rate: rating
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    console.log("Rating response:", ratingResponse.data);
+
+    // Then submit comment
+    const commentResponse = await axios.post(
+      "https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment",
+      {
+        bookid: id,
+        text: commentText   
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    console.log("Comment response:", commentResponse.data);
+
+    alert("امتیاز و نظر شما با موفقیت ثبت شد");
+    setIsModalOpen(false);
+    setCommentText("");
+    setRating(0); // Reset rating if needed
+
+  } catch (error: any) {
+    console.error("Error details:", {
+      message: error.message,
+      response: error.response?.data,
+      stack: error.stack
+    });
+
+    if (error.response) {
+      // Server responded with a status code outside 2xx
+      alert(`خطای سرور: ${error.response.data.message || 'مشکلی در سرور رخ داده است'}`);
+    } else if (error.request) {
+      // Request was made but no response received
+      alert("پاسخی از سرور دریافت نشد. لطفاً اتصال اینترنت خود را بررسی کنید.");
+    } else {
+      // Something happened in setting up the request
+      alert("خطا در تنظیم درخواست: " + error.message);
+    }
+
+  }
+  finally {
+    setIsSubmitting(false); // End loading regardless of success/error
+  }
+};
 
     useEffect(() => {
         if (isUserProfileModalOpen || isModalOpen || isAddBookToListModalOpen) {
@@ -51,18 +154,19 @@ export default function Bookdetail () {
     <div className={styles.container}>
     <div className={styles.rightSection}>
     <div className={styles.icons}>
-        <img src={heart} className={styles.heartIcon} />
+        <img src={heart} className={styles.heartIcon} 
+ />
         <img  onClick={() => setIsModalOpen(true)} src={comment}  className={styles.commentIcon} />
         <CircleAdd className={styles.circleAdd} onClick={() => setIsAddBookToListModalOpen(true)} />
         </div>
         <img
-        src={shazde}
-        alt="شازده کوچولو"
+        src={state?.imageUrl || not}
+        alt=" picture"
         className={styles.bookCover}
         />
         <div className={styles.text}>
-        <h2>شازده کوچولو</h2>
-        <p className={styles.author}>آنتوان دو سنت اگزوپری</p>
+        <h2>{state?.title || "none"}</h2>
+        <p className={styles.author}>{state?.author || "none"}</p>
         <div className={styles.tags}>
         <button>تخیلی</button>
         <button>کودکانه</button>
@@ -144,20 +248,23 @@ export default function Bookdetail () {
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backdropFilter:"blur(0.6rem)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 999
+    // zIndex: 1000
   }}>
     <div style={{
-      background: "rgba(255, 255, 255, 0.7)",
+      position:"fixed",
+      // zIndex:"1001",
+      backdropFilter:"blur(1.2rem)",
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
       padding: "2rem",
-      borderRadius: "12px",
+      borderRadius: "  0.6rem",
       width: "1125px",
-      border:"5px solid #303857",
+      border:"0.3rem solid #303857",
       height:"534px",
-      boxShadow: "0 0 12px rgba(0, 0, 0, 0.2)",
       display: "flex",
       flexDirection: "column",
       gap: "1rem"
@@ -166,7 +273,11 @@ export default function Bookdetail () {
       <p style={{ textAlign: "center", color:"#303857",fontSize:"20px" }}>با تکمیل این فرم، تجربه و نظرتان را درباره کتابی که خوانده‌اید با ما به اشتراک بگذارید.</p>
 
       <label style={{color:"#303857",marginRight:"494px",marginTop:"60px"}}>لطفا تجربه و نظرتان را در مورد کتاب بیان کنید...</label>
-      <textarea rows={5} style={{ marginRight:"494px", padding: "0.8rem", width:"570px",height:"169px" ,borderRadius: "8px", background: "rgba(255, 255, 255, 0.2)", }} />
+         <TextField
+  className={styles.inputComment} 
+  value={commentText} 
+  onChange={handleCommentChange}
+/>
 
       <div style={{display:"flex" , gap:"44px", flexDirection:"column",marginTop:"-80px",marginRight:"100px"}}>
         <span style={{color:"#303857"}}>لطفا امتیاز خود را انتخاب کنید</span>
@@ -183,7 +294,9 @@ export default function Bookdetail () {
           </div>
       </div>
 
-      <div style={{ display: "flex", marginTop: "30px",gap:"15px",marginRight: "360px"}}>
+      <div
+      onClick={() => !isSubmitting && setIsModalOpen(false)} 
+      style={{ display: "flex", marginTop: "10px",gap:"15px",marginRight: "390px"}}>
         <button onClick={() => setIsModalOpen(false)} style={{
           backgroundColor: "#f9f9f9",
           width:"137px",
@@ -193,7 +306,9 @@ export default function Bookdetail () {
           fontSize:"16px",
           border: "2px solid #303857"
         }}>بعدا</button>
-        <button style={{
+        <button onClick={submit}
+        disabled={isSubmitting}
+        style={{
           backgroundColor: "#303857",
           width:"137px",
           height:"56px",
@@ -202,7 +317,9 @@ export default function Bookdetail () {
           padding: "0.5rem 1rem",
           borderRadius: "10px",
           border: "none"
-        }}>ثبت</button>
+        }}>
+            {isSubmitting ? "در حال ثبت..." : "ثبت"}
+        </button>
       </div>
     </div>
   </div>
