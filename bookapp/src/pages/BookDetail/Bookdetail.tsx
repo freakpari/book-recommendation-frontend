@@ -12,11 +12,9 @@ import StepRating from "./rating";
 import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
 import AddBookToListModal from "../../components/AddBookToListModal/AddBookToListModal";
 import axios from 'axios';
-import eventEmitter from "../../utils/eventEmitter";
+import likeEventEmitter from '../../utils/likeEventEmitter';
 import not from "../PopularBook/icon/not.png";
-import { setCommentRange } from 'typescript';
 import { TextField } from "@mui/material";
-
 
 
 interface LocationState {
@@ -36,7 +34,6 @@ export default function Bookdetail () {
     console.log("Book ID:", id);
   }, [id]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  eventEmitter.emit();
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
   const [isAddBookToListModalOpen, setIsAddBookToListModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -45,9 +42,79 @@ export default function Bookdetail () {
   const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const state = location.state as LocationState | null;
+  const [isLiked, setIsLiked] = useState<boolean | null>(null);
+
 const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
   setCommentText(event.target.value); 
 };
+useEffect(() => {
+  const fetchLikeStatus = async () => {
+    const token = localStorage.getItem("token");
+    const userid = localStorage.getItem("userid"); // اطمینان حاصل کن که user id در localStorage ذخیره شده
+
+    if (!token || !userid || !id) return;
+
+    try {
+      const response = await axios.get(
+        "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/likestatus",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            bookid: id,
+            userid: userid,
+          },
+        }
+      );
+      setIsLiked(response.data.status);
+    } catch (error) {
+      console.error("خطا در دریافت وضعیت لایک:", error);
+    }
+  };
+
+  fetchLikeStatus();
+}, [id]);
+const handleHeartClick = async () => {
+  const token = localStorage.getItem("token");
+  const userid = localStorage.getItem("userid");
+
+  if (!token) {
+    alert("برای لایک کردن باید وارد شوید.");
+    return;
+  }
+
+  try {
+    if (isLiked) {
+      await axios.delete(
+        "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/dislike",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          data: { bookid: id, userid: userid },
+        }
+      );
+      setIsLiked(false);
+      alert("کتاب از لیست موردعلاقه ها حذف شد")
+    } else {
+      await axios.post(
+        "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/like",
+        {
+          bookid: id,
+          userid: userid,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setIsLiked(true);
+      alert("کتاب به لیست موردعلاقه ها اضافه شد")
+
+    }
+  } catch (error) {
+    console.error("خطا در لایک/دیس‌لایک:", error);
+  }
+};
+
   
 const submit = async () => {
   const token = localStorage.getItem("token");
@@ -57,7 +124,6 @@ const submit = async () => {
     return;
   }
 
-  // Validate inputs before making any API calls
   if (!rating) {
     alert("لطفاً امتیاز خود را انتخاب کنید.");
     return;
@@ -72,7 +138,6 @@ const submit = async () => {
   console.log("Submitting:", { bookid: id, rate: rating, text: commentText });
 
   try {
-    // Submit rating first
     const ratingResponse = await axios.post(
       "https://intelligent-shockley-8ynjnlm8e.liara.run/api/rate",
       {
@@ -88,7 +153,6 @@ const submit = async () => {
 
     console.log("Rating response:", ratingResponse.data);
 
-    // Then submit comment
     const commentResponse = await axios.post(
       "https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment",
       {
@@ -107,7 +171,7 @@ const submit = async () => {
     alert("امتیاز و نظر شما با موفقیت ثبت شد");
     setIsModalOpen(false);
     setCommentText("");
-    setRating(0); // Reset rating if needed
+    setRating(0); 
 
   } catch (error: any) {
     console.error("Error details:", {
@@ -117,19 +181,16 @@ const submit = async () => {
     });
 
     if (error.response) {
-      // Server responded with a status code outside 2xx
       alert(`خطای سرور: ${error.response.data.message || 'مشکلی در سرور رخ داده است'}`);
     } else if (error.request) {
-      // Request was made but no response received
       alert("پاسخی از سرور دریافت نشد. لطفاً اتصال اینترنت خود را بررسی کنید.");
     } else {
-      // Something happened in setting up the request
       alert("خطا در تنظیم درخواست: " + error.message);
     }
 
   }
   finally {
-    setIsSubmitting(false); // End loading regardless of success/error
+    setIsSubmitting(false); 
   }
 };
 
@@ -154,7 +215,9 @@ const submit = async () => {
     <div className={styles.container}>
     <div className={styles.rightSection}>
     <div className={styles.icons}>
-        <img src={heart} className={styles.heartIcon} 
+        <img  src={isLiked ? filledHeart  : heart}
+          onClick={handleHeartClick}
+  className={`${styles.heartIcon} ${!isLiked ? styles.liked : ''}`}
  />
         <img  onClick={() => setIsModalOpen(true)} src={comment}  className={styles.commentIcon} />
         <CircleAdd className={styles.circleAdd} onClick={() => setIsAddBookToListModalOpen(true)} />
