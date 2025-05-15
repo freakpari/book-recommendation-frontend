@@ -8,6 +8,7 @@ import Pencil from "./icons/Pencil.svg";
 import EditGenreModal from "../../components/EditGenreModal/EditGenreModal";
 import eventEmitter from "../../utils/eventEmitter";
 import DefaultBook from "./icons/defaultBook.svg"
+import likeEventEmitter from "../../utils/likeEventEmitter";
 
 interface FavoriteBooks {
     BookID: number;
