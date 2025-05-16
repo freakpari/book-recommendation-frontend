@@ -29,12 +29,13 @@
 
 .scrollbar {
   overflow-y: scroll;
-  background: rgb(255, 255, 255);
   width: 54.8rem;
   height: 32.5rem;
   margin: 1.2rem auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  background: #f9f9f9;
+  border-radius: 0.6rem;
 
   &::-webkit-scrollbar {
     width: 0.5rem;
