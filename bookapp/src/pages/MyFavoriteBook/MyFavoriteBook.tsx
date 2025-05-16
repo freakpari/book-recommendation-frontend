@@ -58,7 +58,7 @@ export default function MyFavoriteBook() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const [faveBooks, setFaveBooks] = useState<FavoriteBooks[]>([]);
-    const [isFaveBook, setIsFaveBook] = useState(false);
+    const [isFaveBook, setIsFaveBook] = useState(true);
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
@@ -86,15 +86,17 @@ export default function MyFavoriteBook() {
                 });
 
                  setFaveBooks(response.data);
+
+                if(response.status === 204) {
+                    setIsFaveBook(false);
+                }
+
             }
             catch (error: any) {
                 if (error.code === 'ECONNABORTED') {
                     showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
                 }
-                if(error.response?.status === 204) {
-                    setIsFaveBook(false);
-                }
-                if (error.response?.status === 500) {
+                if (error.response.status === 500) {
                     showNotificationMessage("خطا در دریافت اطلاعات کاربر",'error');
                 }
             }
