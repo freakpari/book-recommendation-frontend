@@ -110,6 +110,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
+  background: vars.$primary_2;
+  border-radius: 0.6rem;
 
   &::-webkit-scrollbar {
     width: 0.5rem;
@@ -124,6 +126,36 @@
     min-height: 3rem;
   }
 
+}
+
+.noFaveBook {
+  overflow-y: scroll;
+  background: vars.$secondary_1;
+  width: 54.813rem;
+  height: 28.125rem;
+  margin: 0.6rem 4.625rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: vars.$primary_2;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: vars.$primary_1;
+  border-radius: 0.6rem;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 0.6rem;
+    background: vars.$secondary_2;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.6rem;
+    background-color: vars.$primary_1;
+    min-height: 3rem;
+  }
 }
 
 .bookCard {
@@ -189,4 +221,45 @@
     cursor: pointer;
     background: #30385715;
   }
+}
+
+
+.error {
+  color: #c30b0b;
+  font-size: 1.2rem;
+  display: flex;
+}
+
+.notificationModal {
+  position: fixed;
+  top: 0;
+  right: 40%;
+  transform: translateX(-50%);
+  padding: 1rem 1.8rem;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: bold;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &.error {
+    background-color: #c30b0b;
+  }
+}
+
+.notificationContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeButton {
+  margin-right: 1.8rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
 }

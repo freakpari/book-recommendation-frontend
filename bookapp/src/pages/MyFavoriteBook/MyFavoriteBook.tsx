@@ -9,6 +9,7 @@ import EditGenreModal from "../../components/EditGenreModal/EditGenreModal";
 import eventEmitter from "../../utils/eventEmitter";
 import DefaultBook from "./icons/defaultBook.svg"
 import likeEventEmitter from "../../utils/likeEventEmitter";
+import {AnimatePresence, motion} from "framer-motion";
 
 interface FavoriteBooks {
     BookID: number;
@@ -21,11 +22,51 @@ interface FavoriteBooks {
     LIKECOUNT: number;
 }
 
+interface NotificationModalProps {
+    message: string;
+    type: 'success' | 'error';
+    onClose: () => void;
+}
+
+const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onClose();
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [onClose]);
+    return (
+        <motion.div
+            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 20, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className={styles.notificationContent}>
+                {message}
+                <button className={styles.closeButton} onClick={onClose}>
+                    &times;
+                </button>
+            </div>
+        </motion.div>
+    );
+};
 
 export default function MyFavoriteBook() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const [faveBooks, setFaveBooks] = useState<FavoriteBooks[]>([]);
+    const [isFaveBook, setIsFaveBook] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
+        setNotificationMessage(message);
+        setNotificationType(type);
+        setShowNotification(true);
+    };
 
     useEffect(() => {
 
@@ -46,20 +87,18 @@ export default function MyFavoriteBook() {
 
                  setFaveBooks(response.data);
             }
-            catch (err: any) {
-                if(err.response?.status === 204) {
-                    console.error("No Favorite Book")
+            catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
                 }
-                if (err.response?.status === 500) {
-                    console.error("server error");
+                if(error.response?.status === 204) {
+                    setIsFaveBook(false);
                 }
-                else {
-                    console.error(err);
+                if (error.response?.status === 500) {
+                    showNotificationMessage("خطا در دریافت اطلاعات کاربر",'error');
                 }
             }
         }
-
-
         fetchUserFavoriteBooks();
         const unsubscribe = eventEmitter.subscribe(fetchUserGenres);
         return () => {
@@ -80,11 +119,17 @@ export default function MyFavoriteBook() {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                timeout: 10000
             });
 
             setSelectedGenres(response.data);
-        } catch (error) {
-            console.error("خطا در دریافت ژانرها: ", error);
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+            }
+            else {
+                showNotificationMessage("خطا در دریافت ژانرهای کاربر",'error');
+            }
         }
     };
 
@@ -112,7 +157,19 @@ export default function MyFavoriteBook() {
 
     return (
         <div className={styles.container}>
+
+            <AnimatePresence>
+                {showNotification && (
+                    <NotificationModal
+                        message={notificationMessage}
+                        type={notificationType}
+                        onClose={() => setShowNotification(false)}
+                    />
+                )}
+            </AnimatePresence>
+
             <SearchNav />
+
             <div className={styles.favoriteSide}>
                 <SideProfile />
 
@@ -139,25 +196,31 @@ export default function MyFavoriteBook() {
 
                     <div className={styles.MyFaveBooks}>کتاب‌های محبوب من</div>
 
-                    <div className={styles.scrollbar}>
-                        {faveBooks.map((book) => (
-                            <div key={book.BookID}>
-                                <div className={styles.bookCard}>
-                                    <div className={styles.bookImage}>
-                                        <img
-                                            src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
-                                            alt=""
-                                            onError={(e) => { e.currentTarget.src = "./icons/defaultBook.svg"; }}
-                                        />
-                                    </div>
-                                    <div className={styles.bookInfo}>
-                                        <div className={styles.bookName}>{book.Title}</div>
-                                        <div className={styles.bookAuthor}>نویسنده: {book.AuthorID}</div>
+                    {isFaveBook ? (
+                        <div className={styles.scrollbar}>
+                            {faveBooks.map((book) => (
+                                <div key={book.BookID}>
+                                    <div className={styles.bookCard}>
+                                        <div className={styles.bookImage}>
+                                            <img
+                                                src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
+                                                alt=""
+                                                onError={(e) => { e.currentTarget.src = "./icons/defaultBook.svg"; }}
+                                            />
+                                        </div>
+                                        <div className={styles.bookInfo}>
+                                            <div className={styles.bookName}>{book.Title}</div>
+                                            <div className={styles.bookAuthor}>نویسنده: {book.AuthorID}</div>
+                                        </div>
                                     </div>
                                 </div>
+                            ))}
+                        </div>
+                    ) :
+                            <div className={styles.noFaveBook}>
+                                هنوز هیچ کتابی رو به علاقه‌مندی هات اضافه نکردی
                             </div>
-                        ))}
-                    </div>
+                    }
 
 
                 </div>
