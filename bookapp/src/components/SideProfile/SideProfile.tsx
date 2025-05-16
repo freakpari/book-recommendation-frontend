@@ -27,8 +27,7 @@ export default function SideProfile() {
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [loading, setLoading] = useState(true);
-    const [showLoadingText, setShowLoadingText] = useState(true); // حالت جدید برای نمایش متن‌های بارگذاری
-    const [error, setError] = useState<string | null>(null);
+    const [showLoadingText, setShowLoadingText] = useState(true);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [userName, setUserName] = useState("");
     const [bio, setBio] = useState("");
@@ -39,7 +38,7 @@ export default function SideProfile() {
             setProfileImage(savedImage);
         }
 
-        // تایمر برای مخفی کردن متن‌های بارگذاری بعد از ۲ ثانیه
+
         const loadingTimer = setTimeout(() => {
             setShowLoadingText(false);
         }, 1000);
@@ -47,9 +46,9 @@ export default function SideProfile() {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
             if (!token) {
-                setError("توکن یافت نشد");
+                console.error("توکن یافت نشد");
                 setLoading(false);
-                setShowLoadingText(false); // اگر خطا داشتیم هم متن‌ها را مخفی کنیم
+                setShowLoadingText(false);
                 return;
             }
 
@@ -58,21 +57,31 @@ export default function SideProfile() {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    timeout: 10000
                 });
+
                 const user = response.data.user;
                 setProfile(user);
                 setUserName(user.user_name || "");
                 setBio(user.bio || "");
-            } catch (err: any) {
-                if (err.response?.status === 401) {
-                    setError("دسترسی غیرمجاز");
-                } else {
-                    setError("خطا در دریافت اطلاعات کاربر");
+
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    console.error("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+                }
+                if (error.response?.status === 401) {
+                    console.error("دسترسی غیرمجاز", 'error');
+                }
+                if (error.response?.status === 404) {
+                    console.error("کاربر یافت نشد",'error');
+                }
+                else {
+                    console.error("خطا در دریافت اطلاعات کاربر", 'error');
                 }
             } finally {
                 setLoading(false);
-                setShowLoadingText(false); // وقتی داده‌ها لود شدند متن‌ها را مخفی کنیم
-                clearTimeout(loadingTimer); // تایمر را پاک کنیم چون دیگر نیازی نیست
+                setShowLoadingText(false);
+                clearTimeout(loadingTimer);
             }
         };
 
@@ -80,7 +89,7 @@ export default function SideProfile() {
 
         return () => {
             unsubscribe();
-            clearTimeout(loadingTimer); // پاک کردن تایمر هنگام آنمونت
+            clearTimeout(loadingTimer);
         };
     }, []);
 
