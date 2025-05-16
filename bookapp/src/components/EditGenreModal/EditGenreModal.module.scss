@@ -63,7 +63,7 @@ $primary_1: #303857;
   transition: background 0.3s;
 }
 
-.closeButton {
+.saveButton {
   margin-top: 1.5rem;
   text-align: center;
   color: #f9f9f9;
@@ -121,4 +121,45 @@ $primary_1: #303857;
 
 .closeButton:disabled {
   cursor: not-allowed;
+}
+
+
+.error {
+  color: #c30b0b;
+  font-size: 1.2rem;
+  display: flex;
+}
+
+.notificationModal {
+  position: fixed;
+  top: 0;
+  right: auto;
+  transform: translateX(-50%);
+  padding: 1rem 1.8rem;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: bold;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &.error {
+    background-color: #c30b0b;
+  }
+}
+
+.notificationContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeButton {
+  margin-right: 1.8rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
 }

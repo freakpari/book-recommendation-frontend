@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./EditGenreModal.module.scss";
 import addIcon from "./icons/Plus.svg";
 import deleteIcon from "./icons/Trash.svg";
 import eventEmitter from "../../utils/eventEmitter";
+import {AnimatePresence, motion} from "framer-motion";
 
 interface Genre {
     genreid: number;
@@ -16,13 +17,59 @@ interface GenreModalProps {
     closeModal: () => void;
 }
 
+interface NotificationModalProps {
+    message: string;
+    type: 'success' | 'error';
+    onClose: () => void;
+}
+
+const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onClose();
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [onClose]);
+    return (
+        <motion.div
+            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 20, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className={styles.notificationContent}>
+                {message}
+                <button className={styles.closeButton} onClick={onClose}>
+                    &times;
+                </button>
+            </div>
+        </motion.div>
+    );
+};
+
 const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: GenreModalProps) => {
     const [allGenres, setAllGenres] = useState<Genre[]>([]);
     const [selectedGenresTitles, setSelectedGenresTitles] = useState<string[]>([]);
     const [isSaving, setIsSaving] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
+        setNotificationMessage(message);
+        setNotificationType(type);
+        setShowNotification(true);
+    };
 
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("توکن کاربر یافت نشد.");
+            return;
+        }
+
         const fetchGenres = async () => {
             try {
                 const [allGenresRes, selectedGenresRes] = await Promise.all([
@@ -31,14 +78,20 @@ const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: Genre
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
                         },
+                        timeout: 10000
                     }),
                 ]);
 
                 setAllGenres(allGenresRes.data);
                 setSelectedGenresTitles(selectedGenresRes.data);
 
-            } catch (err) {
-                console.error("خطا در گرفتن ژانرها:", err);
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+                }
+                else {
+                    showNotificationMessage("خطا در دریافت ژانرها",'error')
+                }
             }
         };
 
@@ -68,7 +121,7 @@ const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: Genre
                 .filter((genre) => selectedGenresTitles.includes(genre.title))
                 .map((genre) => genre.genreid);
 
-            const res = await axios.put(
+            const response = await axios.put(
                 "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/genres",
                 {
                     userid: token,
@@ -82,11 +135,16 @@ const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: Genre
                 }
             );
 
-            console.log("آپدیت موفق:", res.data);
             closeModal();
             eventEmitter.emit();
-        } catch (err) {
-            console.error("خطا در ذخیره ژانرها:", err);
+
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+            }
+            else {
+                showNotificationMessage("خطا در ذخیره ژانرها",'error')
+            }
         } finally {
             setIsSaving(false);
         }
@@ -94,10 +152,20 @@ const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: Genre
 
 
     return (
+
         <div
             className={styles.modalOverlay}
-            // onClick={closeModal}
         >
+            <AnimatePresence>
+                {showNotification && (
+                    <NotificationModal
+                        message={notificationMessage}
+                        type={notificationType}
+                        onClose={() => setShowNotification(false)}
+                    />
+                )}
+            </AnimatePresence>
+
             <div className={styles.modalContent}>
                 <h2>ویرایش ژانرها</h2>
                 <div className={styles.genreList}>
@@ -117,7 +185,7 @@ const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: Genre
                     ))}
                 </div>
 
-                <button className={styles.closeButton} onClick={handleSave} disabled={isSaving}>
+                <button className={styles.saveButton} onClick={handleSave} disabled={isSaving}>
                     {isSaving ? (
                         <div className={styles.loadingText}>در حال ذخیره</div>
                     ) : (
