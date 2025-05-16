@@ -96,7 +96,7 @@ export default function EditProfile() {
     const [userName, setUserName] = useState("");
     const [bio, setBio] = useState("");
     const [gender, setGender] = useState("");
-    const [birthday, setBirthday] = useState(""); // yyyy-mm-dd
+    const [birthday, setBirthday] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [email, setEmail] = useState("");
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -113,22 +113,27 @@ export default function EditProfile() {
         const fetchProfile = async () => {
             const token = localStorage.getItem("token");
             if (!token) {
-                console.error("توکن یافت نشد"); // فقط در کنسول نمایش داده می‌شود
+                console.error("توکن یافت نشد");
                 setLoading(false);
                 return;
             }
 
             try {
-                const response = await axios.get("https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
+                const response = await axios.get(
+                    `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile`,
+                    {
+                        headers:
+                            {
+                                Authorization: `Bearer ${token}`
+                            },
+                        timeout: 10000
                     },
-                });
+                    );
                 eventEmitter.emit();
                 const user = response.data.user;
                 setProfile(user);
                 const birthDate = user.birthday ? new Date(user.birthday) : new Date();
-                setDaySelectedValue((birthDate.getDate() + 1).toString()); // اینجا مقدار صحیح است
+                setDaySelectedValue((birthDate.getDate() + 1).toString());
                 setMonthSelectedValue((birthDate.getMonth() + 1).toString());
                 setYearSelectedValue(birthDate.getFullYear().toString());
                 setFirstName(user.first_name || "");
@@ -147,10 +152,17 @@ export default function EditProfile() {
                             : "ترجیح می‌دهم نگویم"
                 );
 
-            } catch (err: any) {
-                if (err.response?.status === 401) {
-                    console.error("دسترسی غیرمجاز");
-                } else {
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                }
+                if (error.response?.status === 401) {
+                    showNotificationMessage("دسترسی غیرمجاز",'error');
+                }
+                if (error.response?.status === 404) {
+                    showNotificationMessage("کاربر یافت نشد",'error');
+                }
+                else {
                     showNotificationMessage("خطا در دریافت اطلاعات کاربر", "error");
                 }
             } finally {
@@ -181,21 +193,27 @@ export default function EditProfile() {
                 new_phoneNumber: phoneNumber,
             };
             const response = await axios.put(
-                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/updateProfile",
+                `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/updateProfile`,
                 updatedProfileData,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
+                    timeout: 10000
                 }
             );
 
             localStorage.setItem("userData", JSON.stringify(response.data.user));
             eventEmitter.emit();
             showNotificationMessage("پروفایل با موفقیت به‌روزرسانی شد", 'success');
-        } catch (err) {
-            showNotificationMessage("خطا در به‌روزرسانی پروفایل", 'error');
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+            }
+            else {
+                showNotificationMessage("خطا در به‌روزرسانی پروفایل", 'error');
+            }
         } finally {
             setIsUpdatingProfile(false);
         }
@@ -230,6 +248,7 @@ export default function EditProfile() {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
+                    timeout: 10000
                 }
             );
 
@@ -243,11 +262,16 @@ export default function EditProfile() {
             setShowCurrentPassword(false);
             setShowNewPassword(false);
             setShowConfirmPassword(false);
-        } catch (err: any) {
-            const errorMessage = err.response?.status === 404
-                ? "رمز عبور فعلی اشتباه است"
-                : "خطا در تغییر رمز عبور";
-            showNotificationMessage(errorMessage, 'error');
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+            showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+            }
+            else{
+                const errorMessage = error.response?.status === 400
+                    ? "رمز عبور فعلی اشتباه است"
+                    : "خطا در تغییر رمز عبور";
+                showNotificationMessage(errorMessage, 'error');
+            }
         } finally {
             setIsChangingPassword(false);
         }
