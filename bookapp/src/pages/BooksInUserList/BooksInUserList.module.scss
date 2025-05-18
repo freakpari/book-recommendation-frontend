@@ -128,6 +128,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  background: vars.$primary_2;
+  border-radius: 0.6rem;
 
   &::-webkit-scrollbar {
     width: 0.5rem;
