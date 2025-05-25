@@ -10,6 +10,7 @@ import deleteIcon from "./icons/Trash.svg";
 import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {AnimatePresence, motion} from "framer-motion";
 
 interface UserProfile {
     id: number;
@@ -23,6 +24,38 @@ interface UserProfile {
     email: string;
 }
 
+interface NotificationModalProps {
+    message: string;
+    type: 'success' | 'error';
+    onClose: () => void;
+}
+
+const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onClose();
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [onClose]);
+    return (
+        <motion.div
+            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 20, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className={styles.notificationContent}>
+                {message}
+                <button className={styles.closeButton} onClick={onClose}>
+                    &times;
+                </button>
+            </div>
+        </motion.div>
+    );
+};
+
 export default function SideProfile() {
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -31,6 +64,14 @@ export default function SideProfile() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [userName, setUserName] = useState("");
     const [bio, setBio] = useState("");
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
+        setNotificationMessage(message);
+        setNotificationType(type);
+        setShowNotification(true);
+    };
 
     useEffect(() => {
         const savedImage = localStorage.getItem("profileImage");
@@ -46,7 +87,7 @@ export default function SideProfile() {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
             if (!token) {
-                console.error("توکن یافت نشد");
+                showNotificationMessage("دسترسی غیرمجاز",'error');
                 setLoading(false);
                 setShowLoadingText(false);
                 return;
@@ -67,16 +108,10 @@ export default function SideProfile() {
 
             } catch (error: any) {
                 if (error.code === 'ECONNABORTED') {
-                    console.error("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
-                }
-                if (error.response?.status === 401) {
-                    console.error("دسترسی غیرمجاز", 'error');
-                }
-                if (error.response?.status === 404) {
-                    console.error("کاربر یافت نشد",'error');
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
                 }
                 else {
-                    console.error("خطا در دریافت اطلاعات کاربر", 'error');
+                    showNotificationMessage("خطا در دریافت اطلاعات کاربر", 'error');
                 }
             } finally {
                 setLoading(false);
@@ -93,33 +128,89 @@ export default function SideProfile() {
         };
     }, []);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
         const validTypes = ["image/jpeg", "image/png", "image/webp"];
         if (!validTypes.includes(file.type)) {
-            alert("فرمت فایل پشتیبانی نمی‌شود. لطفاً از PNG یا JPG استفاده کنید.");
+            showNotificationMessage("لطفاً از PNG یا JPG استفاده کنید.",'error');
             return;
         }
 
         if (file.size > 2 * 1024 * 1024) {
-            alert("حجم فایل بیشتر از ۲ مگابایت است. لطفاً عکس کوچک‌تری انتخاب کنید.");
+            showNotificationMessage("حجم فایل بیشتر از ۲ مگابایت است.",'error');
             return;
         }
 
         const imageUrl = URL.createObjectURL(file);
         setProfileImage(imageUrl);
         localStorage.setItem("profileImage", imageUrl);
+
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            showNotificationMessage("دسترسی غیرمجاز",'error');
+            return;
+        }
+
+        try {
+             await axios.post(
+                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/profile/pic/upload",
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            showNotificationMessage("تصویر با موفقیت آپلود شد", 'success');
+
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+            }
+            else {
+                showNotificationMessage("خطایی در آپلود تصویر رخ داد. لطفاً دوباره تلاش کنید.",'error');
+
+            }
+        }
     };
 
     const handleDeleteImage = () => {
-        setProfileImage(null);
-        localStorage.removeItem("profileImage");
+        try {
+
+            setProfileImage(null);
+            localStorage.removeItem("profileImage");
+            showNotificationMessage("عکس پروفایل با موفقیت حذف شد",'success')
+        }
+        catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+            }
+            else {
+                showNotificationMessage("خطایی رخ داده است. لطفاً دوباره سعی کنید.",'error')
+            }
+        }
     };
 
     return (
       <div className={styles.container}>
+          <AnimatePresence>
+              {showNotification && (
+                  <NotificationModal
+                      message={notificationMessage}
+                      type={notificationType}
+                      onClose={() => setShowNotification(false)}
+                  />
+              )}
+          </AnimatePresence>
+
           <div className={styles.profile}>
               <div>
                   <input
