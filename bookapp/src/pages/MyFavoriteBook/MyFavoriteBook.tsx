@@ -10,6 +10,7 @@ import eventEmitter from "../../utils/eventEmitter";
 import DefaultBook from "./icons/defaultBook.svg"
 import likeEventEmitter from "../../utils/likeEventEmitter";
 import {AnimatePresence, motion} from "framer-motion";
+import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 
 interface FavoriteBooks {
     BookID: number;
@@ -22,51 +23,18 @@ interface FavoriteBooks {
     LIKECOUNT: number;
 }
 
-interface NotificationModalProps {
-    message: string;
-    type: 'success' | 'error';
-    onClose: () => void;
-}
-
-const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onClose();
-        }, 3000);
-
-        return () => clearTimeout(timer);
-    }, [onClose]);
-    return (
-        <motion.div
-            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 20, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className={styles.notificationContent}>
-                {message}
-                <button className={styles.closeButton} onClick={onClose}>
-                    &times;
-                </button>
-            </div>
-        </motion.div>
-    );
-};
-
 export default function MyFavoriteBook() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const [faveBooks, setFaveBooks] = useState<FavoriteBooks[]>([]);
     const [isFaveBook, setIsFaveBook] = useState(true);
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
-    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
-        setNotificationMessage(message);
-        setNotificationType(type);
-        setShowNotification(true);
-    };
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
 
     useEffect(() => {
 
