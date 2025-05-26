@@ -38,6 +38,7 @@
   position: relative;
   top: -6.1rem;
   right: 20rem;
+  color: #c30b0b;
 
   &::before {
     content: '';
@@ -49,8 +50,7 @@
     border: 0.3rem solid vars.$primary_1;
     border-radius: 50%;
     clip-path: inset(0 0 50% 0);
-    background: #ffffff;
-
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .circle {
@@ -65,17 +65,19 @@
       position: absolute;
       top: -5.3rem;
       right: -0.3rem;
+      width: 10rem;
+      height: 10rem;
     }
   }
 
   .hideMainBorder {
     position: absolute;
-    top: -5.36rem;
-    right: -0.875rem;
+    top: -5.38rem;
+    right: -0.868rem;
     width: 11.25rem;
-    height: 5.375rem;
+    height: 5.4rem;
     border-radius: 62.5rem 62.5rem 0 0;
-    border-bottom: 0.3rem solid vars.$primary_2;
+    border-bottom: 0.3rem solid #ededed;
   }
 }
 
@@ -222,10 +224,10 @@
 
 .noList {
   text-align: center;
-  width: 823px;
+  width: 51.4rem;
   font-weight: 700;
-  font-size: 24px;
-  line-height: 40px;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
   color: #939393;
 }
 
