@@ -9,18 +9,31 @@ import Koodak from "./icons/Koodak.svg";
 import { ReactComponent as Plus } from "./icons/Plus.svg";
 import { useState } from "react";
 import CreateListModal from "../../components/CreateListModal/CreateListModal";
+import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+import { AnimatePresence } from "framer-motion";
+import axios from "axios";
 
-
-const myList = [
-    { title: "تهرانم", includes: "سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت", image: Tehran },
-    { title: "کودک", includes: "شامل: سری کتاب‌های کودک ۱ ٬ اتل متل توتوله گاو حسن چجوره٬ نه شیر داره نه پستون یک زن هندی بسون", image: Koodak },
-    { title: "تهرانم", includes: "سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت", image: Tehran },
-    { title: "کودک", includes: "شامل: سری کتاب‌های کودک ۱ ٬ اتل متل توتوله گاو حسن چجوره٬ نه شیر داره نه پستون یک زن هندی بسون", image: Koodak },
-    { title: "تهرانم", includes: "سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت", image: Tehran },
-    { title: "کودک", includes: "شامل: سری کتاب‌های کودک ۱ ٬ اتل متل توتوله گاو حسن چجوره٬ نه شیر داره نه پستون یک زن هندی بسون", image: Koodak },
-    { title: "تهرانم", includes: "سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت", image: Tehran },
-    { title: "کودک", includes: "شامل: سری کتاب‌های کودک ۱ ٬ اتل متل توتوله گاو حسن چجوره٬ نه شیر داره نه پستون یک زن هندی بسون", image: Koodak },
-];
+interface UserBookList  {
+    CollectionID: number,
+    IsPublic: boolean,
+    Title: string,
+    CreateDate: string,
+    Discription: string,
+    ReportID: null,
+    GenreID1: number,
+    GenreTitle1: null,
+    GenreID2: number,
+    GenreTitle2: null,
+    GenreID3: number,
+    GenreTitle3: null,
+    AccessibilityGroupID: null,
+    AccessGroupTitle: null,
+    AccessGroupDiscription: null,
+    NumberOfDetail: number,
+    UserID: number,
+    UserName: string,
+    FullName: string,
+}
 
 const mySavedList = [
     { title: "تهرانم", includes: "سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت", image: Tehran },
@@ -58,8 +71,46 @@ function SavedBookListCard({ title, includes, image }: { title: string, includes
 
 export default function MyBookList() {
 
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userBookList, setUserBookList] = useState<UserBookList[]>([]);
 
+    useEffect(() => {
+
+        const handleShowUserBookList = async () => {
+            const token = localStorage.getItem("token");
+            if(!token) {
+                console.error("دسترسی غیرمجاز");
+                return;
+            }
+
+            try {
+                const response = await axios.get<UserBookList[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/user`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    });
+                setUserBookList(response.data);
+
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                }
+                else {
+                    showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                }
+            }
+        };
+
+        handleShowUserBookList();
+    }, []);
 
     useEffect(() => {
         eventEmitter.emit();
@@ -79,6 +130,15 @@ export default function MyBookList() {
 
     return (
         <div className={styles.container}>
+            <AnimatePresence>
+                {showNotification && (
+                    <NotificationModal
+                        message={notificationMessage}
+                        type={notificationType}
+                        onClose={() => setShowNotification(false)}
+                    />
+                )}
+            </AnimatePresence>
             <div>
                 <SearchNav />
             </div>
@@ -88,14 +148,18 @@ export default function MyBookList() {
                     <div className={styles.myListHeader}>لیست‌های من</div>
                     <div className={styles.bookListContainer}>
                         <div className={styles.myListDrawer}>
-                            {myList.map((list, index) => (
-                                <BookListCard
-                                    key={`my-list-${index}`}
-                                    title={list.title}
-                                    includes={list.includes}
-                                    image={list.image}
-                                />
-                            ))}
+                            {userBookList.length === 0 ? (
+                                <div className={styles.noList}>هنوز لیستی توسط این کاربر ساخته نشده است</div>
+                            ) : (
+                                userBookList.map((item, index) => (
+                                    <BookListCard
+                                        key={`user-list-${index}`}
+                                        title={item.Title}
+                                        includes={item.Discription || 'بدون توضیح'}
+                                        image={Tehran}
+                                    />
+                                ))
+                            )}
                         </div>
                     </div>
 
