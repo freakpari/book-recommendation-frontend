@@ -11,6 +11,7 @@ import axios from "axios";
 import eventEmitter from "../../utils/eventEmitter";
 import Eye from "./icons/visibility.svg";
 import CloseEye from "./icons/visibilityoff.svg"
+import {NotificationModal, useNotification} from "../../components/NotificationManager/NotificationManager";
 
 interface UserProfile {
     id: number;
@@ -24,51 +25,18 @@ interface UserProfile {
     email: string;
 }
 
-interface NotificationModalProps {
-    message: string;
-    type: 'success' | 'error';
-    onClose: () => void;
-}
-
-const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onClose();
-        }, 3000);
-
-        return () => clearTimeout(timer);
-    }, [onClose]);
-    return (
-        <motion.div
-            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 20, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className={styles.notificationContent}>
-                {message}
-                <button className={styles.closeButton} onClick={onClose}>
-                    &times;
-                </button>
-            </div>
-        </motion.div>
-    );
-};
-
 export default function EditProfile() {
 
     const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
     const [showNewPassword, setShowNewPassword] = React.useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
-    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
-        setNotificationMessage(message);
-        setNotificationType(type);
-        setShowNotification(true);
-    };
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
     const [daySelectedValue, setDaySelectedValue] = React.useState("");
     const dayStartValue = 1;
     const [yearSelectedValue, setYearSelectedValue] = React.useState("");
