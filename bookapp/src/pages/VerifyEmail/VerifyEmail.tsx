@@ -5,49 +5,19 @@ import MainPic from "../SetNewPassword/icons/mainPic.svg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {AnimatePresence, motion} from "framer-motion";
-
-
-interface NotificationModalProps {
-    message: string;
-    onClose: () => void;
-}
-
-const NotificationModal: React.FC<NotificationModalProps> = ({ message, onClose }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onClose();
-        }, 3000);
-
-        return () => clearTimeout(timer);
-    }, [onClose]);
-    return (
-        <motion.div
-            className={`${styles.notificationModal} ${styles.error}`}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 20, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className={styles.notificationContent}>
-                {message}
-                <button className={styles.closeButton} onClick={onClose}>
-                    &times;
-                </button>
-            </div>
-        </motion.div>
-    );
-};
+import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 
 export default function VerifyEmail() {
     const [email, setEmail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-    const showNotificationMessage = (message: string) => {
-        setNotificationMessage(message);
-        setShowNotification(true);
-    };
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
     const [emailDir, setEmailDir] = useState<"rtl" | "ltr">("rtl");
     const isValidEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +26,7 @@ export default function VerifyEmail() {
 
     const verifyEmail = async () => {
         if (!isValidEmail(email)) {
-            showNotificationMessage("لطفاً یک ایمیل معتبر وارد کنید.");
+            showNotificationMessage("لطفاً یک ایمیل معتبر وارد کنید.",'error');
             return;
         }
 
@@ -76,9 +46,9 @@ export default function VerifyEmail() {
             });
         } catch (error: any) {
             if (error.code === 'ECONNABORTED') {
-                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.");
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
             } else {
-                showNotificationMessage("مشکلی پیش آمده لطفاً دوباره تلاش کنید.");
+                showNotificationMessage("مشکلی پیش آمده لطفاً دوباره تلاش کنید.",'error');
             }
         } finally {
             setIsLoading(false);
@@ -92,6 +62,7 @@ export default function VerifyEmail() {
                 {showNotification && (
                     <NotificationModal
                         message={notificationMessage}
+                        type={notificationType}
                         onClose={() => setShowNotification(false)}
                     />
                 )}
