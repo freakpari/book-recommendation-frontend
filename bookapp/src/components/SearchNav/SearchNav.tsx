@@ -14,6 +14,8 @@ import logout from "./icons/logout.svg";
 import instagram from "./icons/Instagram.svg";
 import linkdine from "./icons/linkdine.svg";
 import {href, Link, useNavigate} from "react-router-dom";
+import axios from "axios";
+import eventEmitter from "../../utils/eventEmitter";
 
 interface Book {
   id: string;
@@ -100,17 +102,53 @@ export default function SearchNav() {
       }
     }
 
-
-    const [hasToken, setHasToken] = useState<boolean>(!!localStorage.getItem('token'));
-    const [profileImage, setProfileImage] = useState<string | null>(localStorage.getItem('profileImage'));
+    const [hasToken, setHasToken] = useState<boolean>();
+    const [profileImage, setProfileImage] = useState<string | null>(null);
 
     useEffect(() => {
-        const savedImage = localStorage.getItem("profileImage");
-        if (savedImage) {
-            setProfileImage(savedImage);
-        } else {
-            setProfileImage(null); // اگر تصویری نیست، حالت پیش‌فرض رو تنظیم می‌کنیم
+        const token = localStorage.getItem("token");
+        if (!token) {
+            return;
+        } else setHasToken(true);
+
+        const fetchUserProfile = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("دسترسی غیرمجاز");
+                return;
+            }
+            try {
+                const response = await axios.get(
+                    "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePicToken", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        responseType: "blob"
+
+                    });
+                const imageBlob = response.data;
+                const imageURL = URL.createObjectURL(imageBlob);
+
+                console.log(response);
+                setProfileImage(imageURL);
+
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    console.error("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.");
+                }
+                else {
+                    console.error("خطا در دریافت پروفایل کاربر");
+                }
+            }
         }
+
+        fetchUserProfile();
+        const unsubscribe = eventEmitter.subscribe(fetchUserProfile);
+
+        return () => {
+            unsubscribe();
+        };
+
     }, []);
 
     return (
