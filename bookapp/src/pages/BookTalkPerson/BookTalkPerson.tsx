@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import styles from "./BookTalkPerson.module.scss";
@@ -7,8 +7,15 @@ import Comment from "./icons/comment.svg"
 import Dislike from "./icons/dislike.svg"
 import Like from "./icons/like.svg"
 import axios from "axios";
+import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
+import {useNavigate} from "react-router-dom";
 
 export default function BookTalkPerson () {
+
+    const [commentid, setCommentid] = useState("");
+    const navigate = useNavigate();
+    const [userid, setUserid] = useState("");
+    const [isUserProfileModalOpen, setIsUserProfileModalOpen] = React.useState(false);
 
     const handleLikeComment = async () => {
         const token = localStorage.getItem("token");
@@ -63,6 +70,29 @@ export default function BookTalkPerson () {
         }
     }
 
+    const handleReplyComment = async () => {
+        navigate("/replyComment", {
+            state: {
+                commentid: commentid,
+            },
+        });
+    }
+
+    useEffect(() => {
+        if (isUserProfileModalOpen) {
+            document.body.style.overflow = "hidden";
+            document.documentElement.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
+        }
+
+        return () => {
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
+        };
+    }, [isUserProfileModalOpen]);
+
 
     return (
         <div className={styles.container}>
@@ -74,25 +104,30 @@ export default function BookTalkPerson () {
                 <div className={styles.bookTalk}>
                     <div className={styles.post}>
                         <div className={styles.postInfoOptions}>
-                            <div className={styles.postUserIcon}>
-                                <img src={UserIcon} alt="user icon" />
-                            </div>
-                            <div className={styles.postUserInfo}>
-                                <div className={styles.postUserName}>مریم ساداتی</div>
-                                <div className={styles.postUserId}>@marybooklover</div>
-                            </div>
+                            <button
+                                className={styles.UserInfo}
+                                onClick={() => setIsUserProfileModalOpen(true)}
+                            >
+                                <div className={styles.postUserIcon}>
+                                    <img src={UserIcon} alt="user icon" />
+                                </div>
+                                <div className={styles.postUserInfo}>
+                                    <div className={styles.postUserName}>مریم ساداتی</div>
+                                    <div className={styles.postUserId}>@marybooklover</div>
+                                </div>
+                            </button>
+
                             <div className={styles.postIcons}>
-                                <a href="/replyComment">
-                                    <img
+                                <img
                                     src={Comment}
                                     alt="comment icon"
-                                    />
-                                </a>
-                            <img
-                                src={Dislike}
-                                alt="dislike icon"
-                                onClick={handleDisLikeComment}
-                            />
+                                    onClick={handleReplyComment}
+                                />
+                                <img
+                                    src={Dislike}
+                                    alt="dislike icon"
+                                    onClick={handleDisLikeComment}
+                                />
                                 <img
                                     src={Like}
                                     alt="like icon"
@@ -149,6 +184,12 @@ export default function BookTalkPerson () {
             <div>
                 <Footer />
             </div>
+            {isUserProfileModalOpen && (
+                <UserProfileModal
+                    onClose={() => setIsUserProfileModalOpen(false)}
+                    userid={userid}
+                />
+            )}
         </div>
     )
 }

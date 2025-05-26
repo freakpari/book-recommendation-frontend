@@ -47,7 +47,17 @@
 .postInfoOptions {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  //gap: 2rem;
+}
+
+.UserInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .postUserIcon {
@@ -58,7 +68,7 @@
 }
 
 .postUserInfo {
-  width: 25rem;
+  width: 23.5rem;
   text-align: right;
   line-height: 2.5rem;
 }
