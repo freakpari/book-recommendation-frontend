@@ -29,10 +29,6 @@ export default function ReplyComment() {
                         </div>
                         <div className={styles.postIcons}>
                             <img
-                                src={Comment}
-                                alt="comment icon"
-                            />
-                            <img
                                 src={Dislike}
                                 alt="dislike icon"
                                 // onClick={handleDisLikeComment}
