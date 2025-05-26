@@ -5,6 +5,7 @@ import heart from "./icons/Heart.svg";
 import history from "./icons/History.svg";
 import list from "./icons/list.svg";
 import defaultUser from "./icons/defaultUser.svg";
+import deleteProfileImage from "./icons/deletePrfileImage.jpg"
 import editPen from "./icons/editPen.svg";
 import deleteIcon from "./icons/Trash.svg";
 import eventEmitter from "../../utils/eventEmitter";
@@ -74,11 +75,6 @@ export default function SideProfile() {
     };
 
     useEffect(() => {
-        const savedImage = localStorage.getItem("profileImage");
-        if (savedImage) {
-            setProfileImage(savedImage);
-        }
-
 
         const loadingTimer = setTimeout(() => {
             setShowLoadingText(false);
@@ -120,6 +116,8 @@ export default function SideProfile() {
             }
         };
 
+        fetchUserProfile();
+
         const unsubscribe = eventEmitter.subscribe(fetchUserData);
 
         return () => {
@@ -128,7 +126,46 @@ export default function SideProfile() {
         };
     }, []);
 
+
+    const fetchUserProfile = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            showNotificationMessage("دسترسی غیرمجاز",'error');
+            return;
+        }
+        try {
+            const response = await axios.get(
+                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePicToken", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    responseType: "blob"
+
+                });
+            const imageBlob = response.data;
+            const imageURL = URL.createObjectURL(imageBlob);
+
+            console.log(response);
+            setProfileImage(imageURL);
+
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+            }
+            else {
+                showNotificationMessage("خطا در دریافت پروفایل کاربر", 'error');
+            }
+        }
+    }
+
+
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            showNotificationMessage("دسترسی غیرمجاز",'error');
+            return;
+        }
+
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -143,19 +180,8 @@ export default function SideProfile() {
             return;
         }
 
-        const imageUrl = URL.createObjectURL(file);
-        setProfileImage(imageUrl);
-        localStorage.setItem("profileImage", imageUrl);
-
-
         const formData = new FormData();
         formData.append("file", file);
-
-        const token = localStorage.getItem("token");
-        if (!token) {
-            showNotificationMessage("دسترسی غیرمجاز",'error');
-            return;
-        }
 
         try {
              await axios.post(
@@ -170,31 +196,53 @@ export default function SideProfile() {
             );
 
             showNotificationMessage("تصویر با موفقیت آپلود شد", 'success');
+            fetchUserProfile();
+            eventEmitter.emit();
 
         } catch (error: any) {
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
             }
             else {
-                showNotificationMessage("خطایی در آپلود تصویر رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
 
             }
         }
     };
 
-    const handleDeleteImage = () => {
-        try {
-
-            setProfileImage(null);
-            localStorage.removeItem("profileImage");
-            showNotificationMessage("عکس پروفایل با موفقیت حذف شد",'success')
+    const handleDeleteImage = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            showNotificationMessage("دسترسی غیرمجاز",'error');
+            return;
         }
-        catch (error: any) {
+
+        const file = deleteProfileImage;
+        if(!file) return;
+        //
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            await axios.post(
+                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/profile/pic/upload",
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            showNotificationMessage("تصویر با موفقیت حذف شد", 'success');
+
+        } catch (error: any) {
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
             }
             else {
-                showNotificationMessage("خطایی رخ داده است. لطفاً دوباره سعی کنید.",'error')
+                showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+
             }
         }
     };
