@@ -67,6 +67,7 @@ export default function Bookdetail () {
     console.log("Book ID:", id);
   }, [id]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userid, setUserid] = useState("");
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
   const [isAddBookToListModalOpen, setIsAddBookToListModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -346,7 +347,10 @@ const submit = async () => {
         </div>
     </div>
         {isUserProfileModalOpen && (
-            <UserProfileModal onClose={() => setIsUserProfileModalOpen(false)} />
+            <UserProfileModal
+                onClose={() => setIsUserProfileModalOpen(false)}
+                userid={userid}
+            />
         )}
 
         {isAddBookToListModalOpen && (
