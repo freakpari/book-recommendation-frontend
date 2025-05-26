@@ -7,39 +7,7 @@ import CloseEye from "./icons/visibilityoff.svg"
 import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AnimatePresence, motion} from "framer-motion";
-
-interface NotificationModalProps {
-    message: string;
-    type: 'success' | 'error';
-    onClose: () => void;
-}
-
-const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onClose();
-        }, 3000);
-
-        return () => clearTimeout(timer);
-    }, [onClose]);
-    return (
-        <motion.div
-            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 20, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className={styles.notificationContent}>
-                {message}
-                <button className={styles.closeButton} onClick={onClose}>
-                    &times;
-                </button>
-            </div>
-        </motion.div>
-    );
-};
-
+import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 
 export default function SetNewPassword() {
 
@@ -49,14 +17,13 @@ export default function SetNewPassword() {
     const email = location.state?.email || "";
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
-    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
-        setNotificationMessage(message);
-        setNotificationType(type);
-        setShowNotification(true);
-    };
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
 
     const [isloading, setIsLoading] = useState(false);
     const navigate = useNavigate();
