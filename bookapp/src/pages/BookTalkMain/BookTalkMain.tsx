@@ -1,15 +1,98 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import styles from "./BookTalkMain.module.scss";
-import Abbas from "./icons/Abbas.svg"
-import Maryam from "./icons/Maryam.svg"
-import Rana from "./icons/Rana.svg"
-import Sogol from "./icons/Sogol.svg"
+import Abbas from "./icons/Abbas.svg";
+import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
+import axios from "axios";
+import {AnimatePresence, motion} from "framer-motion";
+import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+
+interface Comments {
+    commentid: number,
+    userid: number,
+    bookid: number,
+    text: string,
+    commentrefid: number,
+    createdat: string,
+    likecount: number,
+    dislikecount: number,
+    isblocked: boolean,
+    isedited: boolean,
+    isspoiled: boolean,
+    reportcount: number,
+    reportid: null
+}
+
+interface Props {
+    bookid: string;
+}
 
 export default function BookTalkMain() {
+
+    const [userid, setUserid] = useState("");
+    const [isUserProfileModalOpen, setIsUserProfileModalOpen] = React.useState(false);
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
+
+    useEffect(() => {
+        const handleComments = async () => {
+
+            const bookid = 40;
+            try {
+                const response = await axios.get(
+                    `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${bookid}`
+                )
+
+            }
+            catch(error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                }
+                else {
+                    showNotificationMessage("خطا در بارگیری کامنت‌ها",'error');
+
+                }
+            }
+        };
+
+        setUserid("10115");
+        handleComments();
+    }, []);
+
+
+    useEffect(() => {
+        if (isUserProfileModalOpen) {
+            document.body.style.overflow = "hidden";
+            document.documentElement.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
+        }
+
+        return () => {
+            document.body.style.overflow = "auto";
+            document.documentElement.style.overflow = "auto";
+        };
+    }, [isUserProfileModalOpen]);
+
     return (
         <div className={styles.container}>
+            <AnimatePresence>
+                {showNotification && (
+                    <NotificationModal
+                        message={notificationMessage}
+                        type={notificationType}
+                        onClose={() => setShowNotification(false)}
+                    />
+                )}
+            </AnimatePresence>
+
             <div>
                 <SearchNav />
             </div>
@@ -19,7 +102,10 @@ export default function BookTalkMain() {
                     <div className={styles.scrollBar}>
                         <div className={styles.scrollBarContent}>
                             <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
+                                <div 
+                                    className={styles.minCommentInfo}
+                                    onClick={() => setIsUserProfileModalOpen(true)}
+                                >
                                     <div>
                                         <img src={Abbas} alt="user icon"/>
                                     </div>
@@ -31,336 +117,6 @@ export default function BookTalkMain() {
                                 <div className={styles.minCommentContent}>
                                     <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
                                         الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.midComment}>
-                                <div className={styles.midCommentInfo}>
-                                    <div>
-                                        <img src={Maryam} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.midUserInfo}>
-                                        <div className={styles.midUserName}>مریم ساداتی</div>
-                                        <div className={styles.midUserId}>@marybooklover</div>
-                                    </div>
-                                </div>
-                                <div className={styles.midCommentContent}>
-                                    <div><span className={styles.hashtag}> #ورونیکا_تصمیم_می‌گیرد_بمیرد </span>تأثیر
-                                        عمیقی بر من گذاشت؛ روایت ساده و فلسفی ورونیکا باعث شد تا دوباره به ارزش‌های
-                                        زندگی و مرگ فکر کنم. تجربه‌ای منحصر به فرد و اندیشمندانه.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.midComment}>
-                                <div className={styles.midCommentInfo}>
-                                    <div>
-                                        <img src={Maryam} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.midUserInfo}>
-                                        <div className={styles.midUserName}>مریم ساداتی</div>
-                                        <div className={styles.midUserId}>@marybooklover</div>
-                                    </div>
-                                </div>
-                                <div className={styles.midCommentContent}>
-                                    <div><span className={styles.hashtag}> #ورونیکا_تصمیم_می‌گیرد_بمیرد </span>تأثیر
-                                        عمیقی بر من گذاشت؛ روایت ساده و فلسفی ورونیکا باعث شد تا دوباره به ارزش‌های
-                                        زندگی و مرگ فکر کنم. تجربه‌ای منحصر به فرد و اندیشمندانه.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment2}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment2}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment2}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.minComment}>
-                                <div className={styles.minCommentInfo}>
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.maxComment2}>
-                                <div className={styles.maxCommentInfo}>
-                                    <div>
-                                        <img src={Sogol} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.maxUserInfo}>
-                                        <div className={styles.maxUserName}>سوگل بیگی</div>
-                                        <div className={styles.maxUserId}>@soogool</div>
-                                    </div>
-                                </div>
-                                <div className={styles.maxCommentContent}>
-                                    <div><span className={styles.hashtag}>#خسی_در_میقات</span> اثر جلال آل احمد، با
-                                        نگاهی تند و انتقادی به ناهنجاری‌های فرهنگی و اجتماعی می‌پردازد. این اثر، علاوه
-                                        بر نقد واقعیت‌های تلخ جامعه، خواننده را به تأمل عمیق در مسائل هویتی و فرهنگی
-                                        دعوت می‌کند؛ یک تجربه تلخ اما الهام‌بخش که فراخوانی برای بازنگری در ارزش‌های
-                                        اجتماعی است.
                                     </div>
                                 </div>
                             </div>
@@ -374,6 +130,14 @@ export default function BookTalkMain() {
             <div>
                 <Footer/>
             </div>
+
+            {isUserProfileModalOpen && (
+                <UserProfileModal
+                    onClose={() => setIsUserProfileModalOpen(false)}
+                    userid={userid}
+                />
+            )}
+            
         </div>
     )
 }
