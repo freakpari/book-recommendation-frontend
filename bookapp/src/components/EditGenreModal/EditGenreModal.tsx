@@ -5,6 +5,7 @@ import addIcon from "./icons/Plus.svg";
 import deleteIcon from "./icons/Trash.svg";
 import eventEmitter from "../../utils/eventEmitter";
 import {AnimatePresence, motion} from "framer-motion";
+import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 
 interface Genre {
     genreid: number;
@@ -17,51 +18,17 @@ interface GenreModalProps {
     closeModal: () => void;
 }
 
-interface NotificationModalProps {
-    message: string;
-    type: 'success' | 'error';
-    onClose: () => void;
-}
-
-const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, onClose }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onClose();
-        }, 3000);
-
-        return () => clearTimeout(timer);
-    }, [onClose]);
-    return (
-        <motion.div
-            className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 20, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className={styles.notificationContent}>
-                {message}
-                <button className={styles.closeButton} onClick={onClose}>
-                    &times;
-                </button>
-            </div>
-        </motion.div>
-    );
-};
-
 const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: GenreModalProps) => {
     const [allGenres, setAllGenres] = useState<Genre[]>([]);
     const [selectedGenresTitles, setSelectedGenresTitles] = useState<string[]>([]);
     const [isSaving, setIsSaving] = useState(false);
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-    const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
-    const showNotificationMessage = (message: string, type: 'success' | 'error') => {
-        setNotificationMessage(message);
-        setNotificationType(type);
-        setShowNotification(true);
-    };
-
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
