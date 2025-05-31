@@ -55,7 +55,7 @@ function App() {
         <Route path="/mbtiresult" element={<MbtiResult/>} />
         <Route path="/bookTalkMain" element={<BookTalkMain/>} />
         <Route path="/bookTalkPerson" element={<BookTalkPerson/>} />
-        <Route path="/bookdetail/:id" element={<Bookdetail />}></Route>
+        <Route path="/bookdetail/:BookID" element={<Bookdetail />}></Route>
         <Route path="/listofbooks" element={<Listofbooks />}></Route>
         <Route path="/recommendbooks" element={<Recommendbook />}></Route>
         <Route path="/recommendhistory" element={<Recommendhistory />}></Route>
