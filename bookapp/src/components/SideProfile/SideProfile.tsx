@@ -5,14 +5,13 @@ import heart from "./icons/Heart.svg";
 import history from "./icons/History.svg";
 import list from "./icons/list.svg";
 import defaultUser from "./icons/defaultUser.svg";
-import deleteProfileImage from "./icons/deletePrfileImage.jpg"
 import editPen from "./icons/editPen.svg";
 import deleteIcon from "./icons/Trash.svg";
 import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import {AnimatePresence, motion} from "framer-motion";
-import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+import {AnimatePresence} from "framer-motion";
+import { useNotification, NotificationModal } from "../NotificationManager/NotificationManager";
 
 interface UserProfile {
     id: number;
@@ -110,11 +109,16 @@ export default function SideProfile() {
                     responseType: "blob"
 
                 });
-            const imageBlob = response.data;
-            const imageURL = URL.createObjectURL(imageBlob);
+            if(response.data) {
 
-            setProfileImage(imageURL);
+                const imageBlob = response.data;
+                const imageURL = URL.createObjectURL(imageBlob);
 
+                setProfileImage(imageURL);
+
+            } else {
+                setProfileImage(defaultUser);
+            }
         } catch (error: any) {
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
@@ -177,39 +181,6 @@ export default function SideProfile() {
     };
 
     const handleDeleteImage = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            showNotificationMessage("دسترسی غیرمجاز",'error');
-            return;
-        }
-
-        const file = deleteProfileImage;
-        if(!file) return;
-        //
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            await axios.post(
-                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/profile/pic/upload",
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            showNotificationMessage("تصویر با موفقیت حذف شد", 'success');
-
-        } catch (error: any) {
-            if (error.code === 'ECONNABORTED') {
-                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
-            }
-            else {
-                showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
-            }
-        }
     };
 
     return (
