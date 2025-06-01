@@ -6,7 +6,7 @@ import { ReactComponent as PlusCircle } from  "./icons/PlusCircle.svg";
 import axios from "axios";
 import {AnimatePresence, motion} from "framer-motion";
 import defaultUser from "../SideProfile/icons/defaultUser.svg";
-import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+import { useNotification, NotificationModal } from "../NotificationManager/NotificationManager";
 
 interface Props {
     onClose: () => void;
@@ -79,7 +79,7 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                 console.error("دسترسی غیرمجاز");
                 return;
             }
-            const useri = "10113";
+            const useri = "10115";
             try {
                 const response = await axios.get(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${useri}`,
                     {
