@@ -16,11 +16,12 @@ import {useNavigate} from "react-router-dom";
 interface FavoriteBooks {
     BookID: number;
     Title: string;
-    AuthorID: string;
-    PublisherID: number;
+    AuthorID: number;
+    FullAuthorName: string;
     GenreID1: number;
     GenreID2: number;
     GenreID3: number;
+    PublisherID: number;
     LIKECOUNT: number;
 }
 
@@ -190,7 +191,7 @@ export default function MyFavoriteBook() {
                                         </div>
                                         <div className={styles.bookInfo}>
                                             <div className={styles.bookName}>{book.Title}</div>
-                                            <div className={styles.bookAuthor}>نویسنده: {book.AuthorID}</div>
+                                            <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
                                         </div>
                                     </button>
                                 </div>
