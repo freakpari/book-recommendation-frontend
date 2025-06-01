@@ -11,11 +11,12 @@ import DefaultBook from "./icons/defaultBook.svg"
 import likeEventEmitter from "../../utils/likeEventEmitter";
 import {AnimatePresence, motion} from "framer-motion";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+import {useNavigate} from "react-router-dom";
 
 interface FavoriteBooks {
     BookID: number;
     Title: string;
-    AuthorID: number;
+    AuthorID: string;
     PublisherID: number;
     GenreID1: number;
     GenreID2: number;
@@ -28,6 +29,7 @@ export default function MyFavoriteBook() {
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const [faveBooks, setFaveBooks] = useState<FavoriteBooks[]>([]);
     const [isFaveBook, setIsFaveBook] = useState(true);
+    const navigate = useNavigate();
     const {
         showNotification,
         notificationMessage,
@@ -103,6 +105,11 @@ export default function MyFavoriteBook() {
         }
     };
 
+    const handleClickOnBook =(bookid: number) => {
+        console.log(bookid);
+        navigate("/bookdetail/" + bookid);
+    };
+
     useEffect(() => {
         eventEmitter.emit();
 
@@ -170,7 +177,10 @@ export default function MyFavoriteBook() {
                         <div className={styles.scrollbar}>
                             {faveBooks.map((book) => (
                                 <div key={book.BookID}>
-                                    <div className={styles.bookCard}>
+                                    <button
+                                        className={styles.bookCard}
+                                        onClick={() => handleClickOnBook(book.BookID)}
+                                    >
                                         <div className={styles.bookImage}>
                                             <img
                                                 src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
@@ -182,7 +192,7 @@ export default function MyFavoriteBook() {
                                             <div className={styles.bookName}>{book.Title}</div>
                                             <div className={styles.bookAuthor}>نویسنده: {book.AuthorID}</div>
                                         </div>
-                                    </div>
+                                    </button>
                                 </div>
                             ))}
                         </div>
@@ -201,8 +211,6 @@ export default function MyFavoriteBook() {
             </div>
             {isModalOpen && (
                 <EditGenreModal
-                    selectedGenres={selectedGenres}
-                    setSelectedGenres={setSelectedGenres}
                     closeModal={() => setIsModalOpen(false)}
                 />
             )}
