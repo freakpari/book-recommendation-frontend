@@ -4,8 +4,8 @@ import styles from "./EditGenreModal.module.scss";
 import addIcon from "./icons/Plus.svg";
 import deleteIcon from "./icons/Trash.svg";
 import eventEmitter from "../../utils/eventEmitter";
-import {AnimatePresence, motion} from "framer-motion";
-import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+import {AnimatePresence} from "framer-motion";
+import { useNotification, NotificationModal } from "../NotificationManager/NotificationManager";
 
 interface Genre {
     genreid: number;
@@ -13,12 +13,10 @@ interface Genre {
 }
 
 interface GenreModalProps {
-    selectedGenres: string[];
-    setSelectedGenres: (genres: string[]) => void;
     closeModal: () => void;
 }
 
-const EditGenreModal = ({ selectedGenres, setSelectedGenres, closeModal }: GenreModalProps) => {
+const EditGenreModal = ({ closeModal }: GenreModalProps) => {
     const [allGenres, setAllGenres] = useState<Genre[]>([]);
     const [selectedGenresTitles, setSelectedGenresTitles] = useState<string[]>([]);
     const [isSaving, setIsSaving] = useState(false);
