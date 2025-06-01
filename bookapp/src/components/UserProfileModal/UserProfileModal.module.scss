@@ -89,7 +89,7 @@
   align-items: center;
   justify-content: center;
   margin-top: -6rem;
-  gap: 5.5rem;
+  gap: 13rem;
 
   .userInfo {
     display: flex;
@@ -97,6 +97,13 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    height: 7.32rem;
+    margin-right: -7rem;
+    p {
+      font-size: 1rem;
+      line-height: 2.5rem;
+      color: vars.$primary_1;
+    }
   }
 
   .userId {

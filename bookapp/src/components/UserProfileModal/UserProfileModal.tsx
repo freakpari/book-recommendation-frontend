@@ -13,7 +13,7 @@ interface Props {
     userid: string;
 }
 
-interface UserInformation  {
+interface UserCollection  {
     CollectionID: number,
     IsPublic: boolean,
     Title: string,
@@ -33,6 +33,15 @@ interface UserInformation  {
     UserID: number,
     UserName: string,
     FullName: string,
+}
+
+interface UserInformation {
+    id: number,
+    first_name: string,
+    last_name: string,
+    user_name: string,
+    bio: string,
+    mbti: string,
 }
 
 function BookListCard({ title, includes, image }: { title: string, includes: string, image: string }) {
@@ -66,9 +75,12 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
         setShowNotification,
         showNotificationMessage
     } = useNotification();
-    const [userInfo, setUserInfo] = useState<UserInformation[]>([]);
+    const [userCollection, setUserCollection] = useState<UserCollection[]>([]);
+    const [userInfo, setUserInfo] = useState<UserInformation | null>(null);
     const [userFullName, setUserFullName] = useState('');
     const [userName, setUserName] = useState('');
+    const [userBio, setUserBio] = useState('');
+    const [userMBTI, setUserMBTI] = useState('');
     const [profileImage, setProfileImage] = useState<string | null>(null);
 
     useEffect(() => {
@@ -79,9 +91,8 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                 console.error("دسترسی غیرمجاز");
                 return;
             }
-            const useri = "10115";
             try {
-                const response = await axios.get(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${useri}`,
+                const response = await axios.get(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userid}`,
                     {
                         responseType: "blob"
                     }
@@ -103,6 +114,27 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
         };
 
 
+        const handleUserCollection = async () => {
+            const token = localStorage.getItem("token");
+            if(!token) {
+                console.error("دسترسی غیرمجاز");
+                return;
+            }
+
+            try {
+                const response = await axios.get<UserCollection[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/anotherUser/${userid}`)
+                setUserCollection(response.data);
+            }
+            catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                }
+                else {
+                    showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                }
+            }
+        };
+
         const handleUserInfo = async () => {
             const token = localStorage.getItem("token");
             if(!token) {
@@ -110,14 +142,24 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                 return;
             }
 
-            const useri = "10115";
             try {
-                const response = await axios.get<UserInformation[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/anotherUser/${useri}`)
-                setUserInfo(response.data);
-                if(response.data.length > 0) {
-                    setUserFullName(response.data[0]?.FullName);
-                    setUserName(response.data[0]?.UserName);
+                const response = await axios.get<{ message: string, user: UserInformation }>(
+                    `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile-another-user/?userid=${userid}`,
+                );
+
+                const user = response.data.user;
+                setUserInfo(user);
+                if(user.first_name) {
+                    if(user.last_name){
+                        setUserFullName(user.first_name + " " + user.last_name);
+                    }
+                    else {
+                        setUserFullName(user.first_name);
+                    }
                 }
+                setUserName("@" + user.user_name);
+                setUserBio(user.bio || '');
+                setUserMBTI(user.mbti || '');
             }
             catch (error: any) {
                 if (error.code === 'ECONNABORTED') {
@@ -130,6 +172,7 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
         };
 
         handleUserInfo();
+        handleUserCollection();
         handleUserProfilePicture();
     }, []);
 
@@ -160,14 +203,14 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                 <div className={styles.modalContent}>
                     <div className={styles.profile}>
                         <div className={styles.userInfo}>
-                            <div className={styles.userId}>@{userName}</div>
+                            <div className={styles.userId}>{userName}</div>
                             <div className={styles.userNameType}>
                                 <div className={styles.userName}>
                                     {userFullName}
                                 </div>
-                                <div>ENFP</div>
+                                <div>{userMBTI ? (<p>{userMBTI}</p>) : (<p>خالی</p>)}</div>
                             </div>
-                            <div className={styles.userBio}>مری جون هستم کسی که منریدنیستردنتسیذرنتلذسبنتلرذ</div>
+                            <div className={styles.userBio}>{userBio}</div>
                         </div>
                         <div className={styles.sendMessageBtn}>
                             <p>ارسال پیام</p>
@@ -177,10 +220,10 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                     <div className={styles.listHeader}>لیست‌های ساخته شده</div>
                     <div className={styles.bookListContainer}>
                         <div className={styles.userListDrawer}>
-                            {userInfo.length === 0 ? (
+                            {userCollection.length === 0 ? (
                                 <div className={styles.noList}>هیچ لیستی توسط این کاربر ساخته نشده است</div>
                             ) : (
-                                userInfo.map((item, index) => (
+                                userCollection.map((item, index) => (
                                     <BookListCard
                                         key={`user-list-${index}`}
                                         title={item.Title}
