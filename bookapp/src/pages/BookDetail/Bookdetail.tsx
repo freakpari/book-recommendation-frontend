@@ -278,7 +278,11 @@ export default function Bookdetail() {
             document.documentElement.style.overflow = "auto";
         };
     }, [isUserProfileModalOpen, isModalOpen, isAddBookToListModalOpen]);
-
+    useEffect(() => {
+        if (BookID) {
+            localStorage.setItem("bookid", BookID);
+        }
+    }, [BookID]);
     if (loading) {
         return (
             <div className={styles.loadingContainer}>
