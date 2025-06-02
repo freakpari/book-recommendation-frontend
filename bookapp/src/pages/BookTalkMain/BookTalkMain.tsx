@@ -1,143 +1,152 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import styles from "./BookTalkMain.module.scss";
-import Abbas from "./icons/Abbas.svg";
 import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
 import axios from "axios";
-import {AnimatePresence, motion} from "framer-motion";
-import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+import { AnimatePresence } from "framer-motion";
+import {
+  useNotification,
+  NotificationModal,
+} from "../../components/NotificationManager/NotificationManager";
 
 interface Comments {
-    commentid: number,
-    userid: number,
-    bookid: number,
-    text: string,
-    commentrefid: number,
-    createdat: string,
-    likecount: number,
-    dislikecount: number,
-    isblocked: boolean,
-    isedited: boolean,
-    isspoiled: boolean,
-    reportcount: number,
-    reportid: null
-}
-
-interface Props {
-    bookid: string;
+  commentid: number,
+  bookid: number,
+  text: string,
+  commentrefid: number,
+  createdat: string,
+  likecount: number,
+  dislikecount: number,
+  isblocked: boolean,
+  isedited: boolean,
+  isspoiled: boolean,
+  reportcount: number,
+  reportid: number,
+  userid: string,
+  username: string,
+  mbti: string,
+  fullname: string,
+  imageguid: string,
+  imageurl: string,
 }
 
 export default function BookTalkMain() {
+  const [comments, setComments] = useState<Comments[]>([]);
+  const [userid, setUserid] = useState("");
+  const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
+  const {
+    showNotification,
+    notificationMessage,
+    notificationType,
+    setShowNotification,
+    showNotificationMessage,
+  } = useNotification();
+  const bookid = localStorage.getItem("bookid");
 
-    const [userid, setUserid] = useState("");
-    const [isUserProfileModalOpen, setIsUserProfileModalOpen] = React.useState(false);
-    const {
-        showNotification,
-        notificationMessage,
-        notificationType,
-        setShowNotification,
-        showNotificationMessage
-    } = useNotification();
-
-    useEffect(() => {
-        const handleComments = async () => {
-
-            const bookid = 40;
-            try {
-                const response = await axios.get(
-                    `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${bookid}`
-                )
-
-            }
-            catch(error: any) {
-                if (error.code === 'ECONNABORTED') {
-                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
-                }
-                else {
-                    showNotificationMessage("خطا در بارگیری کامنت‌ها",'error');
-
-                }
-            }
-        };
-
-        setUserid("10115");
-        handleComments();
-    }, []);
-
-
-    useEffect(() => {
-        if (isUserProfileModalOpen) {
-            document.body.style.overflow = "hidden";
-            document.documentElement.style.overflow = "hidden";
+  useEffect(() => {
+    const handleComments = async () => {
+      try {
+        const response = await axios.get<Comments[]>(
+          `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${bookid}`
+        );
+        setComments(response.data);
+      } catch (error: any) {
+        if (error.code === "ECONNABORTED") {
+          showNotificationMessage(
+            "سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",
+            "error"
+          );
         } else {
-            document.body.style.overflow = "auto";
-            document.documentElement.style.overflow = "auto";
+          showNotificationMessage("خطا در بارگیری کامنت‌ها", "error");
         }
+      }
+    };
 
-        return () => {
-            document.body.style.overflow = "auto";
-            document.documentElement.style.overflow = "auto";
-        };
-    }, [isUserProfileModalOpen]);
+    setUserid("10115");
+    handleComments();
+  }, []);
 
-    return (
-        <div className={styles.container}>
-            <AnimatePresence>
-                {showNotification && (
-                    <NotificationModal
-                        message={notificationMessage}
-                        type={notificationType}
-                        onClose={() => setShowNotification(false)}
-                    />
-                )}
-            </AnimatePresence>
+  useEffect(() => {
+    if (isUserProfileModalOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
 
-            <div>
-                <SearchNav />
-            </div>
-            <div>
-                <div className={styles.header}>BookTalk</div>
-                <div className={styles.bookTalk}>
-                    <div className={styles.scrollBar}>
-                        <div className={styles.scrollBarContent}>
-                            <div className={styles.minComment}>
-                                <div 
-                                    className={styles.minCommentInfo}
-                                    onClick={() => setIsUserProfileModalOpen(true)}
-                                >
-                                    <div>
-                                        <img src={Abbas} alt="user icon"/>
-                                    </div>
-                                    <div className={styles.minUserInfo}>
-                                        <div className={styles.minUserName}>عباس عباسی</div>
-                                        <div className={styles.minUserId}>@abbassi</div>
-                                    </div>
-                                </div>
-                                <div className={styles.minCommentContent}>
-                                    <div><span className={styles.hashtag}>#انسان_در_جستجوی_معنا</span> یک سفر فلسفی است؛
-                                        الهام‌بخش و انگیزشی، اگرچه بعضی قسمت‌ها تکراری به نظر می‌رسد.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isUserProfileModalOpen]);
 
+  const handleUserInfoModalOpen = (userId : string) => {
+    setUserid(userId);
+    setIsUserProfileModalOpen(true);
+  }
+
+  return (
+    <div className={styles.container}>
+      <AnimatePresence>
+        {showNotification && (
+          <NotificationModal
+            message={notificationMessage}
+            type={notificationType}
+            onClose={() => setShowNotification(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <div>
+        <SearchNav />
+      </div>
+      <div>
+        <div className={styles.header}>BookTalk</div>
+        <div className={styles.bookTalk}>
+          <div className={styles.scrollBar}>
+            <div className={styles.scrollBarContent}>
+              {comments.length === 0 ? (
+                <div className={styles.noList}>
+                  کامنتی برای این کتاب وجود ندارد
                 </div>
-
-
+              ) : (
+                comments.map((item) => (
+                    <div className={styles.minComment}>
+                      <div
+                          className={styles.minCommentInfo}
+                          onClick={() => handleUserInfoModalOpen(item.userid)}
+                      >
+                        <div>
+                          {/*<img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile-another-user/?userid=${item.userid}`} alt="user icon" />*/}
+                          <img src={`item.imageurl`} alt="user icon" />
+                        </div>
+                        <div className={styles.minUserInfo}>
+                          <div className={styles.minUserName}>{item.fullname}</div>
+                          <div className={styles.minUserId}>@{item.username}</div>
+                        </div>
+                      </div>
+                      <div className={styles.minCommentContent}>
+                        <div>{item.text}</div>
+                      </div>
+                    </div>
+                ))
+              )}
             </div>
-            <div>
-                <Footer/>
-            </div>
-
-            {isUserProfileModalOpen && (
-                <UserProfileModal
-                    onClose={() => setIsUserProfileModalOpen(false)}
-                    userid={userid}
-                />
-            )}
-            
+          </div>
         </div>
-    )
+      </div>
+      <div>
+        <Footer />
+      </div>
+
+      {isUserProfileModalOpen && (
+        <UserProfileModal
+          onClose={() => setIsUserProfileModalOpen(false)}
+          userid={userid}
+        />
+      )}
+    </div>
+  );
 }

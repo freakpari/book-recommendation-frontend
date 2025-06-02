@@ -32,7 +32,7 @@
   margin-bottom: 3rem;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     width: 0.5rem;
   }
@@ -53,6 +53,15 @@
   gap: 1.2rem;
   display: inline-flex;
   flex-wrap: wrap;
+}
+
+.noList {
+  width: 62.5rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 40px;
+  color: #939393;
 }
 
 .hashtag{
