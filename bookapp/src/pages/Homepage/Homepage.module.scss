@@ -46,7 +46,7 @@ html,body{
     height: 248px;
     display: flex;
 
-    
+
 }
 .bookCardWrapper {
     display: flex;
@@ -82,7 +82,7 @@ html,body{
 }
 .description {
     text-align: right;
-    width: 467px; 
+    width: 467px;
     height: 156px;
     color:$primary_1;
     margin-right: 20px;
@@ -168,7 +168,12 @@ html,body{
     padding-top: 20px;
     white-space: nowrap;
     margin-top: 30px;
-    
+    :hover{
+        cursor: pointer;
+        background-color: rgb(126, 161, 187);
+
+    }
+
 }
 .showbutton{
     width: 145px ;
@@ -177,6 +182,7 @@ html,body{
     color: $primary_1;
     border-radius: 10px;
     margin-bottom: 100px;
+
 }
 
 .bookTalk {
@@ -192,43 +198,43 @@ html,body{
     position: relative;
     margin-right: 0;
 
-.content {
+    .content {
         margin-top: 20px;
-    
 
-        
-    
-    h2 {
-        font-family: Segoe Print;
-        margin-right: 1006px;
-        width: 164px;
-        height: 40px;
-        color:$secondary_color;
-        font-weight: 700;
-        line-height: 40px;
-        margin-bottom: 20px;
-        margin-top: 0;
-        font-size: 36px;
-    }
-    h4{
-        margin-right: 805px;
-        font-weight: 500;
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: $secondary_color;
 
-    }
-    p {
-        font-size: 22px;
-        margin-bottom: 50px;
-        line-height: 40px;
-        width: 538px;
-        font-weight: 300;
-        height: 96px;
-        margin-right: 850px;
-        margin-top: 40px;
-        color: $secondary_color;
-    }
+
+
+        h2 {
+            font-family: Segoe Print;
+            margin-right: 1006px;
+            width: 164px;
+            height: 40px;
+            color:$secondary_color;
+            font-weight: 700;
+            line-height: 40px;
+            margin-bottom: 20px;
+            margin-top: 0;
+            font-size: 36px;
+        }
+        h4{
+            margin-right: 805px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: $secondary_color;
+
+        }
+        p {
+            font-size: 22px;
+            margin-bottom: 50px;
+            line-height: 40px;
+            width: 538px;
+            font-weight: 300;
+            height: 96px;
+            margin-right: 850px;
+            margin-top: 40px;
+            color: $secondary_color;
+        }
     }
     .button {
         background-color: $secondary_color;
@@ -250,22 +256,22 @@ html,body{
     padding: 50px;
     &::before,
     &::after {
-    content: '';
-    position: absolute;
-    background-color:$secondary_color;
+        content: '';
+        position: absolute;
+        background-color:$secondary_color;
     }
     &::before {
-    width: 2px;
-    height: 335px;
-    top: 132px;
-    left: 50px;
+        width: 2px;
+        height: 335px;
+        top: 132px;
+        left: 50px;
     }
 
     &::after {
-    height: 1px;
-    width: 335px; 
-    top: 450px;
-    left: 30px;
+        height: 1px;
+        width: 335px;
+        top: 450px;
+        left: 30px;
     }
 }
 
@@ -274,19 +280,19 @@ html,body{
     right: 2px;
     display: flex;
     position: absolute;
-    align-items: flex-start; 
-    justify-content: flex-start; 
+    align-items: flex-start;
+    justify-content: flex-start;
     img{
         top: 0;
         left: 0;
     }
-}  
+}
 .buttomImage{
     bottom: 0;
     right: 0;
     display: flex;
     position: absolute;
-    align-items: flex-start; 
+    align-items: flex-start;
     justify-content: flex-start;
     img{
         top: 0;
@@ -297,7 +303,7 @@ html,body{
 .suggestion{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 26px; 
+    gap: 26px;
     justify-content: center;
     align-items: center;
     max-width: 1200px;
@@ -330,7 +336,7 @@ html,body{
         margin-right: 20px;
         line-height: 30px;
         letter-spacing: -5%;
-        color: $primary_1;  
+        color: $primary_1;
         font-size: 14px;
         width: 335px;
         height: 120px;
@@ -367,7 +373,7 @@ html,body{
     padding: 20px;
     width: 400px;
     flex-direction: column;
-    
+
 }
 
 
@@ -382,7 +388,7 @@ html,body{
     margin-right: 68px;
     line-height: 40px;
 
-    
+
 }
 
 .author {
@@ -420,23 +426,23 @@ html,body{
     padding: 20px;
     &::before,
     &::after {
-    content: '';
-    position: absolute;
-    background-color: white;
+        content: '';
+        position: absolute;
+        background-color: white;
     }
     &::before {
-    width: 1px;
-    height: 233px;
-    top: 32px;
-    left: 290px;
-    background-color: $secondary_color;
+        width: 1px;
+        height: 233px;
+        top: 32px;
+        left: 290px;
+        background-color: $secondary_color;
     }
 
     &::after {
-    height: 1px;
-    width: 315px; 
-    top: 250px;
-    left: 10px;
+        height: 1px;
+        width: 315px;
+        top: 250px;
+        left: 10px;
     }
 }
 
