@@ -1,5 +1,5 @@
 import styles from "./Homepage.module.scss";
-import book1 from "./icon/book1";
+import book1 from "./icon/book1.svg";
 import book2 from "./icon/book2.svg";
 import book3 from "./icon/book3.svg";
 import bufkoor from "./icon/bufkoor.svg";

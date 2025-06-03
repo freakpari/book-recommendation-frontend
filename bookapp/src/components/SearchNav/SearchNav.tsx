@@ -18,10 +18,10 @@ import axios from "axios";
 import eventEmitter from "../../utils/eventEmitter";
 
 interface Book {
-  id: string;
-  title: string;
-  firstname?: string;
-  lastname?: string;
+    id: string;
+    title: string;
+    firstname?: string;
+    lastname?: string;
     image?: string;
 }
 
@@ -33,7 +33,7 @@ export default function SearchNav() {
     const [isSearching, setIsSearching] = useState(false);
     const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
-    
+
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -43,63 +43,63 @@ export default function SearchNav() {
         setShowModal(false);
     };
     const handleSearch = useCallback(async () => {
-      if (!query.trim()) {
-        setResults([]);
-        return;
-      }
-    
-      setIsSearching(true);
-      try {
-        const url = `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/searchurl?query=${encodeURIComponent(query)}`;
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-    
-        const data = await response.json();
-    
-        const filtered = (data.bookData || []).filter(
-          (book: any) =>
-            book.title.trim().toLowerCase().includes(query.trim().toLowerCase())
-        ).slice(0, 5);
-        
-    
-        setResults(filtered);
-      } catch (error) {
-        console.error("خطا در دریافت نتایج:", error);
-        setResults([]);
-      } finally {
-        setIsSearching(false);
-      }
-    }, [query]);
-    
-  
-      useEffect(() => {
-      if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
-      }
-  
-      debounceTimeout.current = setTimeout(() => {
-        if (query.trim()) {
-          handleSearch();
-        } else {
-          setResults([]);
+        if (!query.trim()) {
+            setResults([]);
+            return;
         }
-      }, 300); 
-  
-      return () => {
+
+        setIsSearching(true);
+        try {
+            const url = `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/searchurl?query=${encodeURIComponent(query)}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const data = await response.json();
+
+            const filtered = (data.bookData || []).filter(
+                (book: any) =>
+                    book.title.trim().toLowerCase().includes(query.trim().toLowerCase())
+            ).slice(0, 5);
+
+
+            setResults(filtered);
+        } catch (error) {
+            console.error("خطا در دریافت نتایج:", error);
+            setResults([]);
+        } finally {
+            setIsSearching(false);
+        }
+    }, [query]);
+
+
+    useEffect(() => {
         if (debounceTimeout.current) {
-          clearTimeout(debounceTimeout.current);
+            clearTimeout(debounceTimeout.current);
         }
-      };
+
+        debounceTimeout.current = setTimeout(() => {
+            if (query.trim()) {
+                handleSearch();
+            } else {
+                setResults([]);
+            }
+        }, 300);
+
+        return () => {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current);
+            }
+        };
     }, [query]);
-  
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter") {
-        handleSearch();
-      }
+        if (e.key === "Enter") {
+            handleSearch();
+        }
     }
 
     const [hasToken, setHasToken] = useState<boolean>();
@@ -230,8 +230,8 @@ export default function SearchNav() {
             <div className={`${styles.drawerMenu} ${isOpen ? styles.open : ""}`}>
                 <ul>
                     <li onClick={() => navigate('/editprofile')} ><img src={account} alt="account" />حساب کاربری</li>
-                    <li><img src={inbox} alt="inbox" />صندوق ورودی</li>
-                    <li><img src={pointer} alt="pointer" />نتیجه تست MBTI</li>
+                    <li ><img src={inbox} alt="inbox" />صندوق ورودی</li>
+                    <li onClick={() => navigate('/mbtiresult')}><img src={pointer} alt="pointer" />نتیجه تست MBTI</li>
                     <li><img src={explore} alt="explore" />BookTalk</li>
                     <li><img src={Book1} alt="book" />لیست کتاب ها</li>
                     <li onClick={() => setShowModal(true)}>
