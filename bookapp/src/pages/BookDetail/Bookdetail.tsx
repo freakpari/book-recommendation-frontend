@@ -1,5 +1,5 @@
 import styles from './Bookdetail.module.scss';
-import { useEffect, useState } from "react";
+import { useEffect, useState,useMemo } from "react";
 import SearchNav from '../../components/SearchNav/SearchNav';
 import Footer from '../../components/Footer/Footer';
 import heart from "./icons/Heart.svg";
@@ -79,20 +79,31 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ message, type, on
 export default function Bookdetail() {
     const { BookID } = useParams();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [userid, setUserid] = useState("");
     const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
     const [isAddBookToListModalOpen, setIsAddBookToListModalOpen] = useState(false);
     const [bookData, setBookData] = useState<BookData | null>(null);
     const [commentText, setCommentText] = useState("");
-    const [rating, setRating] = useState(4);
+    const [rating, setRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isLiked, setIsLiked] = useState<boolean | null>(null);
+    const [isLiked, setIsLiked] = useState<boolean>(false); // مقدار پیش‌فرض false
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+    const [isLikeStatusLoading, setIsLikeStatusLoading] = useState(true);
+    const [userid, setUserid] = useState<string>("");
+    const token = useMemo(() => localStorage.getItem("token"), []);
+    // const userid = useMemo(() => localStorage.getItem("userid"), []);
 
+    useEffect(() => {
+        if (BookID) {
+            const savedLikeStatus = localStorage.getItem(`book_${BookID}_liked`);
+            if (savedLikeStatus) {
+                setIsLiked(savedLikeStatus === 'true');
+            }
+        }
+    }, [BookID]);
     useEffect(() => {
         const fetchBookData = async () => {
             try {
@@ -122,47 +133,76 @@ export default function Bookdetail() {
         }
     }, [BookID]);
 
+
     useEffect(() => {
-        const fetchLikeStatus = async () => {
+        const fetchInitialLikeStatus = async () => {
             const token = localStorage.getItem("token");
             const userid = localStorage.getItem("userid");
-            if (!token || !userid || !bookData?.BookID) return;
 
-            try {
-                const response = await axios.get(
-                    "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/likestatus",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                        params: {
-                            bookid: bookData.BookID,
-                            userid: userid,
-                        },
-                    }
-                );
-                setIsLiked(response.data.status);
-            } catch (error) {
-                console.error("Error fetching like status:", error);
+            if (!BookID) return;
+
+            // ابتدا از localStorage بررسی کنید
+            const savedLikeStatus = localStorage.getItem(`book_${BookID}_liked`);
+            if (savedLikeStatus) {
+                setIsLiked(savedLikeStatus === 'true');
+                setIsLikeStatusLoading(false);
+                return;
+            }
+
+            if (token && userid) {
+                try {
+                    setIsLikeStatusLoading(true);
+                    const response = await axios.get(
+                        "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/likestatus",
+                        {
+                            headers: { Authorization: `Bearer ${token}` },
+                            params: { bookid: BookID, userid: userid }
+                        }
+                    );
+                    setIsLiked(response.data.status);
+                    // نتیجه را در localStorage ذخیره کنید
+                    localStorage.setItem(`book_${BookID}_liked`, response.data.status.toString());
+                } catch (error) {
+                    console.error("Error fetching like status:", error);
+                    setIsLiked(false);
+                } finally {
+                    setIsLikeStatusLoading(false);
+                }
+            } else {
+                setIsLikeStatusLoading(false);
             }
         };
 
-        if (bookData) {
-            fetchLikeStatus();
-        }
-    }, [bookData]);
-
+        fetchInitialLikeStatus();
+    }, [BookID]);
     const showNotificationMessage = (message: string, type: 'success' | 'error') => {
         setNotificationMessage(message);
         setNotificationType(type);
         setShowNotification(true);
     };
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const currentUserid = localStorage.getItem("userid");
+            if (currentUserid !== userid) {
+                setUserid(currentUserid || "");
+                const savedLikeStatus = localStorage.getItem(`book_${BookID}_liked`);
+                if (savedLikeStatus) {
+                    setIsLiked(savedLikeStatus === 'true');
+                }
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, [BookID, userid]);
 
     const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setCommentText(event.target.value);
     };
 
     const handleHeartClick = async () => {
+        if (isLikeStatusLoading || !BookID) return;
+
         const token = localStorage.getItem("token");
         const userid = localStorage.getItem("userid");
 
@@ -172,6 +212,8 @@ export default function Bookdetail() {
         }
 
         try {
+            setIsLikeStatusLoading(true);
+
             if (isLiked) {
                 await axios.delete(
                     "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/dislike",
@@ -181,7 +223,8 @@ export default function Bookdetail() {
                     }
                 );
                 setIsLiked(false);
-                showNotificationMessage("کتاب از لیست موردعلاقه ها حذف شد", "success");
+                localStorage.setItem(`book_${BookID}_liked`, 'false'); // ذخیره در localStorage
+                showNotificationMessage("کتاب از لیست موردعلاقه ها حذف شد", "error");
             } else {
                 await axios.post(
                     "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/like",
@@ -194,11 +237,14 @@ export default function Bookdetail() {
                     }
                 );
                 setIsLiked(true);
+                localStorage.setItem(`book_${BookID}_liked`, 'true'); // ذخیره در localStorage
                 showNotificationMessage("کتاب به لیست موردعلاقه ها اضافه شد", "success");
             }
         } catch (error) {
             console.error("Error in like/dislike:", error);
             showNotificationMessage("خطا در انجام عملیات", "error");
+        } finally {
+            setIsLikeStatusLoading(false);
         }
     };
 
@@ -324,10 +370,11 @@ export default function Bookdetail() {
                 <div className={styles.rightSection}>
                     <div className={styles.icons}>
                         <img
-                            src={isLiked ? filledHeart : heart}
+                            src={isLikeStatusLoading ? heart : (isLiked ? filledHeart : heart)}
                             onClick={handleHeartClick}
-                            className={`${styles.heartIcon} ${!isLiked ? styles.liked : ''}`}
+                            className={`${styles.heartIcon} ${isLiked ? styles.liked : ''}`}
                             alt={isLiked ? "Remove from favorites" : "Add to favorites"}
+                            style={{ opacity: isLikeStatusLoading ? 0.5 : 1 }}
                         />
                         <img
                             onClick={() => setIsModalOpen(true)}
