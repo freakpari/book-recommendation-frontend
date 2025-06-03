@@ -225,12 +225,12 @@ $primary_1: #303857;
 }
 .searchResults {
   position: absolute;
-  top: 115px;
+  top: 120px;
   width: 671px;
   height: 160px;
   background-color: rgba(48, 56, 87, 0.9);
   padding: 10px 0;
-  z-index: 1000;
+  z-index: 999;
   color: white;
   margin-right: 150px;
   border-end-start-radius:25px ;
