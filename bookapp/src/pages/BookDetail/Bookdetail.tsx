@@ -1,5 +1,5 @@
 import styles from './Bookdetail.module.scss';
-import { useEffect, useState,useMemo } from "react";
+import { useEffect, useState } from "react";
 import SearchNav from '../../components/SearchNav/SearchNav';
 import Footer from '../../components/Footer/Footer';
 import heart from "./icons/Heart.svg";
@@ -30,17 +30,18 @@ interface BookData {
     LanguageName: string;
     PageCount: number;
     ISBN: string;
-    rating:number;
+    rating: number;
     ImageUrl?: string;
-
 }
 interface Comment {
-    CommentID: number;
-    UserID: string;
-    FirstName: string;
-    LastName: string;
-    Text: string;
-    CreatedAt: string;
+    commentid: number;
+    bookid: number;
+    text: string;
+    createdat: string;
+    userid: string;
+    username: string;
+    fullname: string;
+    imageurl: string;
 }
 
 interface NotificationModalProps {
@@ -85,7 +86,7 @@ export default function Bookdetail() {
     const [commentText, setCommentText] = useState("");
     const [rating, setRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isLiked, setIsLiked] = useState<boolean>(false); // مقدار پیش‌فرض false
+    const [isLiked, setIsLiked] = useState<boolean>(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showNotification, setShowNotification] = useState(false);
@@ -93,8 +94,31 @@ export default function Bookdetail() {
     const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
     const [isLikeStatusLoading, setIsLikeStatusLoading] = useState(true);
     const [userid, setUserid] = useState<string>("");
-    const token = useMemo(() => localStorage.getItem("token"), []);
-    // const userid = useMemo(() => localStorage.getItem("userid"), []);
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [userData, setUserData] = useState<any>(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        const storedUserid = localStorage.getItem("userid");
+        if (storedUserid) {
+            setUserid(storedUserid);
+            fetchUserData(storedUserid, token);
+        }
+    }, []);
+
+    const fetchUserData = async (userId: string, token: string | null) => {
+        try {
+            const response = await axios.get(
+                `https://intelligent-shockley-8ynjnlm8e.liara.run/api/user/${userId}`,
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+            setUserData(response.data.user);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
 
     useEffect(() => {
         if (BookID) {
@@ -104,6 +128,7 @@ export default function Bookdetail() {
             }
         }
     }, [BookID]);
+
     useEffect(() => {
         const fetchBookData = async () => {
             try {
@@ -133,7 +158,6 @@ export default function Bookdetail() {
         }
     }, [BookID]);
 
-
     useEffect(() => {
         const fetchInitialLikeStatus = async () => {
             const token = localStorage.getItem("token");
@@ -141,7 +165,6 @@ export default function Bookdetail() {
 
             if (!BookID) return;
 
-            // ابتدا از localStorage بررسی کنید
             const savedLikeStatus = localStorage.getItem(`book_${BookID}_liked`);
             if (savedLikeStatus) {
                 setIsLiked(savedLikeStatus === 'true');
@@ -160,7 +183,6 @@ export default function Bookdetail() {
                         }
                     );
                     setIsLiked(response.data.status);
-                    // نتیجه را در localStorage ذخیره کنید
                     localStorage.setItem(`book_${BookID}_liked`, response.data.status.toString());
                 } catch (error) {
                     console.error("Error fetching like status:", error);
@@ -175,11 +197,13 @@ export default function Bookdetail() {
 
         fetchInitialLikeStatus();
     }, [BookID]);
+
     const showNotificationMessage = (message: string, type: 'success' | 'error') => {
         setNotificationMessage(message);
         setNotificationType(type);
         setShowNotification(true);
     };
+
     useEffect(() => {
         const handleStorageChange = () => {
             const currentUserid = localStorage.getItem("userid");
@@ -223,7 +247,7 @@ export default function Bookdetail() {
                     }
                 );
                 setIsLiked(false);
-                localStorage.setItem(`book_${BookID}_liked`, 'false'); // ذخیره در localStorage
+                localStorage.setItem(`book_${BookID}_liked`, 'false');
                 showNotificationMessage("کتاب از لیست موردعلاقه ها حذف شد", "error");
             } else {
                 await axios.post(
@@ -237,7 +261,7 @@ export default function Bookdetail() {
                     }
                 );
                 setIsLiked(true);
-                localStorage.setItem(`book_${BookID}_liked`, 'true'); // ذخیره در localStorage
+                localStorage.setItem(`book_${BookID}_liked`, 'true');
                 showNotificationMessage("کتاب به لیست موردعلاقه ها اضافه شد", "success");
             }
         } catch (error) {
@@ -269,6 +293,7 @@ export default function Bookdetail() {
         setIsSubmitting(true);
 
         try {
+            // ارسال امتیاز
             const ratingResponse = await axios.post(
                 "https://intelligent-shockley-8ynjnlm8e.liara.run/api/rate",
                 {
@@ -282,6 +307,7 @@ export default function Bookdetail() {
                 }
             );
 
+            // ارسال کامنت
             const commentResponse = await axios.post(
                 "https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment",
                 {
@@ -294,6 +320,19 @@ export default function Bookdetail() {
                     }
                 }
             );
+
+            // // افزودن کامنت جدید به لیست کامنت‌ها
+            // if (commentResponse.data.comment && userData) {
+            //     const newComment: Comment = {
+            //         userid: userid,
+            //         fullname: userData.fullname,
+            //         username: userData.username,
+            //         text: commentText,
+            //         createdat: new Date().toISOString()
+            //     };
+
+            //     setComments(prevComments => [newComment, ...prevComments]);
+            // }
 
             showNotificationMessage("امتیاز و نظر شما با موفقیت ثبت شد", "success");
             setIsModalOpen(false);
@@ -311,6 +350,25 @@ export default function Bookdetail() {
     };
 
     useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await axios.get<Comment[]>(
+                    `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${BookID}`
+                );
+                setComments(response.data);
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+                showNotificationMessage("خطا در دریافت کامنت‌ها", "error");
+            }
+        };
+
+
+        if (BookID) {
+            fetchComments();
+        }
+    }, [BookID]);
+
+    useEffect(() => {
         if (isUserProfileModalOpen || isModalOpen || isAddBookToListModalOpen) {
             document.body.style.overflow = "hidden";
             document.documentElement.style.overflow = "hidden";
@@ -324,11 +382,13 @@ export default function Bookdetail() {
             document.documentElement.style.overflow = "auto";
         };
     }, [isUserProfileModalOpen, isModalOpen, isAddBookToListModalOpen]);
+
     useEffect(() => {
         if (BookID) {
             localStorage.setItem("bookid", BookID);
         }
     }, [BookID]);
+
     if (loading) {
         return (
             <div className={styles.loadingContainer}>
@@ -409,53 +469,45 @@ export default function Bookdetail() {
                 </div>
 
                 <div className={styles.reviews}>
-                    <div className={styles.reviewCard}>
-                        <div className={styles.profile}>
-                            <button
-                                className={styles.profileBtn}
-                                onClick={() => setIsUserProfileModalOpen(true)}
-                            >
-                                <img src={profile} alt='profile' />
-                                <h1>علی محمدی</h1>
-                            </button>
+                    {comments.length === 0 ? (
+                        <div className={styles.noComments}>
+                            کامنتی برای این کتاب وجود ندارد
                         </div>
-                        <p>
-                            "شازده کوچولو ترکیبی از سادگی و فلسفه است. روایت‌های شاعرانه و مفاهیم عمیقی که در قالب داستانی کودکانه بیان می‌شوند، واقعاً تاثیرگذارند."
-                        </p>
-                    </div>
-                    <div className={styles.reviewCard}>
-                        <div className={styles.profile}>
-                            <button
-                                className={styles.profileBtn}
-                                onClick={() => setIsUserProfileModalOpen(true)}
-                            >
-                                <img src={profile} alt='profile' />
-                                <h1>مریم حسینی</h1>
-                            </button>
-                        </div>
-                        <p>
-                            "این کتاب، سفری به دنیای درون است. هر بار که می‌خوانمش، نکته جدیدی کشف می‌کنم."
-                        </p>
-                    </div>
-                    <div className={styles.reviewCard}>
-                        <div className={styles.profile}>
-                            <button
-                                className={styles.profileBtn}
-                                onClick={() => setIsUserProfileModalOpen(true)}
-                            >
-                                <img src={profile} alt='profile' />
-                                <span>شاهین رشیدی</span>
-                            </button>
-                        </div>
-                        <p>
-                            "شازده کوچولو بی‌نظیره. باید همه بخوننش!"
-                        </p>
-                        <button className={styles.backButton} onClick={() => window.location.href = "/bookTalkMain"}>
-                            رفتن به BookTalk
-                        </button>
-                    </div>
-                </div>
+                    ) : (
+                        comments.map((item,index) => (
+                            <div key={item.commentid} className={styles.reviewCard}>
+                                <div
+                                    className={styles.profile}
+                                    onClick={() => {
+                                        setUserid(item.userid);
+                                        setIsUserProfileModalOpen(true);
+                                    }}
+                                >
+                                    <div>
+                                        <img src={item.imageurl || profile} alt="user icon" />
+                                    </div>
+                                    <div className={styles.userInfo}>
+                                        <div className={styles.userName}>{item.fullname}</div>
+                                        <div className={styles.userId}>@{item.username}</div>
+                                    </div>
+                                </div>
+                                <div className={styles.commentContent}>
+                                    <div>{item.text}</div>
+                                </div>
+                                {index === comments.length - 1 && (
+                                    <button
+                                        className={styles.backButton}
+                                        onClick={() => (window.location.href = "/bookTalkMain")}
+                                    >
+                                        رفتن به BookTalk
+                                    </button>
+                                )}
+                            </div>
 
+                        ))
+
+                    )}
+                </div>
                 <div className={styles.bookInfo}>
                     <h3>تعداد صفحات <span>{bookData.PageCount}</span></h3>
                     <h3>سال انتشار <span>{bookData.PublishedYear}</span></h3>
@@ -467,7 +519,7 @@ export default function Bookdetail() {
             {isUserProfileModalOpen && (
                 <UserProfileModal
                     onClose={() => setIsUserProfileModalOpen(false)}
-                    userid={"10162"}
+                    userid={userid}
                 />
             )}
 
@@ -483,71 +535,75 @@ export default function Bookdetail() {
                     bottom: 0,
                     left: 0,
                     backgroundColor: "rgba(0, 0, 0, 0.05)",
-                    backdropFilter:"blur(0.6rem)",
+                    backdropFilter: "blur(0.6rem)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    // zIndex: 1000
                 }}>
                     <div style={{
-                        position:"fixed",
-                        // zIndex:"1001",
-                        backdropFilter:"blur(1.2rem)",
+                        position: "fixed",
+                        backdropFilter: "blur(1.2rem)",
                         backgroundColor: "rgba(255, 255, 255, 0.5)",
                         padding: "2rem",
-                        borderRadius: "  0.6rem",
+                        borderRadius: "0.6rem",
                         width: "1125px",
-                        border:"0.3rem solid #303857",
-                        height:"534px",
+                        border: "0.3rem solid #303857",
+                        height: "534px",
                         display: "flex",
                         flexDirection: "column",
                         gap: "1rem"
                     }}>
-                        <h3 style={{ textAlign: "center", color:"#303857",fontSize:"24px" }}>ثبت تجربه خواندن کتاب</h3>
-                        <p style={{ textAlign: "center", color:"#303857",fontSize:"20px" }}>با تکمیل این فرم، تجربه و نظرتان را درباره کتابی که خوانده‌اید با ما به اشتراک بگذارید.</p>
+                        <h3 style={{ textAlign: "center", color: "#303857", fontSize: "24px" }}>ثبت تجربه خواندن کتاب</h3>
+                        <p style={{ textAlign: "center", color: "#303857", fontSize: "20px" }}>با تکمیل این فرم، تجربه و نظرتان را درباره کتابی که خوانده‌اید با ما به اشتراک بگذارید.</p>
 
-                        <label style={{color:"#303857",marginRight:"494px",marginTop:"60px"}}>لطفا تجربه و نظرتان را در مورد کتاب بیان کنید...</label>
+                        <label style={{ color: "#303857", marginRight: "494px", marginTop: "60px" }}>لطفا تجربه و نظرتان را در مورد کتاب بیان کنید...</label>
                         <TextField
                             className={styles.inputComment}
                             value={commentText}
                             onChange={handleCommentChange}
+                            multiline
+                            rows={4}
                         />
 
-                        <div style={{display:"flex" , gap:"44px", flexDirection:"column",marginTop:"-80px",marginRight:"100px"}}>
-                            <span style={{color:"#303857"}}>لطفا امتیاز خود را انتخاب کنید</span>
-                            <StepRating  rating={rating} onRate={setRating} />
+                        <div style={{ display: "flex", gap: "44px", flexDirection: "column", marginTop: "-190px", marginRight: "100px" }}>
+                            <span style={{ color: "#303857" }}>لطفا امتیاز خود را انتخاب کنید</span>
+                            <StepRating rating={rating} onRate={setRating} />
                         </div>
 
-                        <div style={{ display: "flex",flexDirection:"column", gap: "1rem", marginTop: "20px",marginRight:"90px" }}>
-                            <span style={{color:"#303857"}}>آیا این کتاب را به دوستانتان توصیه می‌کنید؟</span>
-                            <div style={{display:"flex", flexDirection:"row",gap:"16px"}}>
-                                <button style={{backgroundColor:"rgba(48, 56, 87, 0.35)",width:"105px",
-                                    height:"41px",color:"#303857",border:"1px solid #303857",borderRadius:"10px"}}>بله</button>
-                                <button style={{backgroundColor:"rgba(48, 56, 87, 0.35)",width:"105px",
-                                    height:"41px",color:"#303857",border:"1px solid #303857",borderRadius:"10px"}}>خیر</button>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "20px", marginRight: "90px" }}>
+                            <span style={{ color: "#303857" }}>آیا این کتاب را به دوستانتان توصیه می‌کنید؟</span>
+                            <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
+                                <button style={{
+                                    backgroundColor: "rgba(48, 56, 87, 0.35)", width: "105px",
+                                    height: "41px", color: "#303857", border: "1px solid #303857", borderRadius: "10px"
+                                }}>بله</button>
+                                <button style={{
+                                    backgroundColor: "rgba(48, 56, 87, 0.35)", width: "105px",
+                                    height: "41px", color: "#303857", border: "1px solid #303857", borderRadius: "10px"
+                                }}>خیر</button>
                             </div>
                         </div>
 
                         <div
                             onClick={() => !isSubmitting && setIsModalOpen(false)}
-                            style={{ display: "flex", marginTop: "10px",gap:"15px",marginRight: "390px"}}>
+                            style={{ display: "flex", marginTop: "10px", gap: "15px", marginRight: "390px" }}>
                             <button onClick={() => setIsModalOpen(false)} style={{
                                 backgroundColor: "#f9f9f9",
-                                width:"137px",
-                                height:"56px",
+                                width: "137px",
+                                height: "56px",
                                 padding: "0.5rem 1rem",
                                 borderRadius: "10px",
-                                fontSize:"16px",
+                                fontSize: "16px",
                                 border: "2px solid #303857"
                             }}>بعدا</button>
                             <button onClick={submit}
                                     disabled={isSubmitting}
                                     style={{
                                         backgroundColor: "#303857",
-                                        width:"137px",
-                                        height:"56px",
+                                        width: "137px",
+                                        height: "56px",
                                         color: "white",
-                                        fontSize:"16px",
+                                        fontSize: "16px",
                                         padding: "0.5rem 1rem",
                                         borderRadius: "10px",
                                         border: "none"
@@ -558,8 +614,6 @@ export default function Bookdetail() {
                     </div>
                 </div>
             )}
-
-
 
             <Footer />
         </>

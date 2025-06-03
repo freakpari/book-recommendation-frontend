@@ -107,7 +107,7 @@
     padding: 0 1rem;
     width: 560px;
     position: relative;
-    top: -300px; 
+    top: -10px;
     right: 180px;
 
     h3 {
@@ -183,7 +183,6 @@
     font-size: 20px;
     margin-right: 140px;
     position: relative;
-
     cursor: pointer;
     @media (max-width: 768px) {
     align-self: center;
@@ -266,5 +265,21 @@
   font-size: 1.2rem;
   cursor: pointer;
 }
+.userName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  font-size: 13px;
+  margin-right: 50px;
+}
+.userId {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  font-weight: 300;
+  font-size: 13px;
+  margin-right: 50px;}
 
 
