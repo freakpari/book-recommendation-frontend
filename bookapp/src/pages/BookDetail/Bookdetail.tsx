@@ -565,7 +565,7 @@ export default function Bookdetail() {
                             rows={4}
                         />
 
-                        <div style={{ display: "flex", gap: "44px", flexDirection: "column", marginTop: "-190px", marginRight: "100px" }}>
+                        <div style={{ display: "flex", gap: "44px", flexDirection: "column", marginTop: "-225px", marginRight: "100px" }}>
                             <span style={{ color: "#303857" }}>لطفا امتیاز خود را انتخاب کنید</span>
                             <StepRating rating={rating} onRate={setRating} />
                         </div>
