@@ -40,14 +40,11 @@ export default function CreateListModal({ onClose }: Props) {
             detail: [],
         };
 
-        const dataNoImage = {
-            ispublic: isPublic,
-            title: title,
-        }
-
-        try {if (image) {
+        try  {
             const formData = new FormData();
-            formData.append("file", image);
+            if (image) {
+                formData.append("file", image);
+            }
             formData.append("data", JSON.stringify(data));
 
             await axios.post(
@@ -60,22 +57,12 @@ export default function CreateListModal({ onClose }: Props) {
                     },
                 }
             );
-        } else {
-            await axios.post(
-                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/user",
-                dataNoImage,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-        }
+
             showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
+
         } catch (error: any) {
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');

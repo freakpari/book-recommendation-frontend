@@ -165,6 +165,10 @@
     border: 3px solid vars.$primary_1;
     color: vars.$primary_1;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 
