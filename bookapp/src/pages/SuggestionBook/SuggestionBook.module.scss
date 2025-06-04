@@ -1,14 +1,13 @@
-$primary_1: #303857;
-$secondary_color: #f9f9f9;
+@use "../../styles/variables" as vars;
 
 @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap');
 
 .container {
-  background: $secondary_color;
+  background: vars.$primary_2;
 }
 
 
-.MyBookHistory {
+.suggestedBooks {
   background-color: #ffffff;
   width: 62.5rem;
   height: 41.125rem;
@@ -22,78 +21,130 @@ $secondary_color: #f9f9f9;
   font-size: 1.3rem;
   line-height: 2.5rem;
   text-align: right;
-  color: #303857;
+  color: vars.$primary_1;
 }
 
 .scrollbar {
   overflow-y: scroll;
-  background: rgb(255, 255, 255);
+  background: vars.$secondary_1;
   width: 54.813rem;
-  height: 32.5rem;
-  margin: 1.3rem auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  height: 28.125rem;
+  margin: 0.6rem 4.625rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  background: vars.$primary_2;
+  border-radius: 0.6rem;
 
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 0.5rem;
   }
   &::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: rgba(48, 56, 87, 0.5);
+    border-radius: 0.6rem;
+    background: vars.$secondary_2;
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #303857;
-    transition: background 0.3s ease;
+    border-radius: 0.6rem;
+    background-color: vars.$primary_1;
+    min-height: 3rem;
   }
-}
 
-.myBookCards {
-  display: flex;
-  gap: 10px;
 }
 
 .bookCard {
-  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 8.5rem;
+  height: 15.5rem;
+  transition: background 0.3s;
+  border-radius: 0.6rem;
+  padding-top: 0.2rem;
   border: none;
-  width: 8.313rem;
-  height: 15.625rem;
-  margin-bottom: 1.3rem;
-  text-align: center;
-  img {
-    margin-top: -13px;
-    width: 8rem;
-    height: 11.5rem;
+  background: none;
+  .bookImage {
+    width: 95%;
+    object-fit: contain;
+    img {
+      width: 100%;
+      height: 10rem;
+      object-fit: cover;
+      border-radius: 0.4rem;
+    }
   }
-  h4 {
-    font-weight: bold;
-    font-size: 1rem;
-    text-align: center;
-    color: #303857;
-    inline-size: 8.125rem;
-    display: inline-block;
-    width: 6.875rem;
-    white-space: nowrap;
-    overflow: hidden !important;
-    text-overflow: ellipsis;
+
+  .bookInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    overflow: hidden;
+    width: 100%;
+
+    .bookName {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #303857;
+      width: 90%;
+
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      max-height: 3.6rem;
+    }
+
+    .bookAuthor {
+      font-weight: 300;
+      font-size: 0.8rem;
+      color: #303857;
+      text-align: center;
+      width: 90%;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
-  p {
-    font-weight: lighter;
-    font-size: 14px;
-    text-align: center;
-    color: #303857;
-  }
+
   &:hover {
     cursor: pointer;
-    transform: scale(1.04);
-    background: rgba(48, 56, 87, 0.06);
-    transition: 0.3s;
+    background: #30385715;
+  }
+}
+
+.loadMoreBtn {
+  width: 8rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.6rem;
+  border: 2px solid vars.$primary_1;
+  background: vars.$primary_1;
+  color: vars.$primary_2;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  margin-top: auto;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-bottom: 0.6rem;
+  &:hover {
+    background: vars.$primary_2;
+    border: 2px solid vars.$primary_1;
+    color: vars.$primary_1;
+    box-shadow: none;
   }
   &:focus {
-    transform: scale(1.04);
-    background: rgba(48, 56, 87, 0.06);
-    transition: 0.3s;
-    outline: none;
+    background: vars.$primary_2;
+    border: 2px solid vars.$primary_1;
+    color: vars.$primary_1;
+    box-shadow: none;
   }
 }
 
@@ -121,7 +172,7 @@ $secondary_color: #f9f9f9;
   font-size: 2rem;
   line-height: 2.5rem;
   text-align: center;
-  color: $primary_1;
+  color: vars.$primary_1;
   padding-top: 3rem;
 }
 
@@ -131,7 +182,7 @@ $secondary_color: #f9f9f9;
   line-height: 40px;
   text-align: right;
   vertical-align: middle;
-  color: $primary_1;
+  color: vars.$primary_1;
   padding-top: 1.7rem;
   padding-right: 10rem;
   transform: rotate(-90deg);
@@ -141,8 +192,8 @@ $secondary_color: #f9f9f9;
 .goToTestBtn {
   text-align: center;
   align-items: center;
-  background: $primary_1;
-  color: $secondary_color;
+  background: vars.$primary_1;
+  color: vars.$primary_2;
   width: 11rem;
   height: 4rem;
   border: none;
@@ -156,17 +207,17 @@ $secondary_color: #f9f9f9;
 
   &:hover {
     cursor: pointer;
-    background: $secondary_color;
-    border: 3px solid $primary_1;
-    color: $primary_1;
+    background: vars.$primary_2;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
     box-shadow: none;
   }
 
   &:focus {
     cursor: pointer;
-    background: $secondary_color;
-    border: 3px solid $primary_1;
-    color: $primary_1;
+    background: vars.$primary_2;
+    border: 3px solid vars.$primary_1;
+    color: vars.$primary_1;
     box-shadow: none;
     outline: none;
   }
