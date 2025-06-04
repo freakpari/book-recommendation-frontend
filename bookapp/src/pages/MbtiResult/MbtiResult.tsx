@@ -4,26 +4,89 @@ import Footer from '../../components/Footer/Footer';
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Background from "./icons/background.svg";
 import {AnimatePresence, motion} from "framer-motion";
+import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 export default function MbtiResult() {
 
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage
+    } = useNotification();
+    const [loading, setLoading] = useState(false);
     const [selectedType1, setSelectedType1] = useState<"I" | "E" |null>(null);
     const [selectedType2, setSelectedType2] = useState<"N" | "S" |null>(null);
     const [selectedType3, setSelectedType3] = useState<"T" | "F" |null>(null);
     const [selectedType4, setSelectedType4] = useState<"J" | "P" |null>(null);
-
+    const navigate = useNavigate();
     const [isOpen1, setIsOpen1] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
     const [isOpen3, setIsOpen3] = useState(false);
     const [isOpen4, setIsOpen4] = useState(false);
 
+    const handleSendUserType = async () => {
+        const token  = localStorage.getItem("token");
+        console.log(token);
+        if(!token){
+            console.log("توکن یافت نشد.");
+            return;
+        }
+
+        if (selectedType1 && selectedType2 && selectedType3 && selectedType4) {
+            const newMBTI = selectedType1 + selectedType2 + selectedType3 + selectedType4;
+            console.log(newMBTI);
+            try {
+                setLoading(true);
+                await axios.put(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/MBTI-update`,
+                    {new_MBTI: newMBTI},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        }
+
+                    },
+                );
+
+                showNotificationMessage("تایپت با موفقیت اضافه شد",'success');
+                setTimeout(() => {
+                    navigate("/suggestionBook");
+                }, 1200);
+
+            } catch (error: any) {
+                if (error.code === 'ECONNREFUSED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                } else {
+                    showNotificationMessage("خطا در ثبت تایپ کاربر", 'error');
+                }
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            showNotificationMessage("لطفاً همه فیلدها را پر کنید","error");
+            return;
+        }
+
+
+    }
 
     return (
         <div className={styles.container}>
             <SearchNav />
-
-
+            <AnimatePresence>
+                {showNotification && (
+                    <NotificationModal
+                        message={notificationMessage}
+                        type={notificationType}
+                        onClose={() => setShowNotification(false)}
+                    />
+                )}
+            </AnimatePresence>
             <div className={styles.container}>
 
                 <img src={Background} alt='background' className={styles.background}/>
@@ -283,7 +346,18 @@ export default function MbtiResult() {
 
                     </div>
 
-                    <button className={styles.submitBtn}>ثبت</button>
+                    <button
+                        className={styles.submitBtn}
+                        onClick={handleSendUserType}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <span className={styles.loadingText}>در حال ارسال</span>
+                        ) : (
+                                "ثبت"
+                            )}
+                    </button>
+
                     <p className={styles.testAgain}>
                         اگه دوست داری دوباره تست بدی بری برو <a href="https://www.16personalities.com/fa/%D8%A2%D8%B2%D9%85%D9%88%D9%86-%D8%B4%D8%AE%D8%B5%DB%8C%D8%AA">اینجا</a>
                     </p>

@@ -24,6 +24,9 @@ $secondary_color: #f9f9f9;
   text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
 }
 
 .header {
@@ -32,14 +35,14 @@ $secondary_color: #f9f9f9;
   line-height: 2.5rem;
   text-align: center;
   color: $primary_1;
-  padding-top: 2.5rem;
+  //padding-top: 2.5rem;
 }
 
 .enterType {
   width: 56rem;
-  height: 10.4rem;
-  margin-top: 5rem;
-  margin-right: 17.5rem;
+  height: 11.6rem;
+  //margin-top: 5rem;
+  //margin-right: 17.5rem;
   border-radius: 6rem;
   border: 6px solid $primary_1;
   display: flex;
@@ -56,7 +59,7 @@ $secondary_color: #f9f9f9;
 .gender {
   margin-right: 4.9rem;
   width: 11rem;
-  height: 9.77rem;
+  height: 11rem;
   text-align: center;
   margin-top: -1px;
   border: 1px solid $primary_1;
@@ -126,8 +129,8 @@ $secondary_color: #f9f9f9;
 }
 
 .submitBtn {
-  margin-top: 5rem ;
-  margin-right: 37.9rem;
+  //margin-top: 5rem ;
+  //margin-right: 37.9rem;
   width: 242px;
   height: 94px;
   border-radius: 10px;
@@ -163,7 +166,7 @@ $secondary_color: #f9f9f9;
 }
 
 .testAgain {
-  margin-top: 1.5rem;
+  //margin-top: 1.5rem;
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 2.5rem;
@@ -176,3 +179,35 @@ $secondary_color: #f9f9f9;
     }
   }
 }
+
+.loadingText {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  justify-content: space-between;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid $primary_1;
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+
+    &:hover {
+      color: $primary_1;
+    }
+  }
+  &:hover{
+    color: $primary_1;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.submitBtn:disabled { cursor: not-allowed; }
