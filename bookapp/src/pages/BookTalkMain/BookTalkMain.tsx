@@ -9,6 +9,8 @@ import {
   useNotification,
   NotificationModal,
 } from "../../components/NotificationManager/NotificationManager";
+import defaultUser from "./icons/defaultUser.svg";
+import {useNavigate} from "react-router-dom";
 
 interface Comments {
   commentid: number,
@@ -43,6 +45,36 @@ export default function BookTalkMain() {
     showNotificationMessage,
   } = useNotification();
   const bookid = localStorage.getItem("bookid");
+  const [userImages, setUserImages] = useState<{ [key: string]: string }>({});
+  const navigate = useNavigate();
+
+  const fetchUserImage = async (userId: string) => {
+    if (userImages[userId]) return;
+
+    try {
+      const response = await axios.get(
+          `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userId}`,
+          { responseType: "blob" }
+      );
+      const imageURL = URL.createObjectURL(response.data);
+
+      setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+    } catch (error) {
+      console.error("خطا در دریافت پروفایل کاربران");
+    }
+  };
+
+  const handleGoToPersonComment = (commentid : number, userid : string, fullname : string, username : string, text : string) => {
+    navigate("/booktalkperson" , {
+      state: {
+        commentid: commentid,
+        userid: userid,
+        fullname: fullname,
+        username: "@" + username,
+        text: text,
+      }
+    });
+  }
 
   useEffect(() => {
     const handleComments = async () => {
@@ -51,6 +83,11 @@ export default function BookTalkMain() {
           `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${bookid}`
         );
         setComments(response.data);
+
+        response.data.forEach(comment => {
+          fetchUserImage(comment.userid);
+        });
+
       } catch (error: any) {
         if (error.code === "ECONNABORTED") {
           showNotificationMessage(
@@ -63,7 +100,6 @@ export default function BookTalkMain() {
       }
     };
 
-    setUserid("10115");
     handleComments();
   }, []);
 
@@ -119,15 +155,20 @@ export default function BookTalkMain() {
                           onClick={() => handleUserInfoModalOpen(item.userid)}
                       >
                         <div>
-                          {/*<img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile-another-user/?userid=${item.userid}`} alt="user icon" />*/}
-                          <img src={`item.imageurl`} alt="user icon" />
+                          <img
+                              src={userImages[item.userid] || defaultUser}
+                              alt="user icon"
+                          />
                         </div>
                         <div className={styles.minUserInfo}>
                           <div className={styles.minUserName}>{item.fullname}</div>
                           <div className={styles.minUserId}>@{item.username}</div>
                         </div>
                       </div>
-                      <div className={styles.minCommentContent}>
+                      <div
+                          className={styles.minCommentContent}
+                          onClick={() => handleGoToPersonComment(item.commentid, item.userid, item.fullname, item.username, item.text)}
+                      >
                         <div>{item.text}</div>
                       </div>
                     </div>

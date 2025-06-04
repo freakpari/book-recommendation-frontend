@@ -71,7 +71,7 @@
 .minComment {
   background: vars.$primary_2;
   width: 215px;
-  height: 168px;
+  height: auto;
   padding: 1.1rem;
   display: flex;
   flex-direction: column;
@@ -79,6 +79,12 @@
   color: vars.$primary_1;
   border: 2px solid vars.$primary_1;
   border-radius: 0.6rem;
+
+  img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+  }
 }
 
 .minCommentInfo {
@@ -86,6 +92,7 @@
   flex-direction: row;
   gap: 1.3rem;
   cursor: pointer;
+  max-width: 11.5rem;
 }
 
 .minUserInfo {
@@ -93,7 +100,6 @@
   flex-direction: column;
   gap: 0.2rem;
   text-align: right;
-  width: 120px;
 }
 
 .minUserName{
@@ -118,6 +124,9 @@
   font-size: 12px;
   line-height: 20px;
   text-align: right;
+  text-decoration: none;
+  color: vars.$primary_1;
+  cursor: pointer;
 }
 
 .midComment {
