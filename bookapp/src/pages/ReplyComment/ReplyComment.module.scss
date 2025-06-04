@@ -57,17 +57,26 @@
   display: flex;
   flex-direction: row;
   gap: 2rem;
+  justify-content: space-between;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  cursor: pointer;
 }
 
 .postUserIcon {
   img {
     width: 4.5rem;
     height: 4.5rem;
+    border-radius: 50%;
   }
 }
 
 .postUserInfo {
-  width: 25rem;
+  max-width: 25rem;
   text-align: right;
   line-height: 2.5rem;
 }
@@ -167,7 +176,7 @@
 }
 
 .cancleBtn {
-  width: 9rem;
+  width: 10rem;
   height: 3.5rem;
   border-radius: 0.6rem;
   border: 2px solid vars.$primary_1;
@@ -197,7 +206,7 @@
 }
 
 .submitBtn {
-  width: 9rem;
+  width: 10rem;
   height: 3.5rem;
   border-radius: 0.6rem;
   border: 2px solid vars.$primary_1;
@@ -223,5 +232,9 @@
     background: #28B446;
     color: vars.$primary_2;
     box-shadow: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
