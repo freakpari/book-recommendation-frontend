@@ -4,8 +4,8 @@ import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
 import {ReactComponent as Send} from "./icons/Send.svg";
 import { ReactComponent as PlusCircle } from  "./icons/PlusCircle.svg";
 import axios from "axios";
-import {AnimatePresence, motion} from "framer-motion";
-import defaultUser from "../SideProfile/icons/defaultUser.svg";
+import {AnimatePresence} from "framer-motion";
+import defaultUser from "./icons/defaultUser.svg";
 import { useNotification, NotificationModal } from "../NotificationManager/NotificationManager";
 
 interface Props {
@@ -100,14 +100,18 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                 const imageBlob = response.data;
                 const imageURL = URL.createObjectURL(imageBlob);
 
-                setProfileImage(imageURL);
+                if(imageURL) {
+                    setProfileImage(imageURL);
+                } else {
+                    setProfileImage(defaultUser);
+                }
 
             } catch (error: any) {
                 if (error.code === 'ECONNABORTED') {
                     showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
                 }
                 else {
-                    showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                    console.error("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
                 }
             }
 
@@ -208,7 +212,7 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                                 <div className={styles.userName}>
                                     {userFullName}
                                 </div>
-                                <div>{userMBTI ? (<p>{userMBTI}</p>) : (<p>خالی</p>)}</div>
+                                <div>{userMBTI ? (<p>{userMBTI}</p>) : (<p></p>)}</div>
                             </div>
                             <div className={styles.userBio}>{userBio}</div>
                         </div>
