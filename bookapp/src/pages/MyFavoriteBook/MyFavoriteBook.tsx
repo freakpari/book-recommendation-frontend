@@ -7,9 +7,7 @@ import Footer from "../../components/Footer/Footer";
 import Pencil from "./icons/Pencil.svg";
 import EditGenreModal from "../../components/EditGenreModal/EditGenreModal";
 import eventEmitter from "../../utils/eventEmitter";
-import DefaultBook from "./icons/defaultBook.svg"
-import likeEventEmitter from "../../utils/likeEventEmitter";
-import {AnimatePresence, motion} from "framer-motion";
+import {AnimatePresence} from "framer-motion";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 import {useNavigate} from "react-router-dom";
 
