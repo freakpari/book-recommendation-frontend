@@ -93,7 +93,6 @@ export default function SideProfile() {
         };
     }, []);
 
-
     const fetchUserProfile = async () => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -109,16 +108,16 @@ export default function SideProfile() {
                     responseType: "blob"
 
                 });
-            if(response.data) {
 
-                const imageBlob = response.data;
+            console.log(response.data);
+            const imageBlob = response.data;
+            if (imageBlob) {
                 const imageURL = URL.createObjectURL(imageBlob);
-
                 setProfileImage(imageURL);
-
             } else {
                 setProfileImage(defaultUser);
             }
+
         } catch (error: any) {
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
@@ -181,6 +180,34 @@ export default function SideProfile() {
     };
 
     const handleDeleteImage = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            showNotificationMessage("دسترسی غیرمجاز",'error');
+            return;
+        }
+
+        try {
+            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePicToken`,
+                {
+                    headers:{
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                    timeout: 10000
+                })
+
+            showNotificationMessage("پروفایل با موفقیت حذف شد",'success');
+            fetchUserProfile();
+            eventEmitter.emit();
+
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+            }
+            else {
+                showNotificationMessage("خطا در حذف پروفایل کاربر", 'error');
+            }
+        }
     };
 
     return (
