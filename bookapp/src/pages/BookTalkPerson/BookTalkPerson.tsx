@@ -2,20 +2,58 @@ import React, {useEffect, useState} from "react";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import styles from "./BookTalkPerson.module.scss";
-import UserIcon from "./icons/userIcon.svg"
-import Comment from "./icons/comment.svg"
-import Dislike from "./icons/dislike.svg"
-import Like from "./icons/like.svg"
+import Comment from "./icons/comment.svg";
+import Dislike from "./icons/dislike.svg";
+import Like from "./icons/like.svg";
+import defaultUser from "./icons/defaultUser.svg";
 import axios from "axios";
 import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
+import {useNotification, NotificationModal,} from "../../components/NotificationManager/NotificationManager";
+import {AnimatePresence} from "framer-motion";
+
+interface RefComments {
+    commentid: number,
+    bookid: number,
+    text: string,
+    commentrefid: number,
+    createdat: string,
+    likecount: number,
+    dislikecount: number,
+    isblocked: boolean,
+    isedited: boolean,
+    isspoiled: boolean,
+    reportcount: number,
+    reportid: number,
+    userid: string,
+    username: string,
+    mbti: string,
+    fullname: string,
+    imageguid: string,
+    imageurl: string,
+}
 
 export default function BookTalkPerson () {
 
-    const [commentid, setCommentid] = useState("");
+    const {
+        showNotification,
+        notificationMessage,
+        notificationType,
+        setShowNotification,
+        showNotificationMessage,
+    } = useNotification();
     const navigate = useNavigate();
-    const [userid, setUserid] = useState("");
-    const [isUserProfileModalOpen, setIsUserProfileModalOpen] = React.useState(false);
+    const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
+    const location = useLocation();
+    const commentid = location.state?.commentid || "";
+    const mainUserId = location.state?.userid || "";
+    const fullname = location.state?.fullname || "";
+    const username = location.state?.username || "";
+    const text = location.state.text || "";
+    const [userId, setUserId] = useState("");
+    const [mainUserImage, setMainUserImage] = useState<{ [key: string]: string }>({});
+    const [refComments, setRefComments] = useState<RefComments[]>([]);
+    const [userImages, setUserImages] = useState<{ [key: string]: string }>({});
 
     const handleLikeComment = async () => {
         const token = localStorage.getItem("token");
@@ -24,12 +62,10 @@ export default function BookTalkPerson () {
             return;
         }
 
-
-
         try {
             const response = await axios.put("https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/like",
                 {
-                    commentid: 10,
+                    commentid: commentid,
                 },
                 {
                     headers: {
@@ -55,7 +91,7 @@ export default function BookTalkPerson () {
         try {
             const response = await axios.put("https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/dislike",
                 {
-                    commentid: 10,
+                    commentid: commentid,
                 },
                 {
                     headers: {
@@ -70,13 +106,33 @@ export default function BookTalkPerson () {
         }
     }
 
-    const handleReplyComment = async () => {
+    const handleReplyComment = () => {
         navigate("/replyComment", {
             state: {
+                mainUserId: mainUserId,
                 commentid: commentid,
+                fullname: fullname,
+                username: username,
+                text: text,
             },
         });
     }
+
+    const fetchUserImage = async (userId: string) => {
+        if (userImages[userId]) return;
+
+        try {
+            const response = await axios.get(
+                `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userId}`,
+                { responseType: "blob" }
+            );
+            const imageURL = URL.createObjectURL(response.data);
+
+            setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+        } catch (error) {
+            console.error("خطا در دریافت پروفایل کاربران");
+        }
+    };
 
     useEffect(() => {
         if (isUserProfileModalOpen) {
@@ -93,29 +149,89 @@ export default function BookTalkPerson () {
         };
     }, [isUserProfileModalOpen]);
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("توکن کاربر یافت نشد.");
+            return;
+        }
+        const fetchRefComments = async () => {
+            try {
+                const response = await axios.get<RefComments[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/ref/${10}`,{timeout:10000});
+
+                console.log(response.data);
+
+                setRefComments(response.data);
+                response.data.forEach(refComments => {
+                    fetchUserImage(refComments.userid);
+                });
+
+            } catch (error: any) {
+                if (error.code === "ECONNABORTED") {
+                    showNotificationMessage(
+                        "سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",
+                        "error"
+                    );
+                } else {
+                    showNotificationMessage("خطا در بارگیری نظرات", "error");
+                }
+            }
+        };
+
+        const fetchMainUserImage = async () => {
+            try {
+                const response = await axios.get(
+                    `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${mainUserId}`,
+                    { responseType: "blob" }
+                );
+                const imageURL = URL.createObjectURL(response.data);
+
+                setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
+            } catch (error) {
+                console.error("خطا در دریافت پروفایل کاربران");
+            }
+        };
+
+        fetchMainUserImage();
+        fetchRefComments();
+    }, []);
+
+    const handleUserInfoModalOpen = (userId : string) => {
+        setUserId(userId);
+        setIsUserProfileModalOpen(true);
+    }
 
     return (
         <div className={styles.container}>
             <div>
                 <SearchNav />
+                <AnimatePresence>
+                    {showNotification && (
+                        <NotificationModal
+                            message={notificationMessage}
+                            type={notificationType}
+                            onClose={() => setShowNotification(false)}
+                        />
+                    )}
+                </AnimatePresence>
             </div>
             <div>
                 <div className={styles.header}>BookTalk</div>
                 <div className={styles.bookTalk}>
                     <div className={styles.post}>
                         <div className={styles.postInfoOptions}>
-                            <button
+                            <div
                                 className={styles.UserInfo}
-                                onClick={() => setIsUserProfileModalOpen(true)}
+                                onClick={() => handleUserInfoModalOpen(mainUserId)}
                             >
                                 <div className={styles.postUserIcon}>
-                                    <img src={UserIcon} alt="user icon" />
+                                    <img src={mainUserImage[mainUserId] || defaultUser} alt="user icon" />
                                 </div>
                                 <div className={styles.postUserInfo}>
-                                    <div className={styles.postUserName}>مریم ساداتی</div>
-                                    <div className={styles.postUserId}>@marybooklover</div>
+                                    <div className={styles.postUserName}>{fullname}</div>
+                                    <div className={styles.postUserId}>{username}</div>
                                 </div>
-                            </button>
+                            </div>
 
                             <div className={styles.postIcons}>
                                 <img
@@ -135,48 +251,34 @@ export default function BookTalkPerson () {
                                 />
                             </div>
                         </div>
-                        <div className={styles.postContent}><span className={styles.hashtag}>#ورونیکا_تصمیم_می‌گیرد_بمیرد</span> تأثیر عمیقی بر من گذاشت؛ روایت ساده و فلسفی ورونیکا باعث شد تا دوباره به ارزش‌های زندگی و مرگ فکر کنم. تجربه‌ای منحصر به فرد و اندیشمندانه.</div>
+                        <div className={styles.postContent}>{text}</div>
                     </div>
                     <div className={styles.commentText}>نظرات</div>
                     <div className={styles.comments}>
-                        <div className={styles.comment}>
-                            <div className={styles.commentInfo}>
-                                <div className={styles.commentUserIcon}>
-                                    <img src={UserIcon} alt="user icon" />
-                                </div>
-                                <div className={styles.commentUserInfo}>
-                                    <div className={styles.commentUserName}>مریم ساداتی</div>
-                                    <div className={styles.commentUserId}>@marybooklover</div>
-                                </div>
+                        {refComments.length === 0 ? (
+                            <div className={styles.noRef}>
+                                نظری برای این کامنت وجود ندارد
                             </div>
-                            <div className={styles.commentContent}><span className={styles.hashtag}>#ورونیکا</span> داستانی است که مرزهای میان زندگی و مرگ را به چالش می‌کشد. شخصیت‌های کتاب با دغدغه‌های عمیق و تناقضات زندگی، خواننده را به تفکر وا می‌دارند. این کتاب تجربه‌ای متفاوت از آشنایی با معنای واقعی زندگی به من داد.</div>
-                        </div>
+                        ) : (
+                            refComments.map((item) => (
+                                <div className={styles.comment}>
+                                    <div
+                                        className={styles.commentInfo}
+                                        onClick={() => handleUserInfoModalOpen(item.userid)}
+                                    >
+                                        <div className={styles.commentUserIcon}>
+                                            <img src={userImages[item.userid] || defaultUser} alt="user icon" />
+                                        </div>
+                                        <div className={styles.commentUserInfo}>
+                                            <div className={styles.commentUserName}>{item.fullname}</div>
+                                            <div className={styles.commentUserId}>@{item.username}</div>
+                                        </div>
+                                    </div>
+                                    <div className={styles.commentContent}>{item.text}</div>
+                                </div>
+                            ))
+                        )}
 
-                        <div className={styles.comment}>
-                            <div className={styles.commentInfo}>
-                                <div className={styles.commentUserIcon}>
-                                    <img src={UserIcon} alt="user icon" />
-                                </div>
-                                <div className={styles.commentUserInfo}>
-                                    <div className={styles.commentUserName}>مریم ساداتی</div>
-                                    <div className={styles.commentUserId}>@marybooklover</div>
-                                </div>
-                            </div>
-                            <div className={styles.commentContent}><span className={styles.hashtag}>#ورونیکا</span> داستانی است که مرزهای میان زندگی و مرگ را به چالش می‌کشد. شخصیت‌های کتاب با دغدغه‌های عمیق و تناقضات زندگی، خواننده را به تفکر وا می‌دارند. این کتاب تجربه‌ای متفاوت از آشنایی با معنای واقعی زندگی به من داد.</div>
-                        </div>
-
-                        <div className={styles.comment}>
-                            <div className={styles.commentInfo}>
-                                <div className={styles.commentUserIcon}>
-                                    <img src={UserIcon} alt="user icon" />
-                                </div>
-                                <div className={styles.commentUserInfo}>
-                                    <div className={styles.commentUserName}>مریم ساداتی</div>
-                                    <div className={styles.commentUserId}>@marybooklover</div>
-                                </div>
-                            </div>
-                            <div className={styles.commentContent}><span className={styles.hashtag}>#ورونیکا</span> داستانی است که مرزهای میان زندگی و مرگ را به چالش می‌کشد. شخصیت‌های کتاب با دغدغه‌های عمیق و تناقضات زندگی، خواننده را به تفکر وا می‌دارند. این کتاب تجربه‌ای متفاوت از آشنایی با معنای واقعی زندگی به من داد.</div>
-                        </div>
 
                     </div>
                 </div>
@@ -187,7 +289,7 @@ export default function BookTalkPerson () {
             {isUserProfileModalOpen && (
                 <UserProfileModal
                     onClose={() => setIsUserProfileModalOpen(false)}
-                    userid={userid}
+                    userid={userId}
                 />
             )}
         </div>

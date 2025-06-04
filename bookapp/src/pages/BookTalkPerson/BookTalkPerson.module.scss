@@ -47,16 +47,13 @@
 .postInfoOptions {
   display: flex;
   flex-direction: row;
-  //gap: 2rem;
+  justify-content: space-between;
 }
 
 .UserInfo {
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  border: none;
-  background: none;
-  outline: none;
   cursor: pointer;
 }
 
@@ -64,11 +61,12 @@
   img {
     width: 4.5rem;
     height: 4.5rem;
+    border-radius: 50%;
   }
 }
 
 .postUserInfo {
-  width: 23.5rem;
+  max-width: 23.5rem;
   text-align: right;
   line-height: 2.5rem;
 }
@@ -139,7 +137,8 @@
   margin-bottom: 10px;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-
+  gap: 1rem;
+  padding: 0.5rem;
   &::-webkit-scrollbar {
     width: 0.5rem;
   }
@@ -155,6 +154,15 @@
   }
 }
 
+.noRef {
+  width: 62.5rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 40px;
+  color: #939393;
+}
+
 .comment {
   display: flex;
   flex-direction: column;
@@ -162,13 +170,16 @@
   width: 38rem;
   height: auto;
   padding: 1rem 1.2rem;
-  //background: vars.$primary_2;
+  background: vars.$hover-opacity;
+  border-radius: 0.6rem;
 }
 
 .commentInfo {
   display: flex;
   flex-direction: row;
   gap: 1.2rem;
+  cursor: pointer;
+  width: min-content;
 }
 
 .commentUserIcon {
@@ -179,7 +190,7 @@
 }
 
 .commentUserInfo {
-  width: 31rem;
+  max-width: 31rem;
   text-align: right;
   line-height: 1.5rem;
 }
