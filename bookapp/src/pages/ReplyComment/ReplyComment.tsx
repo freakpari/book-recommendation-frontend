@@ -3,8 +3,6 @@ import styles from "./ReplyComment.module.scss";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import defaultUser from "./icons/defaultUser.svg";
-import Like from "./icons/like.svg";
-import Dislike from "./icons/dislike.svg";
 import Arrow from "./icons/arrow.svg";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -34,57 +32,6 @@ export default function ReplyComment() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleLikeComment = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            console.error("توکن کاربر یافت نشد.");
-            return;
-        }
-
-        try {
-            const response = await axios.put("https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/like",
-                {
-                    commentid: commentid,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-            console.log(response.data);
-
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
-    const handleDisLikeComment = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            console.error("توکن کاربر یافت نشد.");
-            return;
-        }
-
-        try {
-            const response = await axios.put("https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/dislike",
-                {
-                    commentid: commentid,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-            console.log(response.data);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
     const handleSendRefText = async () => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -94,12 +41,18 @@ export default function ReplyComment() {
 
         try {
             setLoading(true);
-            await axios.post(`api/`,
+            await axios.post(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment`,
                 {
                     bookid: bookid,
                     text: refText,
-                    Commentrefid: commentid,
-                },{timeout: 10000})
+                    commentrefid: commentid,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "content-type": "application/json",
+                    }
+                })
 
             showNotificationMessage("نظر شما با موفقیت ثبت شد",'success');
 
@@ -146,9 +99,13 @@ export default function ReplyComment() {
                     `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${mainUserId}`,
                     { responseType: "blob" }
                 );
-                const imageURL = URL.createObjectURL(response.data);
-
-                setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
+                if (response.status !== 204) {
+                    const imageURL = URL.createObjectURL(response.data);
+                    setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
+                } if (response.status === 204) {
+                    const imageURL = defaultUser;
+                    setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
+                }
             } catch (error) {
                 console.error("خطا در دریافت پروفایل کاربر");
             }
@@ -173,30 +130,16 @@ export default function ReplyComment() {
             </div>
             <div className={styles.commentReply}>
                 <div className={styles.post}>
-                    <div className={styles.postInfoOptions}>
-                        <div
-                            className={styles.userInfo}
-                            onClick={() => setIsUserProfileModalOpen(true)}
-                        >
-                            <div className={styles.postUserIcon}>
-                                <img src={mainUserImage[mainUserId] || defaultUser} alt="user icon" />
-                            </div>
-                            <div className={styles.postUserInfo}>
-                                <div className={styles.postUserName}>{fullname}</div>
-                                <div className={styles.postUserId}>{username}</div>
-                            </div>
+                    <div
+                        className={styles.userInfo}
+                        onClick={() => setIsUserProfileModalOpen(true)}
+                    >
+                        <div className={styles.postUserIcon}>
+                            <img src={mainUserImage[mainUserId] || defaultUser} alt="user icon" />
                         </div>
-                        <div className={styles.postIcons}>
-                            <img
-                                src={Dislike}
-                                alt="dislike icon"
-                                onClick={handleDisLikeComment}
-                            />
-                            <img
-                                src={Like}
-                                alt="like icon"
-                                onClick={handleLikeComment}
-                            />
+                        <div className={styles.postUserInfo}>
+                            <div className={styles.postUserName}>{fullname}</div>
+                            <div className={styles.postUserId}>{username}</div>
                         </div>
                     </div>
                     <div className={styles.postContent}>{text}</div>
