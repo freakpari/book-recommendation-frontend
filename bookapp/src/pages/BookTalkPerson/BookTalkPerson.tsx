@@ -3,8 +3,6 @@ import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import styles from "./BookTalkPerson.module.scss";
 import Comment from "./icons/comment.svg";
-import Dislike from "./icons/dislike.svg";
-import Like from "./icons/like.svg";
 import defaultUser from "./icons/defaultUser.svg";
 import axios from "axios";
 import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
@@ -55,56 +53,6 @@ export default function BookTalkPerson () {
     const [refComments, setRefComments] = useState<RefComments[]>([]);
     const [userImages, setUserImages] = useState<{ [key: string]: string }>({});
 
-    const handleLikeComment = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            console.error("توکن کاربر یافت نشد.");
-            return;
-        }
-
-        try {
-            const response = await axios.put("https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/like",
-                {
-                    commentid: commentid,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-            console.log(response.data);
-
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
-    const handleDisLikeComment = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            console.error("توکن کاربر یافت نشد.");
-            return;
-        }
-
-        try {
-            const response = await axios.put("https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/dislike",
-                {
-                    commentid: commentid,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-            console.log(response.data);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
 
     const handleReplyComment = () => {
         navigate("/replyComment", {
@@ -126,9 +74,13 @@ export default function BookTalkPerson () {
                 `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userId}`,
                 { responseType: "blob" }
             );
-            const imageURL = URL.createObjectURL(response.data);
-
-            setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+            if (response.status !== 204) {
+                const imageURL = URL.createObjectURL(response.data);
+                setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+            } if (response.status === 204) {
+                const imageURL = defaultUser;
+                setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+            }
         } catch (error) {
             console.error("خطا در دریافت پروفایل کاربران");
         }
@@ -155,9 +107,10 @@ export default function BookTalkPerson () {
             console.error("توکن کاربر یافت نشد.");
             return;
         }
+
         const fetchRefComments = async () => {
             try {
-                const response = await axios.get<RefComments[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/ref/${10}`,{timeout:10000});
+                const response = await axios.get<RefComments[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/ref/${commentid}`,{timeout:10000});
 
                 console.log(response.data);
 
@@ -172,7 +125,8 @@ export default function BookTalkPerson () {
                         "سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",
                         "error"
                     );
-                } else {
+                } if (error.status === 500) {}
+                else {
                     showNotificationMessage("خطا در بارگیری نظرات", "error");
                 }
             }
@@ -184,9 +138,14 @@ export default function BookTalkPerson () {
                     `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${mainUserId}`,
                     { responseType: "blob" }
                 );
-                const imageURL = URL.createObjectURL(response.data);
+                if (response.status !== 204) {
+                    const imageURL = URL.createObjectURL(response.data);
+                    setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
+                } if (response.status === 204) {
+                    const imageURL = defaultUser;
+                    setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
+                }
 
-                setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
             } catch (error) {
                 console.error("خطا در دریافت پروفایل کاربران");
             }
@@ -238,16 +197,6 @@ export default function BookTalkPerson () {
                                     src={Comment}
                                     alt="comment icon"
                                     onClick={handleReplyComment}
-                                />
-                                <img
-                                    src={Dislike}
-                                    alt="dislike icon"
-                                    onClick={handleDisLikeComment}
-                                />
-                                <img
-                                    src={Like}
-                                    alt="like icon"
-                                    onClick={handleLikeComment}
                                 />
                             </div>
                         </div>
