@@ -94,6 +94,8 @@ export default function SideProfile() {
     }, []);
 
     const fetchUserProfile = async () => {
+        if (profileImage) {return}
+
         const token = localStorage.getItem("token");
         if (!token) {
             showNotificationMessage("دسترسی غیرمجاز",'error');
@@ -198,6 +200,7 @@ export default function SideProfile() {
                 })
 
             showNotificationMessage("پروفایل با موفقیت حذف شد",'success');
+            setProfileImage(null);
             fetchUserProfile();
             eventEmitter.emit();
 
