@@ -56,9 +56,13 @@ export default function BookTalkMain() {
           `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userId}`,
           { responseType: "blob" }
       );
-      const imageURL = URL.createObjectURL(response.data);
-
-      setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+      if (response.status !== 204) {
+        const imageURL = URL.createObjectURL(response.data);
+        setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+      } if (response.status === 204) {
+        const imageURL = defaultUser;
+        setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+      }
     } catch (error) {
       console.error("خطا در دریافت پروفایل کاربران");
     }
