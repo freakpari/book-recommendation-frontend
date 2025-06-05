@@ -5,13 +5,13 @@ import Footer from "../../components/Footer/Footer";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import eventEmitter from "../../utils/eventEmitter";
 import Tehran from "./icons/Tehran.svg";
-import Koodak from "./icons/Koodak.svg";
 import { ReactComponent as Plus } from "./icons/Plus.svg";
 import { useState } from "react";
 import CreateListModal from "../../components/CreateListModal/CreateListModal";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 interface UserBookList  {
     CollectionID: number,
@@ -19,31 +19,41 @@ interface UserBookList  {
     Title: string,
     CreateDate: string,
     Discription: string,
-    ReportID: null,
+    ReportID: number,
     GenreID1: number,
-    GenreTitle1: null,
+    GenreTitle1: string,
     GenreID2: number,
-    GenreTitle2: null,
+    GenreTitle2: string,
     GenreID3: number,
-    GenreTitle3: null,
-    AccessibilityGroupID: null,
-    AccessGroupTitle: null,
-    AccessGroupDiscription: null,
+    GenreTitle3: string,
+    AccessibilityGroupID: number,
+    AccessGroupTitle: string,
+    AccessGroupDiscription: string,
     NumberOfDetail: number,
     UserID: number,
     UserName: string,
     FullName: string,
 }
 
-const mySavedList = [
-    { title: "تهرانم", includes: "سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت", image: Tehran },
-    { title: "کودک", includes: "شامل: سری کتاب‌های کودک ۱ ٬ اتل متل توتوله گاو حسن چجوره٬ نه شیر داره نه پستون یک زن هندی بسون", image: Koodak },
-    { title: "تهرانم", includes: "سری کتاب‌های هری پاتر، سری کتاب‌های ارباب حلقه‌ها، سری کتاب‌های بازی تاج و تخت", image: Tehran },
-];
+function BookListCard({ title, includes, image, collectionid, collectionName, Discription, ispublic }: { title: string, includes: string, image: string, collectionid: number, collectionName: string, Discription:string, ispublic: boolean }) {
+    const navigate = useNavigate();
 
-function BookListCard({ title, includes, image }: { title: string, includes: string, image: string }) {
+    const handleGoToCollectionDetails = () => {
+        navigate("/bookInlist", {
+            state: {
+                collectionid: collectionid,
+                collectionName: collectionName,
+                Discription: Discription,
+                ispublic: ispublic,
+            }
+        });
+    }
+
     return (
-        <div className={styles.listContent}>
+        <div
+            className={styles.listContent}
+            onClick={handleGoToCollectionDetails}
+        >
             <div className={styles.listPic}>
                 <img src={image} alt={title} />
             </div>
@@ -55,9 +65,25 @@ function BookListCard({ title, includes, image }: { title: string, includes: str
     );
 }
 
-function SavedBookListCard({ title, includes, image }: { title: string, includes: string, image: string }) {
+function SavedBookListCard({ title, includes, image, collectionid, collectionName, Discription, access }: { title: string, includes: string, image: string, collectionid: number, collectionName: string, Discription:string, access:number }) {
+    const navigate = useNavigate();
+
+    const handleGoToCollectionDetails = () => {
+        navigate("/savedlist", {
+            state: {
+                collectionid: collectionid,
+                collectionName: collectionName,
+                Discription: Discription,
+                access: access,
+            }
+        });
+    }
+
     return (
-        <div className={styles.listContent}>
+        <div
+            className={styles.listContent}
+            onClick={handleGoToCollectionDetails}
+        >
             <div className={styles.listPic}>
                 <img src={image} alt={title} />
             </div>
@@ -80,15 +106,15 @@ export default function MyBookList() {
     } = useNotification();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userBookList, setUserBookList] = useState<UserBookList[]>([]);
+    const [mySavedList, setMySavedList] = useState<UserBookList[]>([]);
 
     useEffect(() => {
-
+        const token = localStorage.getItem("token");
+        if(!token) {
+            console.error("دسترسی غیرمجاز");
+            return;
+        }
         const handleShowUserBookList = async () => {
-            const token = localStorage.getItem("token");
-            if(!token) {
-                console.error("دسترسی غیرمجاز");
-                return;
-            }
 
             try {
                 const response = await axios.get<UserBookList[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/user`,
@@ -109,7 +135,30 @@ export default function MyBookList() {
             }
         };
 
+        const handleShowSavedLists = async () => {
+
+
+            try {
+                const response = await axios.get<{ message: string; data: UserBookList[] }>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/save`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    });
+                setMySavedList(response.data.data);
+
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                }
+                else {
+                    showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                }
+            }
+        }
+
         handleShowUserBookList();
+        handleShowSavedLists();
     }, []);
 
     useEffect(() => {
@@ -157,6 +206,10 @@ export default function MyBookList() {
                                         title={item.Title}
                                         includes={item.Discription || 'بدون توضیح'}
                                         image={Tehran}
+                                        collectionid={item.CollectionID}
+                                        collectionName={item.Title}
+                                        Discription={item.Discription}
+                                        ispublic={item.IsPublic}
                                     />
                                 ))
                             )}
@@ -166,14 +219,22 @@ export default function MyBookList() {
                     <div className={styles.mySavedListHeader}>لیست‌های ذخیره‌شده</div>
                     <div className={styles.bookListContainer}>
                         <div className={styles.myListDrawer}>
-                            {mySavedList.map((list, index) => (
-                                <SavedBookListCard
-                                    key={`saved-list-${index}`}
-                                    title={list.title}
-                                    includes={list.includes}
-                                    image={list.image}
-                                />
-                            ))}
+                            {mySavedList.length === 0 ? (
+                                <div className={styles.noList}>هنوز لیستی توسط این کاربر ذخیره نشده است</div>
+                            ) : (
+                                mySavedList.map((list, index) => (
+                                        <SavedBookListCard
+                                            key={`saved-list-${index}`}
+                                            title={list.Title}
+                                            includes={list.Discription}
+                                            image={Tehran}
+                                            collectionid={list.CollectionID}
+                                            collectionName={list.Title}
+                                            Discription={list.Discription}
+                                            access={list.AccessibilityGroupID}
+                                        />
+                                ))
+                            )}
                         </div>
                     </div>
 
