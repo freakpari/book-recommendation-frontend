@@ -114,9 +114,12 @@ export default function SearchNav() {
                         headers: { Authorization: `Bearer ${token}` },
                         responseType: "blob",
                     }
-                );
-                const imageURL = URL.createObjectURL(response.data);
-                setProfileImage(imageURL);
+                );if (response.status !== 204) {
+                    const imageURL = URL.createObjectURL(response.data);
+                    setProfileImage(imageURL);
+                } else {
+                    setProfileImage(null);
+                }
             } catch (error) {
                 console.error("خطا در دریافت تصویر پروفایل");
             }
