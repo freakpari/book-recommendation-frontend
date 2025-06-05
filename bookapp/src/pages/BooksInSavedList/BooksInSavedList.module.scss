@@ -77,6 +77,16 @@
       text-overflow: ellipsis;
     }
 
+    .listAuthor {
+      font-weight: 100;
+      font-size: 0.8rem;
+      line-height: 1.5rem;
+      color: vars.$primary_1;
+      white-space: pre-line;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .listMenu {
       display: flex;
       align-items: center;
@@ -91,7 +101,7 @@
       position: absolute;
       display: flex;
       flex-direction: column;
-      width: 13rem;
+      width: 14.5rem;
       height: auto;
       background: vars.$secondary_1;
       left: -1rem;
@@ -102,8 +112,8 @@
         align-items: center;
         gap: 0.6rem;
         width: 100%;
-        padding: 0.5rem;
         height: 4rem;
+        padding: 0.5rem;
         color: vars.$primary_1;
         font-size: 1.2rem;
         font-weight: 500;
@@ -114,6 +124,12 @@
         }
       }
 
+      .hr {
+        width: 12rem;
+        height: 0.1rem;
+        border-radius: 0.6rem;
+        background: #30385750;
+      }
     }
 
     .scrollbar {

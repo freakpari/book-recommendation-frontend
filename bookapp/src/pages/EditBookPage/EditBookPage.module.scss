@@ -28,12 +28,12 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 1rem;
+      text-align: right;
+      padding-right: 2rem;
       width: 100%;
       height: 7.5rem;
       background: #aaaacc;
-      //gap: 32rem;
+      gap: 32rem;
       margin-right: 1rem;
       margin-bottom: 2rem;
       .listInfoPic {
@@ -75,45 +75,6 @@
       white-space: pre-line;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .listMenu {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 3.5rem;
-      height: 1.5rem;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .menu {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      width: 13rem;
-      height: auto;
-      background: vars.$secondary_1;
-      left: -1rem;
-      top: 4.45rem;
-
-      .menuOption {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        width: 100%;
-        padding: 0.5rem;
-        height: 4rem;
-        color: vars.$primary_1;
-        font-size: 1.2rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background 0.3s;
-        &:hover {
-          background: vars.$hover-opacity;
-        }
-      }
-
     }
 
     .scrollbar {
@@ -187,6 +148,11 @@
         border-radius: 50%;
         border: 2px solid #e81515;
         z-index: 1000;
+
+        &:hover {
+          cursor: pointer;
+          background: #E8151550;
+        }
       }
 
       .bookImage {
@@ -238,10 +204,6 @@
         }
       }
 
-      &:hover {
-        cursor: pointer;
-        background: #30385715;
-      }
     }
   }
 }

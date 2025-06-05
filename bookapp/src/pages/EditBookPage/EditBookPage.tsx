@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styles from "./BooksInMyList.module.scss";
+import styles from "./EditBookPage.module.scss";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
@@ -7,14 +7,11 @@ import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 import { AnimatePresence } from "framer-motion";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import NoBookInList from "./icons/emptyList.svg";
-import Menu from "./icons/Menu.svg";
-import Pencil from "./icons/pencil.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
 import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
-
 interface BooksInMyListDetails {
     CollectionID: number,
     BookID: number,
@@ -38,7 +35,7 @@ interface BooksInMyListDetails {
     ImageUrl: string,
 }
 
-export default function BookInMyList() {
+export default function EditBookPage() {
 
     const {
         showNotification,
@@ -51,23 +48,23 @@ export default function BookInMyList() {
     const collectionid = location.state?.collectionid || "";
     const collectionName = location.state?.collectionName || "";
     const Discription = location.state?.Discription || "";
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [booksInMyList, setBooksInMyList] = useState<BooksInMyListDetails[]>([]);
-    const navigate = useNavigate();
     const [isDeleteCollection, setIsDeleteCollection] = useState(false);
 
-    const handleGoToBookDetails = (bookid: number) => {
-        navigate(`/bookdetail/${bookid}`)
-    };
-
-    const handleEditBook = () => {
-        navigate(`/editbookinlist`, {
-            state: {
-                collectionid: collectionid,
-                collectionName: collectionName,
-                Discription: Discription,
+    const handleDeleteBookFromList = async (bookid: number) => {
+        try {
+            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/delete-collection-details?collectionid=${collectionid}&bookid=${bookid}`)
+            showNotificationMessage("کتاب با موفقیت از لیست حذف شد",'success');
+            eventEmitter.emit();
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+            } if (error.status === 404) {
             }
-        })
+            else {
+                showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+            }
+        }
     }
 
     useEffect(() => {
@@ -85,7 +82,6 @@ export default function BookInMyList() {
                 if (error.code === 'ECONNABORTED') {
                     showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
                 } if (error.status === 404) {
-                    setBooksInMyList([]);
                 }
                 else {
                     showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
@@ -94,7 +90,8 @@ export default function BookInMyList() {
         }
 
         fetchBookInListDetails();
-        eventEmitter.emit();
+        const unsubscribe = eventEmitter.subscribe(fetchBookInListDetails);
+        return () => unsubscribe();
     }, []);
 
     return (
@@ -125,35 +122,6 @@ export default function BookInMyList() {
                                     <div className={styles.listDiscription}>{Discription || "بدون توضیح"}</div>
                                 </div>
                             </div>
-                            <div
-                                className={styles.listMenu}
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            >
-                                <img
-                                    src={Menu} alt="منو"
-                                />
-
-                                {isMenuOpen && (
-                                    <div className={styles.menu}>
-                                        <div
-                                            className={styles.menuOption}
-                                            onClick={handleEditBook}
-                                        >
-                                            <img src={Pencil} alt=""/>
-                                            <p>ویرایش کتاب‌های لیست</p>
-                                        </div>
-                                        <div className={styles.hr}></div>
-                                        <div
-                                            className={styles.menuOption}
-                                            onClick={() => setIsDeleteCollection(true)}
-                                        >
-                                            <img src={DeleteIcon} alt=""/>
-                                            <p>حذف لیست</p>
-                                        </div>
-                                    </div>
-                                )}
-
-                            </div>
 
                         </div>
 
@@ -165,20 +133,25 @@ export default function BookInMyList() {
                                 </div>
                             ) : (
                                 booksInMyList.map((book) => (
-                                    <div>
-                                        <div
-                                            className={styles.bookCard}
-                                            onClick={() => handleGoToBookDetails(book.BookID)}
-                                        >
-                                            <div className={styles.bookImage}>
-                                                <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt="Black Hourse" />
-                                            </div>
-                                            <div className={styles.bookInfo}>
-                                                <div className={styles.bookName}>{book.Title}</div>
-                                                <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
+                                        <div>
+
+                                            <div
+                                                className={styles.bookCard}>
+                                                <div
+                                                    className={styles.deleteBtn}
+                                                    onClick={() => handleDeleteBookFromList(book.BookID)}
+                                                >
+                                                    <img src={DeleteIcon} alt="حذف کتاب"/>
+                                                </div>
+                                                <div className={styles.bookImage}>
+                                                    <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt="Black Hourse" />
+                                                </div>
+                                                <div className={styles.bookInfo}>
+                                                    <div className={styles.bookName}>{book.Title}</div>
+                                                    <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     )
                                 )
                             )}
@@ -196,7 +169,6 @@ export default function BookInMyList() {
             {isDeleteCollection && (
                 <DeleteListModal onClose={() => setIsDeleteCollection(false)} collectionid={collectionid} />
             )}
-
         </div>
     )
 }

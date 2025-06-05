@@ -7,6 +7,7 @@ import axios from "axios";
 import {AnimatePresence} from "framer-motion";
 import defaultUser from "./icons/defaultUser.svg";
 import { useNotification, NotificationModal } from "../NotificationManager/NotificationManager";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
     onClose: () => void;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 interface UserCollection  {
+    IsOwner: number,
+    UserId: number,
     CollectionID: number,
     IsPublic: boolean,
     Title: string,
@@ -21,16 +24,16 @@ interface UserCollection  {
     Discription: string,
     ReportID: null,
     GenreID1: number,
-    GenreTitle1: null,
+    GenreTitle1: string,
     GenreID2: number,
-    GenreTitle2: null,
+    GenreTitle2: string,
     GenreID3: number,
-    GenreTitle3: null,
-    AccessibilityGroupID: null,
-    AccessGroupTitle: null,
-    AccessGroupDiscription: null,
+    GenreTitle3: string,
+    AccessibilityGroupID: number,
+    AccessGroupTitle: string,
+    AccessGroupDiscription: string,
     NumberOfDetail: number,
-    UserID: number,
+    UserID_1: number,
     UserName: string,
     FullName: string,
 }
@@ -42,28 +45,6 @@ interface UserInformation {
     user_name: string,
     bio: string,
     mbti: string,
-}
-
-function BookListCard({ title, includes, image }: { title: string, includes: string, image: string }) {
-    return (
-        <div className={styles.listContent}>
-            <div className={styles.listPic}>
-                <img src={image} alt={title} />
-            </div>
-            <div className={styles.listDescription}>
-                <div className={styles.titlePlusIcon}>
-                <div className={styles.listTitle}>
-                    {title}
-                </div>
-                    <div className={styles.tooltipContainer}>
-                        <PlusCircle className={styles.plusCircleIcon} />
-                        <span className={styles.tooltipText}>اضافه کردن به لیست</span>
-                    </div>
-                </div>
-                <div className={styles.listIncludes}>{includes}</div>
-            </div>
-        </div>
-    );
 }
 
 export default function UserProfileModal ({ onClose , userid}: Props) {
@@ -82,6 +63,51 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
     const [userBio, setUserBio] = useState('');
     const [userMBTI, setUserMBTI] = useState('');
     const [profileImage, setProfileImage] = useState<string | null>(null);
+    const navigate = useNavigate();
+
+    const handleGoToCollectionDetails = (collectionid:number,collectionName:string, FullName: string, access: number) => {
+        navigate("/bookInListUser", {
+            state: {
+                collectionid: collectionid,
+                collectionName: collectionName,
+                FullName: FullName,
+                access: access,
+            }
+        });
+    };
+
+    const handleAddList = async (access:number) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            showNotificationMessage("دسترسی غیر مجاز",'error')
+            return;
+        }
+
+        try {
+            await axios.put(
+                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/save",
+                {
+                    accessibilitygroup: access
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    }
+                }
+            );
+
+            showNotificationMessage("لیست با موفقیت اضافه شد",'success')
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+            }
+            else {
+                console.error("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+            }
+        }
+
+    };
 
     useEffect(() => {
 
@@ -115,7 +141,6 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
             }
 
         };
-
 
         const handleUserCollection = async () => {
             const token = localStorage.getItem("token");
@@ -226,13 +251,38 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                             {userCollection.length === 0 ? (
                                 <div className={styles.noList}>هیچ لیستی توسط این کاربر ساخته نشده است</div>
                             ) : (
-                                userCollection.map((item, index) => (
-                                    <BookListCard
-                                        key={`user-list-${index}`}
-                                        title={item.Title}
-                                        includes={item.Discription || 'بدون توضیح'}
-                                        image={Tehran}
-                                    />
+                                userCollection.map((item) => (
+                                    <div className={styles.listContent}>
+                                        <div className={styles.listPic}>
+                                            <img src={Tehran} alt={item.Title} />
+                                        </div>
+                                        <div
+                                            className={styles.listDescription}
+                                        >
+                                            <div className={styles.titlePlusIcon}>
+                                                <div
+                                                    className={styles.listTitle}
+                                                    onClick={() => handleGoToCollectionDetails(item.CollectionID,item.Title, item.FullName, item.AccessibilityGroupID)}
+                                                >
+                                                    {item.Title}
+                                                </div>
+                                                <div
+                                                    className={styles.tooltipContainer}
+                                                    onClick={() => handleAddList(item.AccessibilityGroupID)}
+                                                >
+                                                    <PlusCircle className={styles.plusCircleIcon} />
+                                                    <span className={styles.tooltipText}>اضافه کردن به لیست</span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className={styles.listIncludes}
+                                                onClick={() => handleGoToCollectionDetails(item.CollectionID,item.Title, item.FullName, item.AccessibilityGroupID)}
+                                            >
+                                                {item.Discription}
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 ))
                             )}
                         </div>

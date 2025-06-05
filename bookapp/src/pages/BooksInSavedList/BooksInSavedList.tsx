@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styles from "./BooksInMyList.module.scss";
+import styles from "./BooksInSavedList.module.scss";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
@@ -10,10 +10,9 @@ import { AnimatePresence } from "framer-motion";
 import {useLocation, useNavigate} from "react-router-dom";
 import NoBookInList from "./icons/emptyList.svg";
 import Menu from "./icons/Menu.svg";
-import Pencil from "./icons/pencil.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
 import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
-import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
+import DeleteSavedList from "../../components/DeleteSavedList/DeleteSavedList";
 
 interface BooksInMyListDetails {
     CollectionID: number,
@@ -49,8 +48,10 @@ export default function BookInMyList() {
     } = useNotification();
     const location = useLocation();
     const collectionid = location.state?.collectionid || "";
+    const access = location.state?.access || "";
     const collectionName = location.state?.collectionName || "";
     const Discription = location.state?.Discription || "";
+    const FullName = location.state?.FullName || "";
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [booksInMyList, setBooksInMyList] = useState<BooksInMyListDetails[]>([]);
     const navigate = useNavigate();
@@ -60,21 +61,11 @@ export default function BookInMyList() {
         navigate(`/bookdetail/${bookid}`)
     };
 
-    const handleEditBook = () => {
-        navigate(`/editbookinlist`, {
-            state: {
-                collectionid: collectionid,
-                collectionName: collectionName,
-                Discription: Discription,
-            }
-        })
-    }
-
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {return;}
 
-        console.log(collectionid);
+        console.log(access);
 
         const fetchBookInListDetails = async () => {
             try {
@@ -85,7 +76,6 @@ export default function BookInMyList() {
                 if (error.code === 'ECONNABORTED') {
                     showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
                 } if (error.status === 404) {
-                    setBooksInMyList([]);
                 }
                 else {
                     showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
@@ -123,6 +113,7 @@ export default function BookInMyList() {
                                 <div className={styles.listInfo}>
                                     <div className={styles.listName}>لیست {collectionName}</div>
                                     <div className={styles.listDiscription}>{Discription || "بدون توضیح"}</div>
+                                    <div className={styles.listAuthor}>ساخته شده توسط {FullName}</div>
                                 </div>
                             </div>
                             <div
@@ -135,14 +126,6 @@ export default function BookInMyList() {
 
                                 {isMenuOpen && (
                                     <div className={styles.menu}>
-                                        <div
-                                            className={styles.menuOption}
-                                            onClick={handleEditBook}
-                                        >
-                                            <img src={Pencil} alt=""/>
-                                            <p>ویرایش کتاب‌های لیست</p>
-                                        </div>
-                                        <div className={styles.hr}></div>
                                         <div
                                             className={styles.menuOption}
                                             onClick={() => setIsDeleteCollection(true)}
@@ -165,20 +148,20 @@ export default function BookInMyList() {
                                 </div>
                             ) : (
                                 booksInMyList.map((book) => (
-                                    <div>
-                                        <div
-                                            className={styles.bookCard}
-                                            onClick={() => handleGoToBookDetails(book.BookID)}
-                                        >
-                                            <div className={styles.bookImage}>
-                                                <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt="Black Hourse" />
-                                            </div>
-                                            <div className={styles.bookInfo}>
-                                                <div className={styles.bookName}>{book.Title}</div>
-                                                <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
+                                        <div>
+                                            <div
+                                                className={styles.bookCard}
+                                                onClick={() => handleGoToBookDetails(book.BookID)}
+                                            >
+                                                <div className={styles.bookImage}>
+                                                    <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt="Black Hourse" />
+                                                </div>
+                                                <div className={styles.bookInfo}>
+                                                    <div className={styles.bookName}>{book.Title}</div>
+                                                    <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     )
                                 )
                             )}
@@ -194,7 +177,7 @@ export default function BookInMyList() {
             </div>
 
             {isDeleteCollection && (
-                <DeleteListModal onClose={() => setIsDeleteCollection(false)} collectionid={collectionid} />
+                <DeleteSavedList onClose={() => setIsDeleteCollection(false)} access={access} />
             )}
 
         </div>

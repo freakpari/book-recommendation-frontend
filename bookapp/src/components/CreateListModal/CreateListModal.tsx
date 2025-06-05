@@ -19,9 +19,10 @@ export default function CreateListModal({ onClose }: Props) {
     } = useNotification();
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const [isPublic, setIsPublic] = useState(false);
+    const [ispublic, setIspublic] = useState(false);
     const [image, setImage] = useState<File | null>(null);
     const [title, setTitle] = useState("");
+    const [discription, setDiscription] = useState("");
     const [loading, setLoading] = useState(false);
     const [userId , setUserId] = useState();
 
@@ -32,46 +33,54 @@ export default function CreateListModal({ onClose }: Props) {
             return;
         }
 
-        const data = {
-            Ispublic: isPublic,
-            title: title,
-            discription: "",
-            userid: userId,
-            detail: [],
-        };
+        if (ispublic && userId && title){
+            const data = {
+                ispublic : ispublic,
+                title : title,
+                discription : discription,
+                userid : userId,
+                detail : [],
+            };
 
-        try  {
-            const formData = new FormData();
-            if (image) {
-                formData.append("file", image);
-            }
-            formData.append("data", JSON.stringify(data));
-
-            await axios.post(
-                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/upload-collection",
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
+            try {
+                const formData = new FormData();
+                if (image) {
+                    formData.append("file", image);
                 }
-            );
+                formData.append("data", JSON.stringify(data));
 
-            showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+                await axios.post(
+                    "https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/upload-collection",
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
 
-        } catch (error: any) {
-            if (error.code === 'ECONNABORTED') {
-                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
-            } else {
-                showNotificationMessage("خطا در ساخت لیست", "error");
+                showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                } else {
+                    showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
+            } finally {
+                setLoading(false);
             }
-        } finally {
-            setLoading(false);
+        } else {
+            showNotificationMessage("لطفاً تمام فیلدها را پر کنید",'error')
         }
+
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,7 +182,7 @@ export default function CreateListModal({ onClose }: Props) {
                     </div>
 
                     <div className={styles.listInfo}>
-                        <div>
+                        <div className={styles.listInputs}>
                             <input
                                 className={styles.listNameInput}
                                 type="text"
@@ -181,17 +190,24 @@ export default function CreateListModal({ onClose }: Props) {
                                 placeholder="نام لیست شما"
                                 onChange={(e) => setTitle(e.target.value)}
                             />
+                            <input
+                                className={styles.listNameInput}
+                                type="text"
+                                name="listDescription"
+                                placeholder="توضیحات"
+                                onChange={(e) => setDiscription(e.target.value)}
+                            />
                         </div>
 
                         <div className={styles.listNameMode}>
                             <div className={styles.privateListSection}>
                                 لیست خصوصی
                                 <button
-                                    className={`${styles.privateBtn} ${isPublic ? styles.selected : ""}`}
-                                    onClick={() => setIsPublic(!isPublic)}
+                                    className={`${styles.privateBtn} ${ispublic ? styles.selected : ""}`}
+                                    onClick={() => setIspublic(!ispublic)}
                                 >
                                     <div
-                                        className={`${styles.circleInBtn} ${isPublic ? styles.selected : ""}`}
+                                        className={`${styles.circleInBtn} ${ispublic ? styles.selected : ""}`}
                                     />
                                 </button>
                             </div>
