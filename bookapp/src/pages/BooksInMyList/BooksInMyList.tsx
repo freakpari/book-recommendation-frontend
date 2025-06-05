@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styles from "./BooksInMyList.module.scss";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
+import search from "./icons/Search.svg";
 import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 import { AnimatePresence } from "framer-motion";
 import {useLocation, useNavigate} from "react-router-dom";
-import NoBookInList from "./icons/emptyList.svg";
-import Menu from "./icons/Menu.svg";
-import Pencil from "./icons/pencil.svg";
-import DeleteIcon from "./icons/deleteIcon.svg"
-import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
+// import NoBookInList from "./icons/emptyList.svg";
+// import Menu from "./icons/Menu.svg";
+// import Pencil from "./icons/pencil.svg";
+// import DeleteIcon from "./icons/deleteIcon.svg"
+// import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
+import searchIcon from "../../components/SearchNav/icons/searchButton.svg";
 
 interface BooksInMyListDetails {
     CollectionID: number,
@@ -55,6 +57,65 @@ export default function BookInMyList() {
     const [booksInMyList, setBooksInMyList] = useState<BooksInMyListDetails[]>([]);
     const navigate = useNavigate();
     const [isDeleteCollection, setIsDeleteCollection] = useState(false);
+    const [query, setQuery] = useState("");
+    const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [results, setResults] = useState<BooksInMyListDetails[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+
+    const handleSearch = useCallback(async (input: string) => {
+        if (!input.trim()) {
+            setResults([]);
+            return;
+        }
+
+        setIsSearching(true);
+        try {
+            const url = `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/searchurl/${encodeURIComponent(input)}`;
+            const response = await axios.get(url);
+            const data = response.data.updatedBookData || [];
+
+            const mappedResults: BooksInMyListDetails[] = data
+                .filter((book: any) =>
+                    book.title.trim().toLowerCase().includes(input.trim().toLowerCase())
+                )
+                .slice(0, 5)
+                .map((book: any) => ({
+                    BookID: book.bookid,
+                    Title: book.title,
+                    FullAuthorName:book.fullauthorname,
+                    ImageUrl: book.imageurl,
+                }));
+
+            setResults(mappedResults);
+        } catch (error) {
+            console.error("خطا در دریافت نتایج:", error);
+            setResults([]);
+        } finally {
+            setIsSearching(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+
+        debounceTimeout.current = setTimeout(() => {
+            if (query.trim()) {
+                handleSearch(query);
+            } else {
+                setResults([]);
+            }
+        }, 300);
+
+        return () => {
+            if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+        };
+    }, [query, handleSearch]);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            handleSearch(query);
+        }
+    };
 
     const handleGoToBookDetails = (bookid: number) => {
         navigate(`/bookdetail/${bookid}`)
@@ -118,7 +179,7 @@ export default function BookInMyList() {
                         <div className={styles.listDetails}>
                             <div className={styles.listInfoPic}>
                                 <div className={styles.listPic}>
-                                    <img src={Tehran} alt="عکس لیست"/>
+                                    {/*<img src={Tehran} alt="عکس لیست"/>*/}
                                 </div>
                                 <div className={styles.listInfo}>
                                     <div className={styles.listName}>لیست {collectionName}</div>
@@ -129,9 +190,9 @@ export default function BookInMyList() {
                                 className={styles.listMenu}
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                             >
-                                <img
-                                    src={Menu} alt="منو"
-                                />
+                                {/*<img*/}
+                                {/*    src={Menu} alt="منو"*/}
+                                {/*/>*/}
 
                                 {isMenuOpen && (
                                     <div className={styles.menu}>
@@ -139,7 +200,7 @@ export default function BookInMyList() {
                                             className={styles.menuOption}
                                             onClick={handleEditBook}
                                         >
-                                            <img src={Pencil} alt=""/>
+                                            {/*<img src={Pencil} alt=""/>*/}
                                             <p>ویرایش کتاب‌های لیست</p>
                                         </div>
                                         <div className={styles.hr}></div>
@@ -147,7 +208,7 @@ export default function BookInMyList() {
                                             className={styles.menuOption}
                                             onClick={() => setIsDeleteCollection(true)}
                                         >
-                                            <img src={DeleteIcon} alt=""/>
+                                            {/*<img src={DeleteIcon} alt=""/>*/}
                                             <p>حذف لیست</p>
                                         </div>
                                     </div>
@@ -158,10 +219,49 @@ export default function BookInMyList() {
                         </div>
 
                         <div className={styles.scrollbar}>
+                            <div className={styles.searchBar}>
+                                <input
+                                    type="search"
+                                    placeholder="برای اضافه کردن کتاب جدید به لیست نام آن یا نویسنده را وارد کنید"
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                />
+                                <img
+                                    src={search}
+                                    alt="search button"
+                                    onClick={() => handleSearch(query)}
+                                    style={{ cursor: "pointer" }}
+                                />
+                            </div>
+
+                            {!isSearching && results.length > 0 && (
+                                <div className={styles.searchResults}>
+                                    {results.map((book) => (
+                                        <div
+                                            key={book.BookID}
+                                            className={styles.resultItem}
+
+                                        >
+                                            <img className={styles.bookcover} src={book.ImageUrl} alt={book.Title} />
+                                            <div className={styles.bookdetail}>
+                                                <p className={styles.bookTitle}>{book.Title}</p>
+                                                <p className={styles.bookAuthor}>{book.FullAuthorName}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {!isSearching && query && results.length === 0 && (
+                                <div className={styles.searchResults}><p>نتیجه‌ای یافت نشد</p></div>
+                            )}
                             {booksInMyList.length === 0 ? (
                                 <div className={styles.emptyList}>
-                                    <img src={NoBookInList} alt=""/>
-                                    <p>ببین لیستت خالیه!</p>
+                                    {/*<img src={NoBookInList} alt=""/>*/}
+
+
+                                        <p>ببین لیستت خالیه!</p>
                                 </div>
                             ) : (
                                 booksInMyList.map((book) => (
