@@ -115,7 +115,7 @@ export default function SideProfile() {
             if (response.status !== 204) {
                 const imageURL = URL.createObjectURL(response.data);
                 setProfileImage(imageURL);
-            } else {
+            } if (response.status === 204) {
                 setProfileImage(null);
 
             }
