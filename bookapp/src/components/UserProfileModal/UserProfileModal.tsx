@@ -97,13 +97,12 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                         responseType: "blob"
                     }
             )
-                const imageBlob = response.data;
-                const imageURL = URL.createObjectURL(imageBlob);
-
-                if(imageURL) {
+                if (response.status !== 204) {
+                    const imageURL = URL.createObjectURL(response.data);
                     setProfileImage(imageURL);
-                } else {
-                    setProfileImage(defaultUser);
+                } if (response.status === 204) {
+                    const imageURL = defaultUser;
+                    setProfileImage(imageURL);
                 }
 
             } catch (error: any) {
