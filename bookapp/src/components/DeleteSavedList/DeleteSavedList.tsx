@@ -31,15 +31,11 @@ export default function DeleteSavedList ({ onClose, access}: Props) {
 
         try {
             setLoading(true);
-            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/save`,
+            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/save?accessibilitygroup=${access}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
-                    },
-                    data:
-                        {
-                            accessibilitygroup: access
-                        }
+                    }
                 })
             showNotificationMessage("کالکشن با موفقیت حذف شد",'success');
 
@@ -90,7 +86,7 @@ export default function DeleteSavedList ({ onClose, access}: Props) {
                             onClick={handleDeleteCollection}
                         >
                             {loading ? (
-                                "در حال حذف"
+                                <span className={styles.loadingText}>در حال حذف</span>
                             ) : (
                                 "آره"
                             )}

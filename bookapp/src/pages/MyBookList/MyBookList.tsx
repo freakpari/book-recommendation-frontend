@@ -14,12 +14,14 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 interface UserBookList  {
+    IsOwner: number,
+    UserId: number,
     CollectionID: number,
     IsPublic: boolean,
     Title: string,
     CreateDate: string,
     Discription: string,
-    ReportID: number,
+    ReportID: null,
     GenreID1: number,
     GenreTitle1: string,
     GenreID2: number,
@@ -30,7 +32,7 @@ interface UserBookList  {
     AccessGroupTitle: string,
     AccessGroupDiscription: string,
     NumberOfDetail: number,
-    UserID: number,
+    UserID_1: number,
     UserName: string,
     FullName: string,
 }
@@ -201,18 +203,25 @@ export default function MyBookList() {
                             {userBookList.length === 0 ? (
                                 <div className={styles.noList}>هنوز لیستی توسط این کاربر ساخته نشده است</div>
                             ) : (
-                                userBookList.map((item, index) => (
-                                    <BookListCard
-                                        key={`user-list-${index}`}
-                                        title={item.Title}
-                                        includes={item.Discription || 'بدون توضیح'}
-                                        image={Tehran}
-                                        collectionid={item.CollectionID}
-                                        collectionName={item.Title}
-                                        Discription={item.Discription}
-                                        ispublic={item.IsPublic}
-                                    />
-                                ))
+
+                                    userBookList.filter(item => item.IsOwner === 1).length === 0 ? (
+                                        <div className={styles.noList}>هنوز لیستی توسط این کاربر ساخته نشده است</div>
+                                    ) : (
+                                        userBookList
+                                            .filter(item => item.IsOwner === 1)
+                                            .map((item, index) => (
+                                                <BookListCard
+                                                    key={`user-list-${index}`}
+                                                    title={item.Title}
+                                                    includes={item.Discription || 'بدون توضیح'}
+                                                    image={Tehran}
+                                                    collectionid={item.CollectionID}
+                                                    collectionName={item.Title}
+                                                    Discription={item.Discription}
+                                                    ispublic={item.IsPublic}
+                                                />
+                                            ))
+                                    )
                             )}
                         </div>
                     </div>
