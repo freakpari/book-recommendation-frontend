@@ -109,20 +109,21 @@ export default function SideProfile() {
 
                 });
 
-            console.log(response.data);
-            const imageBlob = response.data;
-            if (imageBlob) {
-                const imageURL = URL.createObjectURL(imageBlob);
+            console.log(response.status);
+            if (response.status !== 204) {
+                const imageURL = URL.createObjectURL(response.data);
                 setProfileImage(imageURL);
             } else {
-                setProfileImage(defaultUser);
+                setProfileImage(null);
+
             }
 
+
         } catch (error: any) {
+            console.log(error);
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
-            }
-            else {
+            } else {
                 showNotificationMessage("خطا در دریافت پروفایل کاربر", 'error');
             }
         }
@@ -243,7 +244,7 @@ export default function SideProfile() {
                           <img src={deleteIcon} alt="delete profile" />
                       </button>
                   )}
-                  {!profileImage && (
+                  {profileImage === null && (
                       <button className={styles.deleteBtnNotVisible}>
                           <img src={deleteIcon} alt="delete profile" />
                       </button>
