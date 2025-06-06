@@ -58,7 +58,7 @@
   border: 2px solid vars.$primary_1;
   border-radius: 0.6rem;
   color: vars.$primary_1;
-  width: 4.5rem;
+  width: 6rem;
   height: 2rem;
   font-weight: 500;
   font-size: 0.8rem;
@@ -84,12 +84,13 @@
   border: 2px solid #E81515;
   border-radius: 0.6rem;
   color: vars.$primary_2;
-  width: 4.5rem;
+  width: 6rem;
   height: 2rem;
   font-weight: 500;
   font-size: 0.8rem;
   transition: background 0.3s;
   cursor: pointer;
+
   &:hover {
     background: none;
     border: 2px solid #E81515;
@@ -100,4 +101,38 @@
     border: 2px solid #E81515;
     color: #E81515;
   }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.loadingText {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  justify-content: space-between;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 1px solid #E81515;
+    border-radius: 50%;
+    border-top-color: vars.$primary_2;
+    animation: spin 1s ease-in-out infinite;
+
+    &:hover {
+      color: vars.$primary_2;
+    }
+  }
+  &:hover{
+    color: #E81515;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

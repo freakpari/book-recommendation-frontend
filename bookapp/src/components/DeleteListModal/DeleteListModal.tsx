@@ -81,7 +81,7 @@ export default function DeleteListModal ({ onClose, collectionid}: Props) {
                                 onClick={handleDeleteCollection}
                             >
                                 {loading ? (
-                                    "در حال حذف"
+                                    <span className={styles.loadingText}>در حال حذف</span>
                                 ) : (
                                     "آره"
                                 )}
