@@ -11,7 +11,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import NoBookInList from "./icons/emptyList.svg";
 import Menu from "./icons/Menu.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
-import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
+import Tehran from "./icons/Tehran.svg";
 import DeleteSavedList from "../../components/DeleteSavedList/DeleteSavedList";
 
 interface BooksInMyListDetails {
