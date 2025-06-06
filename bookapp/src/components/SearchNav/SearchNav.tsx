@@ -189,7 +189,7 @@ export default function SearchNav() {
             <div className={`${styles.drawerMenu} ${isOpen ? styles.open : ""}`}>
                 <ul>
                     <li onClick={() => navigate('/editprofile')}><img src={account} alt="account" />حساب کاربری</li>
-                    <li><img src={inbox} alt="inbox" />صندوق ورودی</li>
+                    <li><img src={inbox} alt="inbox" onClick={() => navigate('/chat')} />صندوق ورودی</li>
                     <li onClick={() => navigate('/mbtiresult')}><img src={pointer} alt="pointer" />نتیجه تست MBTI</li>
                     <li><img src={explore} alt="explore" />BookTalk</li>
                     <li><img src={Book1} alt="book" />لیست کتاب ها</li>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import styles from "./Signup.module.scss";
 //import svg icons
@@ -20,19 +19,6 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const loginWithGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log("Google Token:", tokenResponse);
-      const userInfo = await axios.get(
-          "https://www.googleapis.com/oauth2/v1/userinfo",
-          {
-            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-          }
-      );
-      console.log("User Info:", userInfo.data);
-    },
-    onError: (error) => console.log("Login Failed:", error),
-  });
 
   const changeRoute = (isLoginPage: boolean) => {
     setIsLogin(isLoginPage);
@@ -263,7 +249,7 @@ export default function SignUp() {
               <div className={styles.divider}>
                 <span className={styles.textdivider}> یا ایجاد حساب با</span>
               </div>
-              <button className={styles.googleButton} onClick={() => loginWithGoogle()}>
+              <button className={styles.googleButton} >
                 Google
                 <img className={styles.GoogleIcon} src={Googleicon} alt="google icon" />
               </button>

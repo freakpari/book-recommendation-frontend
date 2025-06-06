@@ -15,6 +15,8 @@ import axios from 'axios';
 import not from "../PopularBook/icon/not.png";
 import { TextField } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
+import eventEmitter from "../../utils/eventEmitter";
+import user from "../../components/SearchNav/icons/defaultUser.svg";
 
 interface BookData {
     BookID: number;
@@ -96,6 +98,10 @@ export default function Bookdetail() {
     const [userid, setUserid] = useState<string>("");
     const [comments, setComments] = useState<Comment[]>([]);
     const [userData, setUserData] = useState<any>(null);
+    const [profileImage, setProfileImage] = useState<string | null>(null);
+    const [hasToken, setHasToken] = useState<boolean>(false);
+
+
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -197,6 +203,35 @@ export default function Bookdetail() {
 
         fetchInitialLikeStatus();
     }, [BookID]);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) setHasToken(true);
+
+        const fetchUserProfile = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            try {
+                const response = await axios.get(
+                    "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePicToken",
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                        responseType: "blob",
+                    }
+                );
+                const imageURL = URL.createObjectURL(response.data);
+                setProfileImage(imageURL);
+            } catch (error) {
+                console.error("خطا در دریافت تصویر پروفایل");
+            }
+        };
+
+        fetchUserProfile();
+        const unsubscribe = eventEmitter.subscribe(fetchUserProfile);
+        return () => unsubscribe();
+    }, []);
+
 
     const showNotificationMessage = (message: string, type: 'success' | 'error') => {
         setNotificationMessage(message);
@@ -484,7 +519,7 @@ export default function Bookdetail() {
                                     }}
                                 >
                                     <div>
-                                        <img src={item.imageurl || profile} alt="user icon" />
+                                        <img  className={styles.userIcon} src={profileImage || user} alt="user icon" />
                                     </div>
                                     <div className={styles.userInfo}>
                                         <div className={styles.userName}>{item.fullname}</div>

@@ -24,13 +24,124 @@ import asb from "./icon/asb.svg";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import React, {useEffect, useState} from "react";
 const handleClick = () => {
   window.location.href =
       "https://www.16personalities.com/fa/%D8%A2%D8%B2%D9%85%D9%88%D9%86-%D8%B4%D8%AE%D8%B5%DB%8C%D8%AA";
 };
+
+
+interface SuggestedBooks {
+  bookid: string,
+  title: string,
+  fullauthorname: string,
+}
+const isPersian = (text: string) => {
+  const persianRegex = /[\u0600-\u06FF]/;
+  return persianRegex.test(text);
+};
 export default function HomePage() {
+  const [userName, setUserName] = useState();
+  const [userType, setUserType] = useState();
+  const [pageNum, setPageNum] = useState(1);
+  const [suggestedBooks, setSuggestedBooks] = useState<SuggestedBooks[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if(!token) {
+      console.log("توکن یافت نشد.");
+      return;
+    }
+    const fetchUserType = async () => {
+
+      try {
+        const response = await axios.get(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/MBTI`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              },
+              timeout: 10000
+            });
+        setUserType(response.data.user.MBTI);
+
+      } catch (error: any) {
+        if (error.code === 'ECONNREFUSED') {
+          alert("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.");
+        } else {
+          alert("خطا در دریافت تایپ کاربر");
+        }
+      }
+    };
+
+    const fetchUserInfo = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            timeout: 10000
+          });
+      setUserName(response.data.user.first_name);
+
+    } catch (error: any) {
+      if (error.code === 'ECONNREFUSED') {
+        alert("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.");
+      } else {
+        alert("خطا در دریافت نام کاربر");
+      }
+    }
+  }
+
+    fetchUserInfo();
+    fetchUserType();
+    fetchUserSuggestedbooks(pageNum);
+
+  }, []);
+  const fetchUserSuggestedbooks = async (page: number) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("دسترسی غیرمجاز");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+          `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/MBTIbooks?pagenum=${page}&count=13`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            timeout: 10000
+          }
+      );
+
+      const newBooks: SuggestedBooks[] = response.data.books.map((book: any) => ({
+        bookid: book.bookid,
+        title: book.title,
+        fullauthorname: book.fullauthorname,
+      }));
+
+      setSuggestedBooks((prev) => [...prev, ...newBooks]);
+
+      if (newBooks.length < 13) {
+        setHasMore(false);
+      }
+    } catch (error: any) {
+      if (error.code === 'ECONNREFUSED') {
+        alert("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.");
+      } else {
+        alert("خطا در دریافت کتاب‌های پیشنهادی");
+      }
+    }
+  }
   return (
-      <>
+
+  <>
         <SearchNav />
         <div className={styles.container}>
           <div className={styles.topSection}>
@@ -137,8 +248,22 @@ export default function HomePage() {
             </div>
           </div>
           <div className={styles.toptext}>
-            <h2> پیشنهادات برای تایپ علی: infj</h2>
-            <button className={styles.showbutton}>مشاهده همه</button>
+            <h2>
+              پیشنهادات برای
+              <span>
+                            {isPersian(userName || "") ? (
+                                ` ${userName} : ${userType}`
+                            ) : (
+                                ` ${userType} : ${userName}`
+                            )}
+                        </span>
+            </h2>
+            <button className={styles.showbutton} >
+              <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/suggestionBook">
+
+              مشاهده همه
+              </Link>
+            </button>
           </div>
           <div className={styles.suggestion}>
             <div className={styles.bookcover}>
