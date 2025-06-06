@@ -45,12 +45,13 @@
       }
 
       .listPic {
-        margin-top: 2.45rem;
         img {
-          width: 6rem;
+          margin-top: 3rem;
+          object-fit: cover;
+          width: 7rem;
           height: 10rem;
-          border-bottom-right-radius: 200px;
-          border-bottom-left-radius: 200px;
+          border-bottom-left-radius: 13rem;
+          border-bottom-right-radius: 13rem;
         }
       }
 
