@@ -13,7 +13,7 @@ import NoBookInList from "./icons/emptyList.svg";
 import Menu from "./icons/Menu.svg";
 import Pencil from "./icons/pencil.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
-import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
+import Tehran from "./icons/Tehran.svg";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
 import searchIcon from "../../components/SearchNav/icons/searchButton.svg";
 
