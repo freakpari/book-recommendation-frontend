@@ -1,0 +1,209 @@
+@use "../../styles/_variables.scss" as vars;
+
+.container {
+  background: vars.$primary_2;
+}
+
+.bookListSide {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding-right: 5rem;
+  padding-bottom: 3rem;
+}
+
+.bookInMyList {
+  background-color: vars.$secondary_1;
+  width: 62.5rem;
+  height: 41.1rem;
+
+
+  .showBookContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2.5rem 4rem;
+
+    .listDetails {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: right;
+      padding-right: 2rem;
+      width: 100%;
+      height: 7.5rem;
+      background: #aaaacc;
+      gap: 32rem;
+      margin-right: 1rem;
+      margin-bottom: 2rem;
+      .listInfoPic {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .listPic {
+        margin-top: 2.45rem;
+        img {
+          width: 6rem;
+          height: 10rem;
+          border-bottom-right-radius: 200px;
+          border-bottom-left-radius: 200px;
+        }
+      }
+
+    }
+
+    .listName {
+      font-weight: 700;
+      font-size: 1.5rem;
+      line-height: 2.5rem;
+      text-align: right;
+      color: vars.$primary_1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .listDiscription {
+      font-weight: 100;
+      font-size: 1.1rem;
+      line-height: 2.5rem;
+      color: vars.$primary_1;
+      white-space: pre-line;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .scrollbar {
+      overflow-y: scroll;
+      background: vars.$secondary_1;
+      width: 54.813rem;
+      height: 26rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-right: 1rem;
+      background: vars.$primary_2;
+      border-radius: 0.6rem;
+      padding-top: 1rem;
+      &::-webkit-scrollbar {
+        width: 0.5rem;
+      }
+      &::-webkit-scrollbar-track {
+        border-radius: 0.6rem;
+        background: vars.$secondary_2;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 0.6rem;
+        background-color: vars.$primary_1;
+        min-height: 3rem;
+      }
+    }
+
+    .emptyList {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      width: 100%;
+      img {
+        width: 25rem;
+        height: 10rem;
+      }
+
+      p {
+        font-weight: 500;
+        font-size: 1.5rem;
+        line-height: 2.5rem;
+        color: vars.$primary_1;
+      }
+    }
+
+    .bookCard {
+      //padding-top: 3rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 8.5rem;
+      height: 15.5rem;
+      transition: background 0.3s;
+      border-radius: 0.6rem;
+      padding-top: 0.2rem;
+
+      .deleteBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -1rem;
+        background: rgba(249, 249, 249, 0.8);
+        backdrop-filter: blur(0.6rem);
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        border: 2px solid #e81515;
+        z-index: 1000;
+
+        &:hover {
+          cursor: pointer;
+          background: #E8151550;
+        }
+      }
+
+      .bookImage {
+        width: 95%;
+        object-fit: contain;
+        img {
+          width: 100%;
+          height: 10rem;
+          object-fit: cover;
+          border-radius: 0.4rem;
+        }
+      }
+
+      .bookInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        overflow: hidden;
+        width: 100%;
+
+        .bookName {
+          text-align: center;
+          font-weight: 700;
+          font-size: 1rem;
+          color: #303857;
+          width: 90%;
+
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: normal;
+          max-height: 3.6rem;
+        }
+
+        .bookAuthor {
+          font-weight: 300;
+          font-size: 0.8rem;
+          color: #303857;
+          text-align: center;
+          width: 90%;
+
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+    }
+  }
+}
