@@ -31,12 +31,15 @@ export default function DeleteSavedList ({ onClose, access}: Props) {
 
         try {
             setLoading(true);
-            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/save?accessibilitygroup=${access}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+            await axios.delete("https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/save", {
+                data: {
+                    accessibilitygroup: access,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
             showNotificationMessage("کالکشن با موفقیت حذف شد",'success');
 
             setTimeout(() => {
