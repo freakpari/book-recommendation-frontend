@@ -79,9 +79,17 @@
 }
 
 .listPic {
+  width: 8rem;
+  height: 12rem;
+  border-bottom-left-radius: 13rem;
+  border-bottom-right-radius: 13rem;
   img {
-    width: auto;
+    margin-top: -0.2rem;
+    object-fit: cover;
+    width: 8rem;
     height: 12rem;
+    border-bottom-left-radius: 13rem;
+    border-bottom-right-radius: 13rem;
   }
 }
 

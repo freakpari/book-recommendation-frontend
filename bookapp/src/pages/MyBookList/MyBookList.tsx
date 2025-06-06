@@ -37,7 +37,7 @@ interface UserBookList  {
     FullName: string,
 }
 
-function BookListCard({ title, includes, image, collectionid, collectionName, Discription, ispublic }: { title: string, includes: string, image: string, collectionid: number, collectionName: string, Discription:string, ispublic: boolean }) {
+function BookListCard({ title, includes, collectionid, collectionName, Discription, ispublic }: { title: string, includes: string, collectionid: number, collectionName: string, Discription:string, ispublic: boolean }) {
     const navigate = useNavigate();
 
     const handleGoToCollectionDetails = () => {
@@ -57,7 +57,13 @@ function BookListCard({ title, includes, image, collectionid, collectionName, Di
             onClick={handleGoToCollectionDetails}
         >
             <div className={styles.listPic}>
-                <img src={image} alt={title} />
+                <img
+                    src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${collectionid}`}
+                    alt={title}
+                    onError={(e) => {
+                        (e.target as HTMLImageElement).src = Tehran;
+                    }}
+                />
             </div>
             <div className={styles.listDescription}>
                 <div className={styles.listTitle}>{title}</div>
@@ -88,7 +94,13 @@ function SavedBookListCard({ title, includes, image, collectionid, collectionNam
             onClick={handleGoToCollectionDetails}
         >
             <div className={styles.listPic}>
-                <img src={image} alt={title} />
+                <img
+                    src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${collectionid}`}
+                    alt={title}
+                    onError={(e) => {
+                        (e.target as HTMLImageElement).src = Tehran;
+                    }}
+                />
             </div>
             <div className={styles.listDescription}>
                 <div className={styles.titleAuthor}>
@@ -217,7 +229,6 @@ export default function MyBookList() {
                                                     key={`user-list-${index}`}
                                                     title={item.Title}
                                                     includes={item.Discription || 'بدون توضیح'}
-                                                    image={Tehran}
                                                     collectionid={item.CollectionID}
                                                     collectionName={item.Title}
                                                     Discription={item.Discription}
