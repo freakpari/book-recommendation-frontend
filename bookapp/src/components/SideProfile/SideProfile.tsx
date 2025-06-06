@@ -290,17 +290,17 @@ export default function SideProfile() {
                       </button>
                   </Link>
                   <hr className={styles.hr} />
-                  <Link to="/myBookHistory">
-                      <button>
-                          <img src={history} alt="history logo" />
-                          <p>تاریخچه</p>
-                      </button>
-                  </Link>
-                  <hr className={styles.hr} />
                   <Link to="/myBookList">
                       <button>
                           <img src={list} alt="list logo" />
                           <p>لیست کتاب ها</p>
+                      </button>
+                  </Link>
+                  <hr className={styles.hr} />
+                  <Link to="/myBookHistory">
+                      <button>
+                          <img src={history} alt="history logo" />
+                          <p>کالکشن‌های کاربران</p>
                       </button>
                   </Link>
               </div>
