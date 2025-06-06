@@ -106,7 +106,7 @@ export default function BooksInUserList() {
         }
 
         fetchBookInUserListDetails();
-    })
+    },[])
 
     return (
         <div className={styles.container}>
