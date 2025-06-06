@@ -3,17 +3,17 @@ import styles from "./BooksInMyList.module.scss";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
-import search from "./icons/Search.svg";
+// import search from "./icons/Search.svg";
 import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 import { AnimatePresence } from "framer-motion";
 import {useLocation, useNavigate} from "react-router-dom";
-// import NoBookInList from "./icons/emptyList.svg";
-// import Menu from "./icons/Menu.svg";
-// import Pencil from "./icons/pencil.svg";
-// import DeleteIcon from "./icons/deleteIcon.svg"
-// import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
+import NoBookInList from "./icons/emptyList.svg";
+import Menu from "./icons/Menu.svg";
+import Pencil from "./icons/pencil.svg";
+import DeleteIcon from "./icons/deleteIcon.svg"
+import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
 import searchIcon from "../../components/SearchNav/icons/searchButton.svg";
 
@@ -179,7 +179,7 @@ export default function BookInMyList() {
                         <div className={styles.listDetails}>
                             <div className={styles.listInfoPic}>
                                 <div className={styles.listPic}>
-                                    {/*<img src={Tehran} alt="عکس لیست"/>*/}
+                                    <img src={Tehran} alt="عکس لیست"/>
                                 </div>
                                 <div className={styles.listInfo}>
                                     <div className={styles.listName}>لیست {collectionName}</div>
@@ -190,9 +190,9 @@ export default function BookInMyList() {
                                 className={styles.listMenu}
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                             >
-                                {/*<img*/}
-                                {/*    src={Menu} alt="منو"*/}
-                                {/*/>*/}
+                                <img
+                                    src={Menu} alt="منو"
+                                />
 
                                 {isMenuOpen && (
                                     <div className={styles.menu}>
@@ -200,7 +200,7 @@ export default function BookInMyList() {
                                             className={styles.menuOption}
                                             onClick={handleEditBook}
                                         >
-                                            {/*<img src={Pencil} alt=""/>*/}
+                                            <img src={Pencil} alt=""/>
                                             <p>ویرایش کتاب‌های لیست</p>
                                         </div>
                                         <div className={styles.hr}></div>
@@ -208,7 +208,7 @@ export default function BookInMyList() {
                                             className={styles.menuOption}
                                             onClick={() => setIsDeleteCollection(true)}
                                         >
-                                            {/*<img src={DeleteIcon} alt=""/>*/}
+                                            <img src={DeleteIcon} alt=""/>
                                             <p>حذف لیست</p>
                                         </div>
                                     </div>
@@ -217,51 +217,46 @@ export default function BookInMyList() {
                             </div>
 
                         </div>
+                        <div className={styles.searchBar}>
+                            <input
+                                type="search"
+                                placeholder="برای اضافه کردن کتاب جدید به لیست نام آن یا نویسنده را وارد کنید"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                            />
+                            {/*<img*/}
+                            {/*    src={search}*/}
+                            {/*    alt="search button"*/}
+                            {/*    onClick={() => handleSearch(query)}*/}
+                            {/*    style={{ cursor: "pointer" }}*/}
+                            {/*/>*/}
+                        </div>
+                        {!isSearching && results.length > 0 && (
+                            <div className={styles.searchResults}>
+                                {results.map((book) => (
+                                    <div
+                                        key={book.BookID}
+                                        className={styles.resultItem}
 
-                        <div className={styles.scrollbar}>
-                            <div className={styles.searchBar}>
-                                <input
-                                    type="search"
-                                    placeholder="برای اضافه کردن کتاب جدید به لیست نام آن یا نویسنده را وارد کنید"
-                                    value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
-                                    onKeyDown={handleKeyDown}
-                                />
-                                <img
-                                    src={search}
-                                    alt="search button"
-                                    onClick={() => handleSearch(query)}
-                                    style={{ cursor: "pointer" }}
-                                />
-                            </div>
-
-                            {!isSearching && results.length > 0 && (
-                                <div className={styles.searchResults}>
-                                    {results.map((book) => (
-                                        <div
-                                            key={book.BookID}
-                                            className={styles.resultItem}
-
-                                        >
-                                            <img className={styles.bookcover} src={book.ImageUrl} alt={book.Title} />
-                                            <div className={styles.bookdetail}>
-                                                <p className={styles.bookTitle}>{book.Title}</p>
-                                                <p className={styles.bookAuthor}>{book.FullAuthorName}</p>
-                                            </div>
+                                    >
+                                        <img className={styles.bookcover} src={book.ImageUrl} alt={book.Title} />
+                                        <div className={styles.bookdetail}>
+                                            <p className={styles.bookTitle}>{book.Title}</p>
+                                            <p className={styles.bookAuthor}>{book.FullAuthorName}</p>
                                         </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {!isSearching && query && results.length === 0 && (
-                                <div className={styles.searchResults}><p>نتیجه‌ای یافت نشد</p></div>
-                            )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        {!isSearching && query && results.length === 0 && (
+                            <div className={styles.searchResults}><p>نتیجه‌ای یافت نشد</p></div>
+                        )}
+                        <div className={styles.scrollbar}>
                             {booksInMyList.length === 0 ? (
                                 <div className={styles.emptyList}>
-                                    {/*<img src={NoBookInList} alt=""/>*/}
-
-
-                                        <p>ببین لیستت خالیه!</p>
+                                    <img src={NoBookInList} alt=""/>
+                                    <p>ببین لیستت خالیه!</p>
                                 </div>
                             ) : (
                                 booksInMyList.map((book) => (
