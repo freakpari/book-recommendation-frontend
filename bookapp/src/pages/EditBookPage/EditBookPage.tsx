@@ -10,7 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import {useLocation} from "react-router-dom";
 import NoBookInList from "./icons/emptyList.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
-import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
+import Tehran from "./icons/Tehran.svg";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
 
 interface BooksInMyListDetails {
