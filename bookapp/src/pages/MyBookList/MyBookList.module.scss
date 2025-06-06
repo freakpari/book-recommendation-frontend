@@ -136,9 +136,14 @@
   font-size: 1rem;
   line-height: 1.8rem;
   letter-spacing: -5%;
-  white-space: pre-line;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
+  max-height: 3.6rem;
 }
 
 .mySavedListHeader {
