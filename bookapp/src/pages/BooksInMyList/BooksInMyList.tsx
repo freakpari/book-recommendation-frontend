@@ -64,6 +64,8 @@ export default function BookInMyList() {
         navigate(`/editbookinlist`, {
             state: {
                 collectionid: collectionid,
+                collectionName: collectionName,
+                Discription: Discription,
             }
         })
     }
@@ -125,10 +127,10 @@ export default function BookInMyList() {
                             </div>
                             <div
                                 className={styles.listMenu}
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
                             >
                                 <img
                                     src={Menu} alt="منو"
-                                    onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 />
 
                                 {isMenuOpen && (

@@ -78,12 +78,13 @@
     }
 
     .listMenu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.5rem;
+      height: 1.5rem;
       position: relative;
-
-      img {
-        cursor: pointer;
-      }
-
+      cursor: pointer;
     }
 
     .menu {
