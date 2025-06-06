@@ -179,7 +179,13 @@ export default function BookInMyList() {
                         <div className={styles.listDetails}>
                             <div className={styles.listInfoPic}>
                                 <div className={styles.listPic}>
-                                    <img src={Tehran} alt="عکس لیست"/>
+                                    <img
+                                        src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${collectionid}`}
+                                        alt={collectionName}
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = Tehran;
+                                        }}
+                                    />
                                 </div>
                                 <div className={styles.listInfo}>
                                     <div className={styles.listName}>لیست {collectionName}</div>
