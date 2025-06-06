@@ -111,7 +111,6 @@ export default function SideProfile() {
 
                 });
 
-            console.log(response.status);
             if (response.status !== 204) {
                 const imageURL = URL.createObjectURL(response.data);
                 setProfileImage(imageURL);
@@ -122,7 +121,6 @@ export default function SideProfile() {
 
 
         } catch (error: any) {
-            console.log(error);
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
             } else {
