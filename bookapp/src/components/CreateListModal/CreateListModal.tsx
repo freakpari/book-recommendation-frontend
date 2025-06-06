@@ -43,6 +43,7 @@ export default function CreateListModal({ onClose }: Props) {
             };
             console.log(ispublic);
             try {
+                setLoading(true);
                 const formData = new FormData();
                 if (image) {
                     formData.append("file", image);
@@ -69,10 +70,7 @@ export default function CreateListModal({ onClose }: Props) {
                 if (error.code === 'ECONNABORTED') {
                     showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
                 } else {
-                    showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
+                    console.error(`خطایی رخ داد لطفا بعدا تلاش کنید`, 'error');
                 }
             } finally {
                 setLoading(false);
