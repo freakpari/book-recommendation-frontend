@@ -19,7 +19,7 @@ export default function CreateListModal({ onClose }: Props) {
     } = useNotification();
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const [ispublic, setIspublic] = useState(false);
+    const [ispublic, setIspublic] = useState(true);
     const [image, setImage] = useState<File | null>(null);
     const [title, setTitle] = useState("");
     const [discription, setDiscription] = useState("");
@@ -33,7 +33,7 @@ export default function CreateListModal({ onClose }: Props) {
             return;
         }
 
-        if (ispublic && userId && title){
+        if (userId && title){
             const data = {
                 ispublic : ispublic,
                 title : title,
@@ -41,7 +41,7 @@ export default function CreateListModal({ onClose }: Props) {
                 userid : userId,
                 detail : [],
             };
-
+            console.log(ispublic);
             try {
                 const formData = new FormData();
                 if (image) {
@@ -203,11 +203,11 @@ export default function CreateListModal({ onClose }: Props) {
                             <div className={styles.privateListSection}>
                                 لیست خصوصی
                                 <button
-                                    className={`${styles.privateBtn} ${ispublic ? styles.selected : ""}`}
+                                    className={`${styles.privateBtn} ${!ispublic ? styles.selected : ""}`}
                                     onClick={() => setIspublic(!ispublic)}
                                 >
                                     <div
-                                        className={`${styles.circleInBtn} ${ispublic ? styles.selected : ""}`}
+                                        className={`${styles.circleInBtn} ${!ispublic ? styles.selected : ""}`}
                                     />
                                 </button>
                             </div>
