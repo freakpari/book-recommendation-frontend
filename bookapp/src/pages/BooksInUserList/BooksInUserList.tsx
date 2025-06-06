@@ -79,7 +79,7 @@ export default function BooksInUserList() {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
             }
             else {
-                console.error("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
             }
         }
 
