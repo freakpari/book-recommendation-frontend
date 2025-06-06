@@ -33,6 +33,7 @@ import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 import BookInMyList from "./pages/BooksInMyList/BooksInMyList";
 import BooksInUserList from "./pages/BooksInUserList/BooksInUserList";
 import BooksInSavedList from "./pages/BooksInSavedList/BooksInSavedList";
+import EditBookPage from "./pages/EditBookPage/EditBookPage";
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
         <Route path="/bookInList" element={<BookInMyList/>} />
         <Route path="/bookInListUser" element={<BooksInUserList/>} />
         <Route path="/savedlist" element={<BooksInSavedList/>} />
+        <Route path="/editbookinlist" element={<EditBookPage/>} />
 
       </Routes>
     </Router>
