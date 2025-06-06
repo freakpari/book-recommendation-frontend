@@ -2,11 +2,11 @@ import React, { useRef, useState, useEffect } from "react";
 import styles from "./SideProfile.module.scss";
 import pencil from "./icons/Pencil.svg";
 import heart from "./icons/Heart.svg";
-import history from "./icons/History.svg";
 import list from "./icons/list.svg";
 import defaultUser from "./icons/defaultUser.svg";
 import editPen from "./icons/editPen.svg";
 import deleteIcon from "./icons/Trash.svg";
+import savedList from "./icons/savedListIcon.svg";
 import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import {Link} from "react-router-dom";
@@ -292,14 +292,14 @@ export default function SideProfile() {
                   <hr className={styles.hr} />
                   <Link to="/myBookList">
                       <button>
-                          <img src={list} alt="list logo" />
+                          <img src={savedList} alt="list logo" />
                           <p>لیست کتاب ها</p>
                       </button>
                   </Link>
                   <hr className={styles.hr} />
                   <Link to="/myBookHistory">
                       <button>
-                          <img src={history} alt="history logo" />
+                          <img src={list} alt="history logo" />
                           <p>کالکشن‌های کاربران</p>
                       </button>
                   </Link>
