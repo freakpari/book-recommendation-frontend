@@ -10,6 +10,7 @@ import eventEmitter from "../../utils/eventEmitter";
 import {AnimatePresence} from "framer-motion";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 import {useNavigate} from "react-router-dom";
+import defaultBook from "./icons/defaultBook.svg";
 
 interface FavoriteBooks {
     BookID: number;
@@ -183,8 +184,12 @@ export default function MyFavoriteBook() {
                                         <div className={styles.bookImage}>
                                             <img
                                                 src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
-                                                alt=""
-                                                onError={(e) => { e.currentTarget.src = "./icons/defaultBook.svg"; }}
+                                                alt={book.Title}
+                                                onError={(e) => {
+                                                    if (e.currentTarget.src !== defaultBook) {
+                                                        e.currentTarget.src = defaultBook;
+                                                    }
+                                                }}
                                             />
                                         </div>
                                         <div className={styles.bookInfo}>

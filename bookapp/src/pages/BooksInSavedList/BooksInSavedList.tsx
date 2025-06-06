@@ -13,6 +13,7 @@ import Menu from "./icons/Menu.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
 import Tehran from "./icons/Tehran.svg";
 import DeleteSavedList from "../../components/DeleteSavedList/DeleteSavedList";
+import defaultBook from "./icons/defaultBook.svg";
 
 interface BooksInMyListDetails {
     CollectionID: number,
@@ -160,7 +161,15 @@ export default function BookInMyList() {
                                                 onClick={() => handleGoToBookDetails(book.BookID)}
                                             >
                                                 <div className={styles.bookImage}>
-                                                    <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt="Black Hourse" />
+                                                    <img
+                                                        src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
+                                                        alt={book.Title}
+                                                        onError={(e) => {
+                                                            if (e.currentTarget.src !== defaultBook) {
+                                                                e.currentTarget.src = defaultBook;
+                                                            }
+                                                        }}
+                                                    />
                                                 </div>
                                                 <div className={styles.bookInfo}>
                                                     <div className={styles.bookName}>{book.Title}</div>

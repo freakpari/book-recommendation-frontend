@@ -16,6 +16,7 @@ interface AllList  {
     fullname: string,
     discription: string,
     collectionid: number,
+    accessibilityGroupID: number,
 }
 
 export default function MyBookHistory() {
@@ -104,14 +105,14 @@ export default function MyBookHistory() {
                                             <div className={styles.titleAuthor}>
                                                 <div
                                                     className={styles.listTitle}
-                                                    onClick={() => handleGoToCollectionDetails(item.collectionid,item.title, item.fullname, item.collectionid)}
+                                                    onClick={() => handleGoToCollectionDetails(item.collectionid,item.title, item.fullname, item.accessibilityGroupID)}
                                                 >
                                                     {item.title}</div>
                                                 <div className={styles.listAuthor}>{item.fullname}</div>
                                             </div>
                                             <div
                                                 className={styles.listIncludes}
-                                                onClick={() => handleGoToCollectionDetails(item.collectionid,item.title, item.fullname, item.collectionid)}
+                                                onClick={() => handleGoToCollectionDetails(item.collectionid,item.title, item.fullname, item.accessibilityGroupID)}
                                             >
                                                 {item.discription}</div>
                                         </div>

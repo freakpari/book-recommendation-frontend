@@ -8,6 +8,7 @@ import axios from "axios";
 import {AnimatePresence} from "framer-motion";
 import {NotificationModal, useNotification} from "../../components/NotificationManager/NotificationManager";
 import NoBookInList from "./icons/emptyList.svg";
+import defaultBook from "./icons/defaultBook.svg";
 
 interface BooksInUserListDetails {
     CollectionID: number,
@@ -158,8 +159,15 @@ export default function BooksInUserList() {
                                             onClick={() => handleGoToBookDetails(book.BookID)}
                                         >
                                             <div className={styles.bookImage}>
-                                                <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt={book.Title} />
-                                            </div>
+                                                <img
+                                                    src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
+                                                    alt={book.Title}
+                                                    onError={(e) => {
+                                                        if (e.currentTarget.src !== defaultBook) {
+                                                            e.currentTarget.src = defaultBook;
+                                                        }
+                                                    }}
+                                                />                                            </div>
                                             <div className={styles.bookInfo}>
                                                 <div className={styles.bookName}>{book.Title}</div>
                                                 <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
