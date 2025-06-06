@@ -65,7 +65,7 @@ function BookListCard({ title, includes, image, collectionid, collectionName, Di
     );
 }
 
-function SavedBookListCard({ title, includes, image, collectionid, collectionName, Discription, access }: { title: string, includes: string, image: string, collectionid: number, collectionName: string, Discription:string, access:number }) {
+function SavedBookListCard({ title, includes, image, collectionid, collectionName, Discription, access, FullName }: { title: string, includes: string, image: string, collectionid: number, collectionName: string, Discription:string, access:number, FullName: string }) {
     const navigate = useNavigate();
 
     const handleGoToCollectionDetails = () => {
@@ -75,6 +75,7 @@ function SavedBookListCard({ title, includes, image, collectionid, collectionNam
                 collectionName: collectionName,
                 Discription: Discription,
                 access: access,
+                FullName: FullName,
             }
         });
     }
@@ -232,6 +233,7 @@ export default function MyBookList() {
                                             collectionName={list.Title}
                                             Discription={list.Discription}
                                             access={list.AccessibilityGroupID}
+                                            FullName={list.FullName}
                                         />
                                 ))
                             )}
