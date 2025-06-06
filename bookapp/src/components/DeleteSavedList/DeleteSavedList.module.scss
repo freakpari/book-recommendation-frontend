@@ -1,0 +1,103 @@
+@use "../../styles/variables" as vars;
+
+.overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0.6rem);
+}
+
+.modalOverlay {
+  position: fixed;
+  z-index: 1001;
+  width: 30rem;
+  height: 12rem;
+  top: 20rem;
+  right: 32rem;
+  border-radius: 0.6rem;
+  border: 0.3rem solid vars.$primary_1;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1.2rem);
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.question {
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 2.5rem;
+  color: vars.$primary_1;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //padding-right: 4rem;
+  gap: 1rem;
+}
+
+.optionNo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 2px solid vars.$primary_1;
+  border-radius: 0.6rem;
+  color: vars.$primary_1;
+  width: 4.5rem;
+  height: 2rem;
+  font-weight: 500;
+  font-size: 0.8rem;
+  transition: background 0.3s;
+  cursor: pointer;
+  &:hover {
+    background: vars.$primary_1;
+    border: 2px solid vars.$primary_1;
+    color: vars.$primary_2;
+  }
+  &:focus {
+    background: vars.$primary_1;
+    border: 2px solid vars.$primary_1;
+    color: vars.$primary_2;
+  }
+}
+
+.optionYes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #E81515;
+  border: 2px solid #E81515;
+  border-radius: 0.6rem;
+  color: vars.$primary_2;
+  width: 4.5rem;
+  height: 2rem;
+  font-weight: 500;
+  font-size: 0.8rem;
+  transition: background 0.3s;
+  cursor: pointer;
+  &:hover {
+    background: none;
+    border: 2px solid #E81515;
+    color: #E81515;
+  }
+  &:focus {
+    background: none;
+    border: 2px solid #E81515;
+    color: #E81515;
+  }
+}
