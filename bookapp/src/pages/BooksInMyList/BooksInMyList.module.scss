@@ -90,31 +90,29 @@
       position: absolute;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
-      width: 14.5rem;
+      width: 13rem;
       height: auto;
       background: vars.$secondary_1;
-      left: -1.77rem;
+      left: -1rem;
       top: 4.45rem;
-      padding: 1.2rem;
 
       .menuOption {
         display: flex;
         align-items: center;
         gap: 0.6rem;
-        width: 90%;
+        width: 100%;
+        padding: 0.5rem;
+        height: 4rem;
         color: vars.$primary_1;
         font-size: 1.2rem;
         font-weight: 500;
         cursor: pointer;
+        transition: background 0.3s;
+        &:hover {
+          background: vars.$hover-opacity;
+        }
       }
 
-      .hr {
-        width: 12rem;
-        height: 0.1rem;
-        border-radius: 0.6rem;
-        background: #30385750;
-      }
     }
 
     .scrollbar {
