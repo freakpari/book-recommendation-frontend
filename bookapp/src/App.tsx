@@ -32,6 +32,7 @@ import VerifyForgetPasswordCode from "./pages/VerifyForgetPasswordCode/VerifyFor
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 import BookInMyList from "./pages/BooksInMyList/BooksInMyList";
 import BooksInUserList from "./pages/BooksInUserList/BooksInUserList";
+import BooksInSavedList from "./pages/BooksInSavedList/BooksInSavedList";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
         <Route path="/verifyEmail" element={<VerifyEmail/>} />
         <Route path="/bookInList" element={<BookInMyList/>} />
         <Route path="/bookInListUser" element={<BooksInUserList/>} />
+        <Route path="/savedlist" element={<BooksInSavedList/>} />
 
       </Routes>
     </Router>
