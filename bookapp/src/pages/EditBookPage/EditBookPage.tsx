@@ -12,6 +12,7 @@ import NoBookInList from "./icons/emptyList.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
 import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
+
 interface BooksInMyListDetails {
     CollectionID: number,
     BookID: number,
@@ -88,7 +89,7 @@ export default function EditBookPage() {
                 }
             }
         }
-
+        eventEmitter.emit();
         fetchBookInListDetails();
         const unsubscribe = eventEmitter.subscribe(fetchBookInListDetails);
         return () => unsubscribe();
