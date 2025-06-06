@@ -55,7 +55,7 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
     const [userId , setUserId] = useState();
     const bookid = localStorage.getItem("bookid");
 
-    const handleGoToCollectionDetails = async (collectionid: number, collectionName: string) => {
+    const handleAddBookToCollection = async (collectionid: number, collectionName: string) => {
         const token = localStorage.getItem("token");
         if(!token) {
             console.log("توکن یافت نشد");
@@ -238,7 +238,7 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                                     {collection.map((list) => (
                                         <div
                                             className={styles.listContent}
-                                            onClick={() => handleGoToCollectionDetails(list.CollectionID, list.Title)}
+                                            onClick={() => handleAddBookToCollection(list.CollectionID, list.Title)}
                                         >
                                             <div className={styles.listPic}>
                                                 <img
