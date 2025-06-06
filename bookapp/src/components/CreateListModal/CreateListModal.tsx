@@ -33,46 +33,54 @@ export default function CreateListModal({ onClose }: Props) {
             return;
         }
 
-        const data = {
-            Ispublic : ispublic,
-            title : title,
-            discription : discription,
-            userid : userId,
-            detail : [],
-        };
+        if (ispublic && userId && title){
+            const data = {
+                ispublic : ispublic,
+                title : title,
+                discription : discription,
+                userid : userId,
+                detail : [],
+            };
 
-        try {
-            const formData = new FormData();
-            if (image) {
-                formData.append("file", image);
-            }
-            formData.append("data", JSON.stringify(data));
-
-            await axios.post(
-                "https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/upload-collection",
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
+            try {
+                const formData = new FormData();
+                if (image) {
+                    formData.append("file", image);
                 }
-            );
+                formData.append("data", JSON.stringify(data));
 
-            showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+                await axios.post(
+                    "https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/upload-collection",
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
 
-        } catch (error: any) {
-            if (error.code === 'ECONNABORTED') {
-                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
-            } else {
-                showNotificationMessage("خطا در ساخت لیست", "error");
+                showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                } else {
+                    showNotificationMessage(`لیست "${title}" با موفقیت ساخته شد`, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
+            } finally {
+                setLoading(false);
             }
-        } finally {
-            setLoading(false);
+        } else {
+            showNotificationMessage("لطفاً تمام فیلدها را پر کنید",'error')
         }
+
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
