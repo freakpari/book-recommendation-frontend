@@ -559,7 +559,10 @@ export default function Bookdetail() {
             )}
 
             {isAddBookToListModalOpen && (
-                <AddBookToListModal onClose={() => setIsAddBookToListModalOpen(false)} />
+                <AddBookToListModal
+                    onClose={() => setIsAddBookToListModalOpen(false)}
+                    userid={userid}
+                />
             )}
 
             {isModalOpen && (
