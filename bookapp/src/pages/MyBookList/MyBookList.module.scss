@@ -97,6 +97,13 @@
   cursor: pointer;
 }
 
+.titleAuthor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .listTitle {
   font-weight: 700;
   font-size: 1.5rem;
@@ -104,6 +111,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.listAuthor {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 0.5rem;
 }
 
 .listIncludes {

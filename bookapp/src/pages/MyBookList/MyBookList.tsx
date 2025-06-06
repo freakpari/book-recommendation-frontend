@@ -91,7 +91,10 @@ function SavedBookListCard({ title, includes, image, collectionid, collectionNam
                 <img src={image} alt={title} />
             </div>
             <div className={styles.listDescription}>
-                <div className={styles.listTitle}>{title}</div>
+                <div className={styles.titleAuthor}>
+                    <div className={styles.listTitle}>{title}</div>
+                    <div className={styles.listAuthor}>{FullName}</div>
+                </div>
                 <div className={styles.listIncludes}>{includes}</div>
             </div>
         </div>
