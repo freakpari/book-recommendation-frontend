@@ -39,7 +39,7 @@ export default function CreateListModal({ onClose }: Props) {
                 title : title,
                 discription : discription,
                 userid : userId,
-                detail : [],
+                detail : null,
             };
             console.log(ispublic);
             try {
