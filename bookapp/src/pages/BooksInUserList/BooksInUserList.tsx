@@ -7,7 +7,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AnimatePresence} from "framer-motion";
 import {NotificationModal, useNotification} from "../../components/NotificationManager/NotificationManager";
-import NoBookInList from "./icons/emptyList.svg";
+// import NoBookInList from "./icons/emptyList.svg";
 import defaultBook from "./icons/defaultBook.svg";
 
 interface BooksInUserListDetails {
@@ -149,7 +149,7 @@ export default function BooksInUserList() {
                     <div className={styles.scrollbar}>
                         {booksInUserList.length === 0 ? (
                             <div className={styles.emptyList}>
-                                <img src={NoBookInList} alt=""/>
+                                {/*<img src={NoBookInList} alt=""/>*/}
                                 <p>این لیست خالیه!</p>
                             </div>
                         ) : (

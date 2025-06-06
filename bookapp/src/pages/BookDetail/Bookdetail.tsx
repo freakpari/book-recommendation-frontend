@@ -32,7 +32,7 @@ interface BookData {
     LanguageName: string;
     PageCount: number;
     ISBN: string;
-    rating: number;
+    RatingCount: number;
     ImageUrl?: string;
 }
 interface Comment {
@@ -546,7 +546,7 @@ export default function Bookdetail() {
                 <div className={styles.bookInfo}>
                     <h3>تعداد صفحات <span>{bookData.PageCount}</span></h3>
                     <h3>سال انتشار <span>{bookData.PublishedYear}</span></h3>
-                    <h3>امتیاز <span>{bookData.rating}</span></h3>
+                    <h3>امتیاز <span>{bookData.RatingCount}</span></h3>
                     <p>{bookData.Description || "توضیحاتی برای این کتاب موجود نیست."}</p>
                 </div>
             </div>

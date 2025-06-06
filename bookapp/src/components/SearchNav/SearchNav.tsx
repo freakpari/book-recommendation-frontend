@@ -158,8 +158,6 @@ export default function SearchNav() {
                         style={{ cursor: "pointer" }}
                     />
 
-                    {isSearching && <div className={styles.searchResults}></div>}
-
                     {!isSearching && results.length > 0 && (
                         <div className={styles.searchResults}>
                             {results.map((book) => (
@@ -191,8 +189,8 @@ export default function SearchNav() {
                     <li onClick={() => navigate('/editprofile')}><img src={account} alt="account" />حساب کاربری</li>
                     <li><img src={inbox} alt="inbox" onClick={() => navigate('/chat')} />صندوق ورودی</li>
                     <li onClick={() => navigate('/mbtiresult')}><img src={pointer} alt="pointer" />نتیجه تست MBTI</li>
-                    <li><img src={explore} alt="explore" />BookTalk</li>
-                    <li><img src={Book1} alt="book" />لیست کتاب ها</li>
+                    <li onClick={() => navigate('/bookTalkMain')} ><img src={explore} alt="explore" />BookTalk</li>
+                    <li onClick={() => navigate('/listofbooks')}><img src={Book1} alt="book"  />لیست کتاب ها</li>
                     <li onClick={() => setShowModal(true)}><img src={signout} alt="signout" />خروج از حساب کاربری</li>
                     <div className={styles.icons}>
                         <img style={{ height: "28px" }} src={linkdine} alt="linkdine" />

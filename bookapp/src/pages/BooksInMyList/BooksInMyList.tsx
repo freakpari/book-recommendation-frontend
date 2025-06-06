@@ -3,7 +3,7 @@ import styles from "./BooksInMyList.module.scss";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import Footer from "../../components/Footer/Footer";
-// import search from "./icons/Search.svg";
+
 import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
@@ -57,65 +57,9 @@ export default function BookInMyList() {
     const [booksInMyList, setBooksInMyList] = useState<BooksInMyListDetails[]>([]);
     const navigate = useNavigate();
     const [isDeleteCollection, setIsDeleteCollection] = useState(false);
-    const [query, setQuery] = useState("");
-    const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const [results, setResults] = useState<BooksInMyListDetails[]>([]);
-    const [isSearching, setIsSearching] = useState(false);
 
-    const handleSearch = useCallback(async (input: string) => {
-        if (!input.trim()) {
-            setResults([]);
-            return;
-        }
 
-        setIsSearching(true);
-        try {
-            const url = `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/searchurl/${encodeURIComponent(input)}`;
-            const response = await axios.get(url);
-            const data = response.data.updatedBookData || [];
 
-            const mappedResults: BooksInMyListDetails[] = data
-                .filter((book: any) =>
-                    book.title.trim().toLowerCase().includes(input.trim().toLowerCase())
-                )
-                .slice(0, 5)
-                .map((book: any) => ({
-                    BookID: book.bookid,
-                    Title: book.title,
-                    FullAuthorName:book.fullauthorname,
-                    ImageUrl: book.imageurl,
-                }));
-
-            setResults(mappedResults);
-        } catch (error) {
-            console.error("خطا در دریافت نتایج:", error);
-            setResults([]);
-        } finally {
-            setIsSearching(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
-
-        debounceTimeout.current = setTimeout(() => {
-            if (query.trim()) {
-                handleSearch(query);
-            } else {
-                setResults([]);
-            }
-        }, 300);
-
-        return () => {
-            if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
-        };
-    }, [query, handleSearch]);
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            handleSearch(query);
-        }
-    };
 
     const handleGoToBookDetails = (bookid: number) => {
         navigate(`/bookdetail/${bookid}`)
@@ -133,7 +77,9 @@ export default function BookInMyList() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (!token) {return;}
+        if (!token) {
+            return;
+        }
 
         console.log(collectionid);
 
@@ -145,11 +91,11 @@ export default function BookInMyList() {
             } catch (error: any) {
                 if (error.code === 'ECONNABORTED') {
                     showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
-                } if (error.status === 404) {
-                    setBooksInMyList([]);
                 }
-                else {
-                    showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                if (error.status === 404) {
+                    setBooksInMyList([]);
+                } else {
+                    showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.", 'error');
                 }
             }
         }
@@ -169,10 +115,10 @@ export default function BookInMyList() {
                     />
                 )}
             </AnimatePresence>
-            <SearchNav />
+            <SearchNav/>
 
             <div className={styles.bookListSide}>
-                <SideProfile />
+                <SideProfile/>
 
                 <div className={styles.bookInMyList}>
                     <div className={styles.showBookContainer}>
@@ -223,41 +169,7 @@ export default function BookInMyList() {
                             </div>
 
                         </div>
-                        <div className={styles.searchBar}>
-                            <input
-                                type="search"
-                                placeholder="برای اضافه کردن کتاب جدید به لیست نام آن یا نویسنده را وارد کنید"
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                onKeyDown={handleKeyDown}
-                            />
-                            {/*<img*/}
-                            {/*    src={search}*/}
-                            {/*    alt="search button"*/}
-                            {/*    onClick={() => handleSearch(query)}*/}
-                            {/*    style={{ cursor: "pointer" }}*/}
-                            {/*/>*/}
-                        </div>
-                        {!isSearching && results.length > 0 && (
-                            <div className={styles.searchResults}>
-                                {results.map((book) => (
-                                    <div
-                                        key={book.BookID}
-                                        className={styles.resultItem}
 
-                                    >
-                                        <img className={styles.bookcover} src={book.ImageUrl} alt={book.Title} />
-                                        <div className={styles.bookdetail}>
-                                            <p className={styles.bookTitle}>{book.Title}</p>
-                                            <p className={styles.bookAuthor}>{book.FullAuthorName}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        {!isSearching && query && results.length === 0 && (
-                            <div className={styles.searchResults}><p>نتیجه‌ای یافت نشد</p></div>
-                        )}
                         <div className={styles.scrollbar}>
                             {booksInMyList.length === 0 ? (
                                 <div className={styles.emptyList}>
@@ -266,20 +178,22 @@ export default function BookInMyList() {
                                 </div>
                             ) : (
                                 booksInMyList.map((book) => (
-                                    <div>
-                                        <div
-                                            className={styles.bookCard}
-                                            onClick={() => handleGoToBookDetails(book.BookID)}
-                                        >
-                                            <div className={styles.bookImage}>
-                                                <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt="Black Hourse" />
-                                            </div>
-                                            <div className={styles.bookInfo}>
-                                                <div className={styles.bookName}>{book.Title}</div>
-                                                <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
+                                        <div>
+                                            <div
+                                                className={styles.bookCard}
+                                                onClick={() => handleGoToBookDetails(book.BookID)}
+                                            >
+                                                <div className={styles.bookImage}>
+                                                    <img
+                                                        src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`}
+                                                        alt="Black Hourse"/>
+                                                </div>
+                                                <div className={styles.bookInfo}>
+                                                    <div className={styles.bookName}>{book.Title}</div>
+                                                    <div className={styles.bookAuthor}>{book.FullAuthorName}</div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     )
                                 )
                             )}
@@ -291,13 +205,12 @@ export default function BookInMyList() {
             </div>
 
             <div>
-                <Footer />
+                <Footer/>
             </div>
 
             {isDeleteCollection && (
-                <DeleteListModal onClose={() => setIsDeleteCollection(false)} collectionid={collectionid} />
+                <DeleteListModal onClose={() => setIsDeleteCollection(false)} collectionid={collectionid}/>
             )}
 
         </div>
-    )
-}
+    )}
