@@ -45,6 +45,7 @@ export default function BookTalkMain() {
     showNotificationMessage,
   } = useNotification();
   const bookid = localStorage.getItem("bookid");
+  const bookName = localStorage.getItem("bookName");
   const [userImages, setUserImages] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
@@ -143,7 +144,7 @@ export default function BookTalkMain() {
         <SearchNav />
       </div>
       <div>
-        <div className={styles.header}>BookTalk</div>
+        <div className={styles.header}>BookTalk <span>برای {bookName}</span></div>
         <div className={styles.bookTalk}>
           <div className={styles.scrollBar}>
             <div className={styles.scrollBarContent}>
