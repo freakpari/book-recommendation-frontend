@@ -110,13 +110,13 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
     };
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if(!token) {
+            console.error("دسترسی غیرمجاز");
+            return;
+        }
+        const fetchUserProfilePicture = async () => {
 
-        const handleUserProfilePicture = async () => {
-            const token = localStorage.getItem("token");
-            if(!token) {
-                console.error("دسترسی غیرمجاز");
-                return;
-            }
             try {
                 const response = await axios.get(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userid}`,
                     {
@@ -142,12 +142,7 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
 
         };
 
-        const handleUserCollection = async () => {
-            const token = localStorage.getItem("token");
-            if(!token) {
-                console.error("دسترسی غیرمجاز");
-                return;
-            }
+        const fetchUserCollection = async () => {
 
             try {
                 const response = await axios.get<UserCollection[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/anotherUser/${userid}`)
@@ -163,12 +158,7 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
             }
         };
 
-        const handleUserInfo = async () => {
-            const token = localStorage.getItem("token");
-            if(!token) {
-                console.error("دسترسی غیرمجاز");
-                return;
-            }
+        const fetchUserInfo = async () => {
 
             try {
                 const response = await axios.get<{ message: string, user: UserInformation }>(
@@ -199,9 +189,9 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
             }
         };
 
-        handleUserInfo();
-        handleUserCollection();
-        handleUserProfilePicture();
+        fetchUserInfo();
+        fetchUserProfilePicture();
+        fetchUserCollection();
     }, []);
 
     return (
@@ -254,7 +244,13 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                                 userCollection.map((item) => (
                                     <div className={styles.listContent}>
                                         <div className={styles.listPic}>
-                                            <img src={Tehran} alt={item.Title} />
+                                            <img
+                                                src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${item.CollectionID}`}
+                                                alt={item.Title}
+                                                onError={(e) => {
+                                                    (e.target as HTMLImageElement).src = Tehran;
+                                                }}
+                                            />
                                         </div>
                                         <div
                                             className={styles.listDescription}
