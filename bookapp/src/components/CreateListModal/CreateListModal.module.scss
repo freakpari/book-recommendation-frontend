@@ -67,6 +67,12 @@
   gap: 2.5rem;
 }
 
+.listInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .listNameInput {
   width: 36rem;
   height: 3rem;
