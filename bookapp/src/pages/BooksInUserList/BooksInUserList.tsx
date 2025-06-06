@@ -158,7 +158,7 @@ export default function BooksInUserList() {
                                             onClick={() => handleGoToBookDetails(book.BookID)}
                                         >
                                             <div className={styles.bookImage}>
-                                                <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt="Black Hourse" />
+                                                <img src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.BookID}`} alt={book.Title} />
                                             </div>
                                             <div className={styles.bookInfo}>
                                                 <div className={styles.bookName}>{book.Title}</div>
