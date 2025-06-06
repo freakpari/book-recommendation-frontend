@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./UserProfileModal.module.scss";
-import Tehran from "../../pages/MyBookList/icons/Tehran.svg";
+import Tehran from "./icons/Tehran.svg";
 import {ReactComponent as Send} from "./icons/Send.svg";
 import { ReactComponent as PlusCircle } from  "./icons/PlusCircle.svg";
 import axios from "axios";
