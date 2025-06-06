@@ -40,7 +40,7 @@ export default function DeleteSavedList ({ onClose, access}: Props) {
                 }
             });
 
-            showNotificationMessage("کالکشن با موفقیت حذف شد",'success');
+            showNotificationMessage("لیست با موفقیت حذف شد",'success');
 
             setTimeout(() => {
                 navigate("/mybooklist");

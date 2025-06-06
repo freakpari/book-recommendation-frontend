@@ -32,7 +32,7 @@ export default function DeleteListModal ({ onClose, collectionid}: Props) {
         try {
             setLoading(true);
             await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/delete-collection?collectionid=${collectionid}`)
-            showNotificationMessage("کالکشن با موفقیت حذف شد",'success');
+            showNotificationMessage("لیست با موفقیت حذف شد",'success');
 
             setTimeout(() => {
                 navigate("/mybooklist");
