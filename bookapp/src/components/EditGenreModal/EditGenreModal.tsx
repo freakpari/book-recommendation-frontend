@@ -101,8 +101,11 @@ const EditGenreModal = ({ closeModal }: GenreModalProps) => {
                 }
             );
 
-            closeModal();
-            eventEmitter.emit();
+            showNotificationMessage("ژانرهای کاربر با موفقیت ثبت شد",'success')
+            setTimeout(() => {
+                closeModal();
+                eventEmitter.emit();
+            }, 1200);
 
         } catch (error: any) {
             if (error.code === 'ECONNABORTED') {
