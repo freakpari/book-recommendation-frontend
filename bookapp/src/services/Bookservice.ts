@@ -1,12 +1,16 @@
 import axios from "axios";
 
 export const fetchPopularBooksFromAPI = async (page: number) => {
+
   try {
     const response = await axios.get(
-      `https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/popularBooks`,
-      {
-        params: { pagenum: page },
-      }
+        "https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/popularBooks",
+        {
+          params: {
+            pagenum: page,
+          },
+
+        }
     );
     return response.data;
   } catch (error) {
