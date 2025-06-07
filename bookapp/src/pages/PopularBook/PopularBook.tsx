@@ -10,7 +10,7 @@ interface Book {
   bookid: string;
   title: string;
   author: string;
-  avgrate: number;
+  RatingCount: number;
   imageUrl: string;
 }
 
@@ -96,7 +96,7 @@ useEffect(() => {
               <div className={Styles.booktext}>
                 <h3 className={Styles.title2}>{book.title}</h3>
                 <p className={Styles.para}>{book.author}</p>
-                <p className={Styles.avgrate}>امتیاز: {book.avgrate}</p>
+                <p className={Styles.avgrate}>امتیاز: {book.RatingCount}</p>
               </div>
             </Link>
           ))}
