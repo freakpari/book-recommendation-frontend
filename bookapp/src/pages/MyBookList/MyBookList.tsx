@@ -143,7 +143,8 @@ export default function MyBookList() {
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
-                        }
+                        },
+                        timeout: 10000
                     });
                 setUserBookList(response.data);
 
@@ -158,14 +159,13 @@ export default function MyBookList() {
         };
 
         const handleShowSavedLists = async () => {
-
-
             try {
                 const response = await axios.get<{ message: string; data: UserBookList[] }>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/save`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
-                        }
+                        },
+                        timeout: 10000
                     });
                 setMySavedList(response.data.data);
 
