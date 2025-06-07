@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styles from "./SetNewPassword.module.scss";
 import MainPic from "./icons/mainPic.svg"
 import Logo from "./icons/logo.svg"
@@ -6,7 +6,7 @@ import Eye from "./icons/visibility.svg";
 import CloseEye from "./icons/visibilityoff.svg"
 import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
-import {AnimatePresence, motion} from "framer-motion";
+import {AnimatePresence} from "framer-motion";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 
 export default function SetNewPassword() {
