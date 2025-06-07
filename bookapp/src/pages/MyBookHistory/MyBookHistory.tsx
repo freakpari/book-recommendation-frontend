@@ -53,7 +53,8 @@ export default function MyBookHistory() {
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
-                        }
+                        },
+                        timeout: 10000
                     });
                 setAllLists(response.data);
             } catch (error: any) {
