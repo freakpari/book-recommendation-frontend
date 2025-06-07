@@ -37,7 +37,8 @@ export default function DeleteSavedList ({ onClose, access}: Props) {
                 },
                 headers: {
                     Authorization: `Bearer ${token}`,
-                }
+                },
+                timeout: 10000
             });
 
             showNotificationMessage("لیست با موفقیت حذف شد",'success');
