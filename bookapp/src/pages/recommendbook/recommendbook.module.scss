@@ -13,30 +13,18 @@ $primary_1:#303857;
 }
 .popularBooks {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
-    gap: 0;
-    margin-right: 55px;
+    grid-template-columns: repeat(5, 1fr);
+    gap:15px;
+    margin-right: 55px !important;
 }
 .cardwrapper{
-    width: 202px;
-    height: 393px;
-
-    h4{
-        color: #303857;
-        text-align: center;
-        font-weight: 700;
-        font-size: 20px;
-    }
-    p{
-        text-align: center;
-        font-weight: 300;
-        font-size: 20px;
-    }
-}
-.popularBooks {
-    display: grid;
-    
-    gap: 15px;
+    width: calc(20% - 10px);
+    background: #fff;
+    padding: 5px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 0 4px 4px 0;
+    justify-content: center;
 }
 .loadmore {
     margin-top: 20px;
@@ -68,3 +56,30 @@ $primary_1:#303857;
       outline: none;
     }
     }
+.photo{
+    width: 202px;
+    height: 302px;
+}
+
+
+.title2 {
+    width: 160px;
+    height: 40px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 15px;
+    letter-spacing: 0;
+    line-height: 30px;
+    color:$primary_1 ;
+    margin-bottom: 15px;
+}
+.para{
+    font-size: 24px;
+    white-space: nowrap;
+    font-weight: 300;
+    color:$primary_1 ;
+    letter-spacing: 0;
+    line-height: 25px;
+    float: left;
+    text-align: center;
+    margin-right:200px !important;}
