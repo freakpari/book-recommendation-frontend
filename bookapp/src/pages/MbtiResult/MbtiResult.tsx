@@ -31,7 +31,6 @@ export default function MbtiResult() {
 
     const handleSendUserType = async () => {
         const token  = localStorage.getItem("token");
-        console.log(token);
         if(!token){
             console.log("توکن یافت نشد.");
             return;
@@ -39,7 +38,6 @@ export default function MbtiResult() {
 
         if (selectedType1 && selectedType2 && selectedType3 && selectedType4) {
             const newMBTI = selectedType1 + selectedType2 + selectedType3 + selectedType4;
-            console.log(newMBTI);
             try {
                 setLoading(true);
                 await axios.put(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/MBTI-update`,
@@ -48,8 +46,8 @@ export default function MbtiResult() {
                         headers: {
                             Authorization: `Bearer ${token}`,
                             "Content-Type": "application/json",
-                        }
-
+                        },
+                        timeout: 10000
                     },
                 );
 
