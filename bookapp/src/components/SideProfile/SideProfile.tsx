@@ -107,8 +107,8 @@ export default function SideProfile() {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                    responseType: "blob"
-
+                    responseType: "blob",
+                    timeout: 10000
                 });
 
             if (response.status !== 204) {
@@ -162,6 +162,7 @@ export default function SideProfile() {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "multipart/form-data",
                     },
+                    timeout: 10000
                 }
             );
 
