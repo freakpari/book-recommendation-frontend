@@ -66,11 +66,9 @@ export default function BookInMyList() {
         const token = localStorage.getItem("token");
         if (!token) {return;}
 
-        console.log(access);
-
         const fetchBookInListDetails = async () => {
             try {
-                const response = await axios.get<BooksInMyListDetails[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/details?collectionid=${collectionid}`)
+                const response = await axios.get<BooksInMyListDetails[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/details?collectionid=${collectionid}`,{timeout: 10000})
                 setBooksInMyList(response.data);
 
             } catch (error: any) {
