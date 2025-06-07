@@ -205,7 +205,7 @@ export default function EditProfile() {
         setIsChangingPassword(true);
 
         try {
-            const response = await axios.put(
+            await axios.put(
                 "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/newPassword",
                 {
                     oldPassword: oldPassword,
