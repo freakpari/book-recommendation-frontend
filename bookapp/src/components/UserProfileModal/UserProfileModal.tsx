@@ -93,7 +93,8 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
-                    }
+                    },
+                    timeout: 10000
                 }
             );
 
@@ -145,7 +146,7 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
         const fetchUserCollection = async () => {
 
             try {
-                const response = await axios.get<UserCollection[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/anotherUser/${userid}`)
+                const response = await axios.get<UserCollection[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/anotherUser/${userid}`,{timeout: 10000})
                 setUserCollection(response.data);
             }
             catch (error: any) {
@@ -163,6 +164,7 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
             try {
                 const response = await axios.get<{ message: string, user: UserInformation }>(
                     `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profile-another-user/?userid=${userid}`,
+                    {timeout: 10000}
                 );
 
                 const user = response.data.user;
