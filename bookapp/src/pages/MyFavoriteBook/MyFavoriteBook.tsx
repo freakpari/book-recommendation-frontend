@@ -53,6 +53,7 @@ export default function MyFavoriteBook() {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                     timeout: 10000
                 });
 
                  setFaveBooks(response.data);
@@ -106,7 +107,6 @@ export default function MyFavoriteBook() {
     };
 
     const handleClickOnBook =(bookid: number) => {
-        console.log(bookid);
         navigate("/bookdetail/" + bookid);
     };
 
