@@ -86,7 +86,7 @@ const EditGenreModal = ({ closeModal }: GenreModalProps) => {
                 .filter((genre) => selectedGenresTitles.includes(genre.title))
                 .map((genre) => genre.genreid);
 
-            const response = await axios.put(
+            await axios.put(
                 "https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/genres",
                 {
                     userid: token,
@@ -97,6 +97,7 @@ const EditGenreModal = ({ closeModal }: GenreModalProps) => {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
+                    timeout: 10000
                 }
             );
 
