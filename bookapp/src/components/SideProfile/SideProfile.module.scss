@@ -4,6 +4,7 @@
   background: vars.$secondary_1;
   width: 16.5rem;
   height: 41.125rem;
+  border-radius: 0.6rem;
 }
 
 .profile {
@@ -125,10 +126,13 @@
   line-height: 2rem;
   min-width: 14rem;
   max-width: 14rem;
-  white-space: nowrap;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-  direction: ltr;
+  white-space: normal;
 }
 
 .optionBtns {

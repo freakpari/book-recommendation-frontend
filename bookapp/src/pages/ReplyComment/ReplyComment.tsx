@@ -84,6 +84,20 @@ export default function ReplyComment() {
         }
     }
 
+    const handleBack = () => {
+        navigate("/booktalkperson",
+            {
+                state:
+                    {
+                        commentid : commentid,
+                        userid : mainUserId,
+                        fullname : fullname,
+                        username :username,
+                        text :text,
+                    }
+            })
+    }
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -162,7 +176,11 @@ export default function ReplyComment() {
                     />
                     <div className={styles.Btns}>
                         <div>
-                            <button className={styles.cancleBtn}>انصراف</button>
+                            <button
+                                className={styles.cancleBtn}
+                                onClick={handleBack}
+                            >
+                                انصراف</button>
                         </div>
                         <div>
                             <button
@@ -171,7 +189,7 @@ export default function ReplyComment() {
                                 disabled={loading}
                             >
                                 {loading ? (
-                                    <span className={styles.loadingText}>در حال ارسال ...</span>
+                                    <span className={styles.loadingText}>در حال ارسال</span>
                                 ) : (
                                     "ثبت"
                                 )}

@@ -70,7 +70,7 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                 {
                     timeout: 10000
                 })
-            showNotificationMessage(`کتاب با موفقیت به لیست${collectionName} اضافه شد`,'success');
+            showNotificationMessage(`کتاب با موفقیت به لیست '${collectionName}'  اضافه شد`,'success');
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
@@ -231,48 +231,56 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
 
             {!isCreateListModalOpen && (
                 <div>
-                    <div
-                        className={styles.overlay}
-                        onClick={onClose}
-                    >
-                    </div>
+                    <div className={styles.overlay} onClick={onClose}></div>
                     <div className={styles.modalOverlay}>
                         <div className={styles.modalContent}>
                             <div className={styles.bookListContainer}>
                                 <div className={styles.userListDrawer}>
-                                    {collection.map((list) => (
-                                        <div
-                                            className={styles.listContent}
-                                            onClick={() => handleAddBookToCollection(list.CollectionID, list.Title)}
-                                        >
-                                            <div className={styles.listPic}>
-                                                <img
-                                                    src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${list.CollectionID}`}
-                                                    alt={list.Title}
-                                                    onError={(e) => {
-                                                        if (e.currentTarget.src !== defaultBook) {
-                                                            e.currentTarget.src = defaultBook;
+                                    {collection.length === 0 ? (
+                                        <div className={styles.noList}>هنوز لیستی توسط این کاربر ساخته نشده است</div>
+                                    ) : (
+                                        collection.filter(list => list.IsOwner === 1).length === 0 ? (
+                                            <div className={styles.noList}>هنوز لیستی توسط این کاربر ساخته نشده است</div>
+                                        ) : (
+                                            collection
+                                                .filter(list => list.IsOwner === 1)
+                                                .map(list => (
+                                                    <div
+                                                        key={list.CollectionID}
+                                                        className={styles.listContent}
+                                                        onClick={() =>
+                                                            handleAddBookToCollection(list.CollectionID, list.Title)
                                                         }
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className={styles.listDescription}>
-                                                <div className={styles.listTitle}>
-                                                    {list.Title}
-                                                </div>
-                                                <div className={styles.listIncludes}>{list.Discription}</div>
-                                            </div>
-                                        </div>
-                                    ))}
+                                                    >
+                                                        <div className={styles.listPic}>
+                                                            <img
+                                                                src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${list.CollectionID}`}
+                                                                alt={list.Title}
+                                                                onError={(e) => {
+                                                                    if (e.currentTarget.src !== defaultBook) {
+                                                                        e.currentTarget.src = defaultBook;
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        <div className={styles.listDescription}>
+                                                            <div className={styles.listTitle}>{list.Title}</div>
+                                                            <div className={styles.listIncludes}>{list.Discription}</div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                        )
+                                    )}
                                 </div>
                             </div>
+
                             <div className={styles.createListContainer}>
-                                <button
-                                    className={styles.createListBtn}
-                                >
+                                <button className={styles.createListBtn}>
                                     <div
                                         className={styles.btnContent}
-                                        onClick={() => {setIsCreateListModalOpen(true);}}
+                                        onClick={() => {
+                                            setIsCreateListModalOpen(true);
+                                        }}
                                     >
                                         ساخت لیست جدید
                                     </div>
@@ -282,6 +290,7 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                     </div>
                 </div>
             )}
+
 
             {isCreateListModalOpen && (
                 <div>

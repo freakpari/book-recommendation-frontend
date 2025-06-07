@@ -29,6 +29,21 @@
   align-items: center;
   padding-top: 3rem;
   margin-bottom: 3rem;
+  border-radius: 0.6rem;
+}
+
+.backIcon {
+  cursor: pointer;
+  img {
+    position: absolute;
+    left: 12.5rem;
+    top: 17.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: 1rem;
+    margin-top: 0.4rem;
+    transform: rotateY(180deg);
+  }
 }
 
 .post {
@@ -139,6 +154,7 @@
   -webkit-overflow-scrolling: touch;
   gap: 1rem;
   padding: 0.5rem;
+
   &::-webkit-scrollbar {
     width: 0.5rem;
   }
@@ -155,12 +171,18 @@
 }
 
 .noRef {
-  width: 62.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38rem;
   text-align: center;
   font-weight: 700;
   font-size: 24px;
   line-height: 40px;
   color: #939393;
+  background: vars.$hover-opacity;
+  height: 25rem;
+  border-radius: 0.6rem;
 }
 
 .comment {

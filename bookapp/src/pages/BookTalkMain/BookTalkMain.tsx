@@ -8,6 +8,7 @@ import { AnimatePresence } from "framer-motion";
 import {useNotification, NotificationModal,} from "../../components/NotificationManager/NotificationManager";
 import defaultUser from "./icons/defaultUser.svg";
 import {useNavigate} from "react-router-dom";
+import arrow from "../EditBookPage/icons/arrow.svg";
 
 interface Comments {
   commentid: number,
@@ -75,13 +76,19 @@ export default function BookTalkMain() {
   const handleGoToPersonComment = (commentid : number, userid : string, fullname : string, username : string, text : string) => {
     navigate("/booktalkperson" , {
       state: {
+        bookid: bookid,
         commentid: commentid,
         userid: userid,
         fullname: fullname,
         username: "@" + username,
         text: text,
+        bookName: bookName,
       }
     });
+  }
+
+  const handleBack = () => {
+    navigate("/bookdetail/" + bookid);
   }
 
   useEffect(() => {
@@ -145,8 +152,14 @@ export default function BookTalkMain() {
         <SearchNav />
       </div>
       <div>
-        <div className={styles.header}>BookTalk <span>برای {bookName}</span></div>
+        <div className={styles.header}>BookTalk <span style={{ fontFamily: "shabnam" }}>برای </span><span className={styles.bookName}>{bookName}</span></div>
         <div className={styles.bookTalk}>
+          <div
+              className={styles.backIcon}
+              onClick={handleBack}
+          >
+            <img src={arrow} alt="برگشت"/>
+          </div>
           <div className={styles.scrollBar}>
             <div className={styles.scrollBarContent}>
               {comments.length === 0 ? (

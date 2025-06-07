@@ -16,26 +16,29 @@
   background-color: vars.$secondary_1;
   width: 62.5rem;
   height: 41.1rem;
-
+  border-radius: 1rem;
 
   .showBookContainer {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 2.5rem 4rem;
+    padding: 2rem 4rem;
 
     .listDetails {
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
       text-align: right;
       padding-right: 1rem;
       width: 100%;
       height: 7.5rem;
       background: #aaaacc;
-      gap: 32rem;
+      //gap: 32rem;
       margin-right: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
+      border-radius: 0.6rem;
+
       .listInfoPic {
         display: flex;
         flex-direction: row;
@@ -77,11 +80,19 @@
       text-overflow: ellipsis;
     }
 
+    .backIcon {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-left: 1rem;
+      margin-top: 0.4rem;
+      transform: rotateY(180deg);
+    }
+
     .scrollbar {
       overflow-y: scroll;
       background: vars.$secondary_1;
       width: 54.813rem;
-      height: 26rem;
+      height: 24rem;
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
@@ -147,7 +158,7 @@
         height: 2.2rem;
         border-radius: 50%;
         border: 2px solid #e81515;
-        z-index: 1000;
+        z-index: 900;
 
         &:hover {
           cursor: pointer;
@@ -224,18 +235,18 @@
 
     color: #303875;
     &:focus {
-      outline: 2px solid vars.$primary_1;
+      outline: 1px solid vars.$primary_1;
+      border: 2px solid vars.$primary_1;
     }
   }
   .search{
     position: absolute;
     right: 1120px;
-    top: 58.5%;
+    top: 23.8rem;
     transform: translateY(-50%);
     height: 20px;
     width: 20px;
     cursor: pointer;
-
   }
 }
 .searchBar input::placeholder {
@@ -244,7 +255,7 @@
 }
 .searchResults {
   position: absolute;
-  top: 425px;
+  top: 400px;
   width: 491px;
   height: 140px;
   background-color: rgba(48, 56, 87, 0.9);
@@ -263,6 +274,7 @@
   padding: 10px;
   height: 110px;
   border-bottom: 1px solid rgba(249, 249, 249, 0.5);
+  cursor: pointer;
 
   &:last-child {
     border-bottom: none;
@@ -273,9 +285,6 @@
     height: 100px;
     margin-right: 5px;
     margin-top: 8px;
-
-
-
   }
 
   .bookTitle {
@@ -289,7 +298,6 @@
     font-size: 0.9rem;
     color: #f9f9f9;
     margin-right: 20px;
-
   }
 }
 
