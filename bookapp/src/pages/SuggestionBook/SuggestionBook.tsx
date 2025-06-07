@@ -37,7 +37,7 @@ export default function SuggestionBook() {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if(!token) {
-            console.log("توکن یافت نشد.");
+            console.error("توکن یافت نشد.");
             return;
         }
         const fetchUserType = async () => {
@@ -87,6 +87,7 @@ export default function SuggestionBook() {
         fetchUserSuggestedbooks(pageNum);
 
         }, []);
+
     const fetchUserSuggestedbooks = async (page: number) => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -134,7 +135,6 @@ export default function SuggestionBook() {
     }
 
     const handleClickOnBook =(bookid: string) => {
-        console.log(bookid);
         navigate("/bookdetail/" + bookid);
     };
 
