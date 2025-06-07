@@ -57,13 +57,13 @@ function App() {
         <Route path="/mbtiresult" element={<MbtiResult/>} />
         <Route path="/bookTalkMain" element={<BookTalkMain/>} />
         <Route path="/bookTalkPerson" element={<BookTalkPerson/>} />
-        <Route path="/bookdetail/:BookID" element={<Bookdetail />}></Route>
-        <Route path="/listofbooks" element={<Listofbooks />}></Route>
-        <Route path="/recommendbooks" element={<Recommendbook />}></Route>
-        <Route path="/recommendhistory" element={<Recommendhistory />}></Route>
+        <Route path="/bookdetail/:BookID" element={<Bookdetail />} />
+        <Route path="/listofbooks" element={<Listofbooks />}/>
+        <Route path="/recommendbooks" element={<Recommendbook />} />
+        <Route path="/recommendhistory" element={<Recommendhistory />} />
         <Route path="/myBookList" element={<MyBookList/>} />
-        <Route path="/chat"  element={<Chatpage />}></Route>
-        <Route path="/notification" element={<NotificationList />}></Route>
+        <Route path="/chat" element={<Chatpage />} />
+        <Route path="/notification" element={<NotificationList />} />
         <Route path="/replyComment" element={<ReplyComment/>} />
         <Route path="/setNewPass" element={<SetNewPassword/>} />
         <Route path="/verifyPass" element={<VerifyForgetPasswordCode/>} />
