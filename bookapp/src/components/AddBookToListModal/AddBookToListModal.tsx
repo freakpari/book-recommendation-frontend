@@ -66,6 +66,9 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                 {
                     collectionid: collectionid,
                     bookid: bookid,
+                },
+                {
+                    timeout: 10000
                 })
             showNotificationMessage(`کتاب با موفقیت به لیست${collectionName} اضافه شد`,'success');
             setTimeout(() => {
@@ -111,7 +114,7 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                 userid : userId,
                 detail : null,
             };
-            console.log(ispublic);
+
             try {
                 setLoading(true);
                 const formData = new FormData();
@@ -128,6 +131,7 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                             Authorization: `Bearer ${token}`,
                             "Content-Type": "multipart/form-data",
                         },
+                        timeout: 10000
                     }
                 );
 
@@ -193,7 +197,8 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
-                        }
+                        },
+                        timeout: 10000
                     })
 
                 setCollection(response.data);
