@@ -31,7 +31,7 @@ export default function DeleteListModal ({ onClose, collectionid}: Props) {
 
         try {
             setLoading(true);
-            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/delete-collection?collectionid=${collectionid}`)
+            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/delete-collection?collectionid=${collectionid}`,{timeout: 10000})
             showNotificationMessage("لیست با موفقیت حذف شد",'success');
 
             setTimeout(() => {
