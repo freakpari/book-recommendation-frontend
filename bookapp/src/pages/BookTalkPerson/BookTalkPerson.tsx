@@ -72,7 +72,9 @@ export default function BookTalkPerson () {
         try {
             const response = await axios.get(
                 `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userId}`,
-                { responseType: "blob" }
+                { responseType: "blob",
+                    timeout: 10000
+                }
             );
             if (response.status !== 204) {
                 const imageURL = URL.createObjectURL(response.data);
@@ -81,8 +83,16 @@ export default function BookTalkPerson () {
                 const imageURL = defaultUser;
                 setUserImages(prev => ({ ...prev, [userId]: imageURL }));
             }
-        } catch (error) {
-            console.error("خطا در دریافت پروفایل کاربران");
+        } catch (error: any) {
+            if (error.code === "ECONNABORTED") {
+                showNotificationMessage(
+                    "سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",
+                    "error"
+                );
+            } if (error.status === 500) {}
+            else {
+                showNotificationMessage("خطا در بارگیری پروفایل کاربران", "error");
+            }
         }
     };
 
@@ -112,8 +122,6 @@ export default function BookTalkPerson () {
             try {
                 const response = await axios.get<RefComments[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/ref/${commentid}`,{timeout:10000});
 
-                console.log(response.data);
-
                 setRefComments(response.data);
                 response.data.forEach(refComments => {
                     fetchUserImage(refComments.userid);
@@ -121,10 +129,7 @@ export default function BookTalkPerson () {
 
             } catch (error: any) {
                 if (error.code === "ECONNABORTED") {
-                    showNotificationMessage(
-                        "سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",
-                        "error"
-                    );
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", "error");
                 } if (error.status === 500) {}
                 else {
                     showNotificationMessage("خطا در بارگیری نظرات", "error");
@@ -136,7 +141,10 @@ export default function BookTalkPerson () {
             try {
                 const response = await axios.get(
                     `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${mainUserId}`,
-                    { responseType: "blob" }
+                    {
+                        responseType: "blob",
+                        timeout: 10000
+                    }
                 );
                 if (response.status !== 204) {
                     const imageURL = URL.createObjectURL(response.data);
@@ -146,8 +154,16 @@ export default function BookTalkPerson () {
                     setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
                 }
 
-            } catch (error) {
-                console.error("خطا در دریافت پروفایل کاربران");
+            } catch (error: any) {
+                if (error.code === "ECONNABORTED") {
+                    showNotificationMessage(
+                        "سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",
+                        "error"
+                    );
+                } if (error.status === 500) {}
+                else {
+                    showNotificationMessage("خطا در بارگیری پروفایل کاربران", "error");
+                }
             }
         };
 
