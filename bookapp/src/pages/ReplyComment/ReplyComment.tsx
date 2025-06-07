@@ -90,14 +90,15 @@ export default function ReplyComment() {
             console.error("توکن کاربر یافت نشد.");
             return;
         }
-        console.log(commentid);
-        console.log(bookid);
 
         const fetchMainUserImage = async () => {
             try {
                 const response = await axios.get(
                     `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${mainUserId}`,
-                    { responseType: "blob" }
+                    {
+                        responseType: "blob",
+                        timeout: 10000
+                    }
                 );
                 if (response.status !== 204) {
                     const imageURL = URL.createObjectURL(response.data);
@@ -106,8 +107,13 @@ export default function ReplyComment() {
                     const imageURL = defaultUser;
                     setMainUserImage(prev => ({ ...prev, [mainUserId]: imageURL }));
                 }
-            } catch (error) {
-                console.error("خطا در دریافت پروفایل کاربر");
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
+                }
+                else {
+                    showNotificationMessage("خطا در دریافت پروفایل کاربر", 'error');
+                }
             }
         };
 
