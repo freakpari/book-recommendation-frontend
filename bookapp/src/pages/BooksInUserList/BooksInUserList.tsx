@@ -71,7 +71,8 @@ export default function BooksInUserList() {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
-                    }
+                    },
+                    timeout: 10000
                 }
             );
             showNotificationMessage("لیست با موفقیت اضافه شد",'success')
@@ -92,7 +93,7 @@ export default function BooksInUserList() {
 
         const fetchBookInUserListDetails = async () => {
             try {
-                const response = await axios.get<BooksInUserListDetails[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/details?collectionid=${collectionid}`)
+                const response = await axios.get<BooksInUserListDetails[]>(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/details?collectionid=${collectionid}`,{timeout: 10000})
                 setBooksInUserList(response.data);
 
             } catch (error: any) {
