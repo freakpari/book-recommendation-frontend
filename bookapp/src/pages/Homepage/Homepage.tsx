@@ -401,7 +401,10 @@ export default function HomePage() {
           </div>
           <div className={styles.toptext}>
             <h2>لیست های دیگر کاربران</h2>
-            <button className={styles.showbutton}>مشاهده همه</button>
+            <Link style={{ textDecoration: 'none', color: 'inherit' }} to="//myBookList">
+
+            <button className={styles.showbutton }>مشاهده همه</button>
+            </Link>
           </div>
           <div className={styles.listsWrapper}>
             <div className={styles.cardImage}>
