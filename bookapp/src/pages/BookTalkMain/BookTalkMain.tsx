@@ -5,10 +5,7 @@ import styles from "./BookTalkMain.module.scss";
 import UserProfileModal from "../../components/UserProfileModal/UserProfileModal";
 import axios from "axios";
 import { AnimatePresence } from "framer-motion";
-import {
-  useNotification,
-  NotificationModal,
-} from "../../components/NotificationManager/NotificationManager";
+import {useNotification, NotificationModal,} from "../../components/NotificationManager/NotificationManager";
 import defaultUser from "./icons/defaultUser.svg";
 import {useNavigate} from "react-router-dom";
 
@@ -55,7 +52,9 @@ export default function BookTalkMain() {
     try {
       const response = await axios.get(
           `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userId}`,
-          { responseType: "blob" }
+          { responseType: "blob",
+            timeout: 10000
+          }
       );
       if (response.status !== 204) {
         const imageURL = URL.createObjectURL(response.data);
@@ -64,9 +63,13 @@ export default function BookTalkMain() {
         const imageURL = defaultUser;
         setUserImages(prev => ({ ...prev, [userId]: imageURL }));
       }
-    } catch (error) {
-      console.error("خطا در دریافت پروفایل کاربران");
-    }
+    } catch (error: any) {
+      if (error.code === 'ECONNABORTED') {
+        showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+      }
+      else {
+        showNotificationMessage("خطا در دریافت پروفایل کاربر", "error");
+      }    }
   };
 
   const handleGoToPersonComment = (commentid : number, userid : string, fullname : string, username : string, text : string) => {
@@ -85,7 +88,8 @@ export default function BookTalkMain() {
     const handleComments = async () => {
       try {
         const response = await axios.get<Comments[]>(
-          `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${bookid}`
+          `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${bookid}`,
+            {timeout: 10000}
         );
         setComments(response.data);
 
@@ -95,10 +99,7 @@ export default function BookTalkMain() {
 
       } catch (error: any) {
         if (error.code === "ECONNABORTED") {
-          showNotificationMessage(
-            "سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",
-            "error"
-          );
+          showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", "error");
         } else {
           showNotificationMessage("خطا در بارگیری کامنت‌ها", "error");
         }
