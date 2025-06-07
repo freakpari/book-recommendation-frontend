@@ -15,17 +15,25 @@ import book9 from "./icon/book9.svg";
 import book10 from "./icon/shazde.svg";
 import icon1 from "./icon/icon1.svg";
 import icon2 from "./icon/icon2.svg";
-import mark from "./icon/mark.svg";
-import berida from "./icon/berida.svg";
-import khasi from "./icon/khasi.svg";
-import kimiagar1 from "./icon/kimiagarlarge.svg";
-import asb from "./icon/asb.svg";
 
 import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
+import not from "../PopularBook/icon/not.png";
+import {fetchBookImageFromAPI, fetchPopularBooksFromAPI} from "../../services/Bookservice";
+
+interface Book {
+  bookid: string;
+  title: string;
+  author: string;
+  imageUrl: string;
+}
+
+
+
+
 const handleClick = () => {
   window.location.href =
       "https://www.16personalities.com/fa/%D8%A2%D8%B2%D9%85%D9%88%D9%86-%D8%B4%D8%AE%D8%B5%DB%8C%D8%AA";
@@ -37,6 +45,16 @@ interface SuggestedBooks {
   title: string,
   fullauthorname: string,
 }
+interface UserCollection {
+  title: string;
+  username: string;
+  fullname: string;
+  discription: string;
+  collectionid: number;
+  accessibilityGroupID: number;
+}
+
+
 const isPersian = (text: string) => {
   const persianRegex = /[\u0600-\u06FF]/;
   return persianRegex.test(text);
@@ -47,6 +65,61 @@ export default function HomePage() {
   const [pageNum, setPageNum] = useState(1);
   const [suggestedBooks, setSuggestedBooks] = useState<SuggestedBooks[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const [collections, setCollections] = useState<UserCollection[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fetchPopularBooks = async (page: number) => {
+    setLoading(true);
+    try {
+      const responseBooks = await fetchPopularBooksFromAPI(page);
+      const fetchedBooks = await Promise.all(
+          responseBooks.map(async (book: Book) => {
+            const imageUrl = await fetchBookImageFromAPI(book.bookid);
+            return { ...book, imageUrl: imageUrl || not };
+          })
+      );
+      if (fetchedBooks.length > 0) {
+        setBooks((prevBooks) => [...prevBooks, ...fetchedBooks]);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error("Error fetching popular books:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      setLoading(true);
+      try {
+        const responseBooks = await fetchPopularBooksFromAPI(pageNum);
+        setBooks((prevBooks) => [...prevBooks, ...responseBooks]);
+
+        responseBooks.forEach(async (book: Book) => {
+          const imageUrl = await fetchBookImageFromAPI(book.bookid);
+          setBooks((prevBooks) =>
+              prevBooks.map((b) =>
+                  b.bookid === book.bookid ? { ...b, imageUrl: imageUrl || not } : b
+              )
+          );
+        });
+
+        if (responseBooks.length === 0) {
+          setHasMore(false);
+        }
+      } catch (error) {
+        console.error("Error fetching popular books:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, [pageNum]);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -100,8 +173,32 @@ export default function HomePage() {
     fetchUserInfo();
     fetchUserType();
     fetchUserSuggestedbooks(pageNum);
+    fetchCollections();
 
   }, []);
+
+  const fetchCollections = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("دسترسی غیرمجاز");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+          "https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/all",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            timeout: 10000
+          }
+      );
+      setCollections(response.data);
+    } catch (error: any) {
+      console.error("خطا در واکشی کالکشن‌ها:", error);
+    }
+  };
   const fetchUserSuggestedbooks = async (page: number) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -190,37 +287,22 @@ export default function HomePage() {
 
             </div>
             <div className={styles.popularBooks}>
+              {books.slice(0, 6).map((book) => (
+                  <Link style={{textDecoration:"none"}} to={`/bookdetail/${book.bookid}`}   key={book.bookid}
+                        state={{ imageUrl: book.imageUrl,
+                          title: book.title,
+                          author: book.author
+                        }}
+                        >
+              <div className={styles.cardwrapper}>
 
-              <div className={styles.cardwrapper}>
-                <img src={bufkoor} alt="boof koor" />
-                <h4>بوف کور</h4>
-                <p>صادق هدایت</p>
+                <img src={book.imageUrl || not} alt={book.title} className={styles.imageUrl}  />
+                <h4>{book.title}</h4>
+                <p> {book.author}</p>
               </div>
-              <div className={styles.cardwrapper}>
-                <img src={mark} alt="mark o polo" />
-                <h4> مارک و پلو</h4>
-                <p> منصور ضابطیان</p>
-              </div>
-              <div className={styles.cardwrapper}>
-                <img src={berida} alt="berida " />
-                <h4>بریدا </h4>
-                <p>پائولو کوئلیو </p>
-              </div>
-              <div className={styles.cardwrapper}>
-                <img src={khasi} alt="kasi dar mighat" />
-                <h4> خسی در میقات</h4>
-                <p> جلال آل احمد</p>
-              </div>
-              <div className={styles.cardwrapper}>
-                <img src={kimiagar1} alt="kimiagar " />
-                <h4> کیمیاگر</h4>
-                <p>پائولو کوئلیو </p>
-              </div>
-              <div className={styles.cardwrapper}>
-                <img src={asb} alt="boof koor" />
-                <h4>اسب سیاه</h4>
-                <p> تاد رز واگی گاس</p>
-              </div>
+                  </Link>
+              ))}
+
             </div>
           </div>
           <div className={styles.bookTalk}>
@@ -350,6 +432,6 @@ export default function HomePage() {
           <Footer />
         </div>
 
-      </>
+  </>
   );
 }

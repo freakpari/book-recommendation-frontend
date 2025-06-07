@@ -423,6 +423,10 @@ html,body{
 .wrapper2 {
     position: relative;
     padding: 20px;
+
+
+
+
     &::before,
     &::after {
         content: '';
@@ -445,3 +449,7 @@ html,body{
     }
 }
 
+.imageUrl{
+    width:202px;
+    height: 393px;
+}
