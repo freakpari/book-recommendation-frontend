@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './SuggestionBook.module.scss';
 import Footer from '../../components/Footer/Footer';
 import SearchNav from "../../components/SearchNav/SearchNav";
-import BlackHourse from "./icons/blackHourse.svg"
+import defaultBook from "./icons/defaultBook.svg";
 import axios from "axios";
 import {AnimatePresence} from "framer-motion";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
@@ -177,9 +177,13 @@ export default function SuggestionBook() {
                                     >
                                         <div className={styles.bookImage}>
                                             <img
-                                                src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.bookid}` || BlackHourse}
-                                                alt=""
-                                                onError={(e) => { e.currentTarget.src = "./icons/defaultBook.svg"; }}
+                                                src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/book/image/${book.bookid}`}
+                                                alt={book.title}
+                                                onError={(e) => {
+                                                    if (e.currentTarget.src !== defaultBook) {
+                                                        e.currentTarget.src = defaultBook;
+                                                    }
+                                                }}
                                             />
                                         </div>
                                         <div className={styles.bookInfo}>
