@@ -41,7 +41,7 @@ export default function CreateListModal({ onClose }: Props) {
                 userid : userId,
                 detail : null,
             };
-            console.log(ispublic);
+
             try {
                 setLoading(true);
                 const formData = new FormData();
@@ -58,6 +58,7 @@ export default function CreateListModal({ onClose }: Props) {
                             Authorization: `Bearer ${token}`,
                             "Content-Type": "multipart/form-data",
                         },
+                        timeout: 10000
                     }
                 );
 
