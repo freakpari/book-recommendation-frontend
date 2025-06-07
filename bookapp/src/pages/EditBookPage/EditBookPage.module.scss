@@ -227,7 +227,7 @@
       outline: 2px solid vars.$primary_1;
     }
   }
-  img{
+  .search{
     position: absolute;
     right: 1120px;
     top: 58.5%;
@@ -235,10 +235,7 @@
     height: 20px;
     width: 20px;
     cursor: pointer;
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.15);
-    };
+
   }
 }
 .searchBar input::placeholder {

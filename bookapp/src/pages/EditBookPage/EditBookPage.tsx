@@ -193,6 +193,7 @@ export default function EditBookPage() {
                             />
                             <img
                                 src={search}
+                                className={styles.search}
                                 alt="search button"
                                 onClick={() => handleSearch(query)}
                                 style={{ cursor: "pointer" }}
