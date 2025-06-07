@@ -4,11 +4,11 @@ import Footer from '../../components/Footer/Footer';
 import SideProfile from "../../components/SideProfile/SideProfile";
 import SearchNav from "../../components/SearchNav/SearchNav";
 import eventEmitter from "../../utils/eventEmitter";
-import Tehran from "../MyBookList/icons/Tehran.svg";
 import axios from "axios";
 import {NotificationModal, useNotification} from "../../components/NotificationManager/NotificationManager";
 import {AnimatePresence} from "framer-motion";
 import {useNavigate} from "react-router-dom";
+import defaultBook from "./icons/defaultCollection.svg";
 
 interface AllList  {
     title: string,
@@ -97,7 +97,9 @@ export default function MyBookHistory() {
                                                 src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${item.collectionid}`}
                                                 alt={item.title}
                                                 onError={(e) => {
-                                                    (e.target as HTMLImageElement).src = Tehran;
+                                                    if (e.currentTarget.src !== defaultBook) {
+                                                        e.currentTarget.src = defaultBook;
+                                                    }
                                                 }}
                                             />
                                         </div>

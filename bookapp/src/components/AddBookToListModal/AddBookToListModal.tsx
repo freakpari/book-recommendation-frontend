@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
 import styles from "./AddBookToListModal.module.scss";
-import Tehran from "./icons/Tehran.svg"
 import { ReactComponent as Plus } from "./icons/Plus.svg";
 import {NotificationModal, useNotification} from "../NotificationManager/NotificationManager";
 import axios from "axios";
 import {AnimatePresence} from "framer-motion";
+import defaultBook from "./icons/defaultCollection.svg";
 
 interface Props {
     onClose: () => void;
@@ -245,7 +245,9 @@ export default function AddBookToListModal ({ onClose, userid }: Props) {
                                                     src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${list.CollectionID}`}
                                                     alt={list.Title}
                                                     onError={(e) => {
-                                                        (e.target as HTMLImageElement).src = Tehran;
+                                                        if (e.currentTarget.src !== defaultBook) {
+                                                            e.currentTarget.src = defaultBook;
+                                                        }
                                                     }}
                                                 />
                                             </div>

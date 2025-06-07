@@ -4,7 +4,6 @@ import SearchNav from "../../components/SearchNav/SearchNav";
 import Footer from "../../components/Footer/Footer";
 import SideProfile from "../../components/SideProfile/SideProfile";
 import eventEmitter from "../../utils/eventEmitter";
-import Tehran from "./icons/Tehran.svg";
 import { ReactComponent as Plus } from "./icons/Plus.svg";
 import { useState } from "react";
 import CreateListModal from "../../components/CreateListModal/CreateListModal";
@@ -12,6 +11,7 @@ import { useNotification, NotificationModal } from "../../components/Notificatio
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import defaultBook from "./icons/defaultCollection.svg";
 
 interface UserBookList  {
     IsOwner: number,
@@ -61,7 +61,9 @@ function BookListCard({ title, includes, collectionid, collectionName, Discripti
                     src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${collectionid}`}
                     alt={title}
                     onError={(e) => {
-                        (e.target as HTMLImageElement).src = Tehran;
+                        if (e.currentTarget.src !== defaultBook) {
+                            e.currentTarget.src = defaultBook;
+                        }
                     }}
                 />
             </div>
@@ -73,7 +75,7 @@ function BookListCard({ title, includes, collectionid, collectionName, Discripti
     );
 }
 
-function SavedBookListCard({ title, includes, image, collectionid, collectionName, Discription, access, FullName }: { title: string, includes: string, image: string, collectionid: number, collectionName: string, Discription:string, access:number, FullName: string }) {
+function SavedBookListCard({ title, includes, collectionid, collectionName, Discription, access, FullName }: { title: string, includes: string, collectionid: number, collectionName: string, Discription:string, access:number, FullName: string }) {
     const navigate = useNavigate();
 
     const handleGoToCollectionDetails = () => {
@@ -98,7 +100,9 @@ function SavedBookListCard({ title, includes, image, collectionid, collectionNam
                     src={`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/pic/${collectionid}`}
                     alt={title}
                     onError={(e) => {
-                        (e.target as HTMLImageElement).src = Tehran;
+                        if (e.currentTarget.src !== defaultBook) {
+                            e.currentTarget.src = defaultBook;
+                        }
                     }}
                 />
             </div>
@@ -251,7 +255,6 @@ export default function MyBookList() {
                                             key={`saved-list-${index}`}
                                             title={list.Title}
                                             includes={list.Discription}
-                                            image={Tehran}
                                             collectionid={list.CollectionID}
                                             collectionName={list.Title}
                                             Discription={list.Discription}
