@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styles from "./VerifyEmail.module.scss";
 import Logo from "../SetNewPassword/icons/logo.svg";
 import MainPic from "../SetNewPassword/icons/mainPic.svg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {AnimatePresence, motion} from "framer-motion";
+import {AnimatePresence} from "framer-motion";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 
 export default function VerifyEmail() {
