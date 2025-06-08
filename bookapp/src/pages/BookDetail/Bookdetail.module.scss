@@ -160,9 +160,10 @@ $primary_1: #303857;
     }
 }
 .profile{
-    display: flex;
-    width: 200px;
-    align-items: center;
+  display: flex;
+  width: 200px;
+  align-items: center;
+  gap: 1rem;
 }
 .reviewCard:last-child{
     background: linear-gradient(to bottom, rgba(249, 249, 249, 0.2), rgba(147, 147, 147, 1));
@@ -263,13 +264,20 @@ $primary_1: #303857;
   font-size: 1.2rem;
   cursor: pointer;
 }
+.usersImages {
+  img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+  }
+}
 .userName {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 700;
   font-size: 13px;
-  margin-right: 50px;
+  //margin-right: 50px;
 }
 .userId {
   white-space: nowrap;
@@ -278,7 +286,8 @@ $primary_1: #303857;
   direction: ltr;
   font-weight: 300;
   font-size: 13px;
-  margin-right: 50px;}
+  //margin-right: 50px;
+}
 
 .userIcon {
   width: 33px;

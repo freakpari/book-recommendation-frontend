@@ -1,11 +1,11 @@
 import styles from './Bookdetail.module.scss';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchNav from '../../components/SearchNav/SearchNav';
 import Footer from '../../components/Footer/Footer';
 import heart from "./icons/Heart.svg";
 import filledHeart from "./icons/filled.png";
 import comment from "./icons/Comment.svg";
-import profile from "./icons/profile.svg";
+import defaulUser from "./icons/defaultUser.svg";
 import { ReactComponent as CircleAdd } from "./icons/CircleAdd.svg";
 import { useParams } from 'react-router-dom';
 import StepRating from "./rating";
@@ -17,6 +17,7 @@ import { TextField } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import eventEmitter from "../../utils/eventEmitter";
 import user from "../../components/SearchNav/icons/defaultUser.svg";
+import defaultUser from "../BookTalkMain/icons/defaultUser.svg";
 
 interface BookData {
     BookID: number;
@@ -100,6 +101,7 @@ export default function Bookdetail() {
     const [userData, setUserData] = useState<any>(null);
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const [hasToken, setHasToken] = useState<boolean>(false);
+    const [userImages, setUserImages] = useState<{ [key: string]: string }>({});
 
 
 
@@ -111,6 +113,34 @@ export default function Bookdetail() {
             fetchUserData(storedUserid, token);
         }
     }, []);
+
+    const fetchUserImage = async (userId: string) => {
+        if (userImages[userId]) return;
+
+        try {
+            const response = await axios.get(
+                `https://intelligent-shockley-8ynjnlm8e.liara.run/api/auth/profilePic/${userId}`,
+                {
+                    responseType: "blob",
+                    timeout: 10000
+                }
+            );
+            if (response.status !== 204) {
+                const imageURL = URL.createObjectURL(response.data);
+                setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+            } if (response.status === 204) {
+                const imageURL = defaultUser;
+                setUserImages(prev => ({ ...prev, [userId]: imageURL }));
+            }
+        } catch (error: any) {
+            if (error.code === 'ECONNABORTED') {
+                showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+            }
+            else {
+                showNotificationMessage("خطا در دریافت پروفایل کاربر", "error");
+            }    }
+    };
+
 
     const fetchUserData = async (userId: string, token: string | null) => {
         try {
@@ -391,17 +421,24 @@ export default function Bookdetail() {
                     `https://intelligent-shockley-8ynjnlm8e.liara.run/api/comment/book/${BookID}`
                 );
                 setComments(response.data);
+
+                if (response.data.length > 0) {
+                    response.data.forEach(comment => {
+                        fetchUserImage(comment.userid);
+                    });
+                }
+
             } catch (error) {
                 console.error("Error fetching comments:", error);
                 showNotificationMessage("خطا در دریافت کامنت‌ها", "error");
             }
         };
 
-
         if (BookID) {
             fetchComments();
         }
     }, [BookID]);
+
 
     useEffect(() => {
         if (isUserProfileModalOpen || isModalOpen || isAddBookToListModalOpen) {
@@ -518,8 +555,11 @@ export default function Bookdetail() {
                                         setIsUserProfileModalOpen(true);
                                     }}
                                 >
-                                    <div>
-                                        <img  className={styles.userIcon} src={profileImage || user} alt="user icon" />
+                                    <div className={styles.usersImages}>
+                                        <img
+                                            src={userImages[item.userid] || defaultUser}
+                                            alt="user icon"
+                                        />
                                     </div>
                                     <div className={styles.userInfo}>
                                         <div className={styles.userName}>{item.fullname}</div>
