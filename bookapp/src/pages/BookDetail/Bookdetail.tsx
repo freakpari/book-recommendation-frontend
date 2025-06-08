@@ -532,7 +532,10 @@ export default function Bookdetail() {
                                 {index === comments.length - 1 && (
                                     <button
                                         className={styles.backButton}
-                                        onClick={() => (window.location.href = "/bookTalkMain")}
+                                        onClick={(e) => {
+                                            (window.location.href = "/bookTalkMain");
+                                            localStorage.setItem("bookName",`${bookData.Title}`);
+                                        }}
                                     >
                                         رفتن به BookTalk
                                     </button>

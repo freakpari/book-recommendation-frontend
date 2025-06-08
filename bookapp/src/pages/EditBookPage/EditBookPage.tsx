@@ -7,12 +7,14 @@ import eventEmitter from "../../utils/eventEmitter";
 import axios from "axios";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 import { AnimatePresence } from "framer-motion";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import NoBookInList from "./icons/emptyList.svg";
 import DeleteIcon from "./icons/deleteIcon.svg"
 import Tehran from "./icons/Tehran.svg";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
 import search from "./icons/Search.svg";
+import arrow from "./icons/arrow.svg";
+
 interface BooksInMyListDetails {
     CollectionID: number,
     BookID: number,
@@ -55,6 +57,8 @@ export default function EditBookPage() {
     const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [results, setResults] = useState<BooksInMyListDetails[]>([]);
     const [isSearching, setIsSearching] = useState(false);
+    const navigate = useNavigate();
+
     const handleSearch = useCallback(async (input: string) => {
         if (!input.trim()) {
             setResults([]);
@@ -88,6 +92,51 @@ export default function EditBookPage() {
         }
     }, []);
 
+    const handleBackToList = () => {
+        navigate("/bookInlist", {
+            state: {
+                collectionid: collectionid,
+                collectionName: collectionName,
+                Discription: Discription,
+            }
+        });
+    }
+
+    const handleAddBookToList = async (bookid:number) => {
+        const token = localStorage.getItem("token");
+        if(!token){
+            console.error("توکن یافت نشد.");
+            return;
+        }
+
+        if(!bookid){
+            showNotificationMessage("کتابی انتخاب نشده",'error')
+        } else {
+            try {
+                await axios.post("https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/details",
+                    {
+                        collectionid: collectionid,
+                        bookid: bookid,
+                    },
+                    {
+                        timeout: 10000
+                    })
+
+                showNotificationMessage(`کتاب با موفقیت به لیست ${collectionName} اضافه شد`,'success');
+                eventEmitter.emit();
+
+            } catch (error: any) {
+                if (error.code === 'ECONNABORTED') {
+                    showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
+                }
+                else {
+                    showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
+                }
+            }
+        }
+
+    }
+
     useEffect(() => {
         if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
 
@@ -112,13 +161,15 @@ export default function EditBookPage() {
 
     const handleDeleteBookFromList = async (bookid: number) => {
         try {
-            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/delete-collection-details?collectionid=${collectionid}&bookid=${bookid}`)
+            await axios.delete(`https://intelligent-shockley-8ynjnlm8e.liara.run/api/collection/delete-collection-details?collectionid=${collectionid}&bookid=${bookid}`,{timeout: 10000})
             showNotificationMessage("کتاب با موفقیت از لیست حذف شد",'success');
+            setBooksInMyList((prev) => prev.filter(book => book.BookID !== bookid));
+
             eventEmitter.emit();
-        } catch (error: any) {
+
+        }catch (error: any) {
             if (error.code === 'ECONNABORTED') {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.", 'error');
-            } if (error.status === 404) {
             }
             else {
                 showNotificationMessage("خطایی رخ داد. لطفاً دوباره تلاش کنید.",'error');
@@ -129,8 +180,6 @@ export default function EditBookPage() {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {return;}
-
-        console.log(collectionid);
 
         const fetchBookInListDetails = async () => {
             try {
@@ -148,10 +197,11 @@ export default function EditBookPage() {
             }
         }
         eventEmitter.emit();
+
         fetchBookInListDetails();
         const unsubscribe = eventEmitter.subscribe(fetchBookInListDetails);
         return () => unsubscribe();
-    }, []);
+    },[collectionid]);
 
     return (
         <div className={styles.container}>
@@ -182,6 +232,12 @@ export default function EditBookPage() {
                                 </div>
                             </div>
 
+                            <div
+                                onClick={handleBackToList}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <img className={styles.backIcon} src={arrow} alt="برگشت"/>
+                            </div>
                         </div>
                         <div className={styles.searchBar}>
                             <input
@@ -205,7 +261,7 @@ export default function EditBookPage() {
                                     <div
                                         key={book.BookID}
                                         className={styles.resultItem}
-
+                                        onClick={() => handleAddBookToList(book.BookID)}
                                     >
                                         <img className={styles.bookcover} src={book.ImageUrl} alt={book.Title}/>
                                         <div className={styles.bookdetail}>

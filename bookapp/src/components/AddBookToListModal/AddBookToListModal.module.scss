@@ -65,12 +65,28 @@
   gap: 3rem;
 }
 
+.noList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  width: 51.5rem;
+  height: 23rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 40px;
+  background: vars.$primary_1;
+  color: #939393;
+}
+
 .listContent {
   display: flex;
   flex-direction: row;
   background: vars.$primary_1;
   height: 8rem;
   gap: 0.5rem;
+  width: 51.5rem;
 
   .listPic {
     padding-right: 1rem;

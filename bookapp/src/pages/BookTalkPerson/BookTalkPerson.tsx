@@ -9,6 +9,7 @@ import UserProfileModal from "../../components/UserProfileModal/UserProfileModal
 import {useNavigate, useLocation} from "react-router-dom";
 import {useNotification, NotificationModal,} from "../../components/NotificationManager/NotificationManager";
 import {AnimatePresence} from "framer-motion";
+import arrow from "../EditBookPage/icons/arrow.svg";
 
 interface RefComments {
     commentid: number,
@@ -43,11 +44,13 @@ export default function BookTalkPerson () {
     const navigate = useNavigate();
     const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
     const location = useLocation();
+    const bookid = location.state?.bookid || "";
     const commentid = location.state?.commentid || "";
     const mainUserId = location.state?.userid || "";
     const fullname = location.state?.fullname || "";
     const username = location.state?.username || "";
     const text = location.state.text || "";
+    const bookName = location.state.bookName || "";
     const [userId, setUserId] = useState("");
     const [mainUserImage, setMainUserImage] = useState<{ [key: string]: string }>({});
     const [refComments, setRefComments] = useState<RefComments[]>([]);
@@ -171,6 +174,15 @@ export default function BookTalkPerson () {
         fetchRefComments();
     }, []);
 
+    const handleBack = () => {
+        navigate("/bookTalkMain",{
+            state: {
+                bookid: bookid,
+                bookName: bookName
+            }
+        })
+    }
+
     const handleUserInfoModalOpen = (userId : string) => {
         setUserId(userId);
         setIsUserProfileModalOpen(true);
@@ -191,8 +203,14 @@ export default function BookTalkPerson () {
                 </AnimatePresence>
             </div>
             <div>
-                <div className={styles.header}>BookTalk</div>
+                <div className={styles.header}>BookTalk <span style={{ fontFamily: "shabnam" }}>برای </span><span className={styles.bookName}>{bookName}</span></div>
                 <div className={styles.bookTalk}>
+                    <div
+                        className={styles.backIcon}
+                        onClick={handleBack}
+                    >
+                        <img src={arrow} alt="برگشت"/>
+                    </div>
                     <div className={styles.post}>
                         <div className={styles.postInfoOptions}>
                             <div

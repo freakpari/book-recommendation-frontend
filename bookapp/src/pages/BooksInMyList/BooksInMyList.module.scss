@@ -16,7 +16,7 @@
   background-color: vars.$secondary_1;
   width: 62.5rem;
   height: 41.1rem;
-
+  border-radius: 0.6rem;
 
   .showBookContainer {
     display: flex;
@@ -36,6 +36,8 @@
       //gap: 32rem;
       margin-right: 1rem;
       margin-bottom: 2rem;
+      border-radius: 0.6rem;
+
       .listInfoPic {
         display: flex;
         flex-direction: row;

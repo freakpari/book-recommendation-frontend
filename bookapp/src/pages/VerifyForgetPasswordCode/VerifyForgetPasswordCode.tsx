@@ -8,11 +8,14 @@ import {AnimatePresence} from "framer-motion";
 import { useNotification, NotificationModal } from "../../components/NotificationManager/NotificationManager";
 
 export default function VerifyForgetPasswordCode() {
+// در ابتدای کامپوننت VerifyForgetPasswordCode
+    const location = useLocation();
+    const testEmail = localStorage.getItem("test_email");
+    const email = location.state?.email || testEmail || "";
 
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
-    const location = useLocation();
-    const email = location.state?.email || "";
+    // const email = location.state?.email || "";
     const isOtpComplete = otp.every((digit) => digit !== "");
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +90,7 @@ export default function VerifyForgetPasswordCode() {
             });
 
         } catch (err: any) {
-            if(err.code === 'ECONNREFUSED') {
+            if (err.code === 'ECONNREFUSED' || err.message?.includes('Network Error') || err.message?.includes('aborted')) {
                 showNotificationMessage("سرور پاسخ نداد. لطفاً بعداً تلاش کنید.",'error');
             }
             if (err.response.status === 400) {

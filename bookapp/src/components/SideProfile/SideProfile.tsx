@@ -41,6 +41,11 @@ export default function SideProfile() {
         showNotificationMessage
     } = useNotification();
 
+    const isPersian = (text: string): boolean => {
+        const persianRegex = /[\u0600-\u06FF]/;
+        return persianRegex.test(text);
+    };
+
     useEffect(() => {
 
         const loadingTimer = setTimeout(() => {
@@ -260,7 +265,10 @@ export default function SideProfile() {
                       showLoadingText ? (
                           <div>
                               <h2 className={styles.userName}>...درحال بارگذاری</h2>
-                              <h6 className={styles.bio}>...درحال بارگذاری</h6>
+                              <h6
+                                  className={styles.bio}
+                                  dir={"ltr"}
+                              >...درحال بارگذاری</h6>
                           </div>
                       ) : <div>
                           <h2 className={styles.userName}></h2>
@@ -269,7 +277,12 @@ export default function SideProfile() {
                   ) : (
                       <>
                           <h2 className={styles.userName}>{userName}</h2>
-                          <h6 className={styles.bio}>{bio}</h6>
+                          <h6
+                              className={styles.bio}
+                              dir={isPersian(bio) ? "rtl" : "ltr"}
+                          >
+                              {bio}
+                          </h6>
                       </>
                   )}
               </div>

@@ -17,6 +17,7 @@ export const NotificationModal: React.FC<{
 
     return (
         <motion.div
+            data-testid={type === 'error' ? 'error-toast' : 'success-toast'}
             className={`${styles.notificationModal} ${type === 'success' ? styles.success : styles.error}`}
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 20, opacity: 1 }}

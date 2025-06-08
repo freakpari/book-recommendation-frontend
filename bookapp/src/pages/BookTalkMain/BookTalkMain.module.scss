@@ -16,12 +16,31 @@
   margin-bottom: 3rem;
 }
 
+.bookName {
+  font-size: 2rem;
+}
+
 .bookTalk{
   background: vars.$secondary_1;
   height: 49rem;
   width: 67rem;
   padding: 1.8rem 1rem;
   margin-bottom: 3rem;
+  border-radius: 0.6rem;
+}
+
+.backIcon {
+  cursor: pointer;
+  img {
+    position: absolute;
+    left: 12.5rem;
+    top: 17.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: 1rem;
+    margin-top: 0.4rem;
+    transform: rotateY(180deg);
+  }
 }
 
 .scrollBar {

@@ -29,6 +29,7 @@
   align-items: center;
   padding-top: 3rem;
   margin-bottom: 3rem;
+  border-radius: 0.6rem;
 }
 
 .commentReply {
@@ -202,8 +203,8 @@
   width: 10rem;
   height: 3.5rem;
   border-radius: 0.6rem;
-  border: 2px solid vars.$primary_1;
-  background: vars.$primary_1;
+  border: 2px solid #30ae33;
+  background: #28B446;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   color: vars.$primary_2;
   font-weight: 500;
@@ -213,8 +214,8 @@
   &:hover {
     cursor: pointer;
     border: 2px solid #30ae33;
-    background: #28B446;
-    color: vars.$primary_2;
+    background: vars.$primary_2;
+    color: #30ae33;
     box-shadow: none;
   }
 
@@ -222,12 +223,42 @@
     outline: none;
     cursor: pointer;
     border: 2px solid #30ae33;
-    background: #28B446;
-    color: vars.$primary_2;
+    background: vars.$primary_2;
+    color: #30ae33;
     box-shadow: none;
   }
 
   &:disabled {
     cursor: not-allowed;
   }
+}
+
+.loadingText {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  justify-content: space-between;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 2px solid #30ae33;
+    border-radius: 50%;
+    border-top-color: vars.$primary_2;
+    animation: spin 1s ease-in-out infinite;
+
+    &:hover {
+      color: vars.$primary_2;
+    }
+  }
+  &:hover{
+    color: #30ae33;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
