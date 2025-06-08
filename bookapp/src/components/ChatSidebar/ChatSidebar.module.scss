@@ -1,0 +1,28 @@
+@use "../../styles/variables" as vars;
+
+.chatSide {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 20rem;
+  height: 7rem;
+  //margin-right: 1rem;
+  color: vars.$primary_1;
+  border-bottom: 2px solid vars.$hover-opacity;
+  transition: background 0.3s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover, &.selected {
+    cursor: pointer;
+    background: vars.$hover-opacity;
+  }
+  img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+  }
+}

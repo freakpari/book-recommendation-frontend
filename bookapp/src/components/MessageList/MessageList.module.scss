@@ -1,0 +1,58 @@
+@use "../../styles/variables" as vars;
+
+.container {
+  width: 55.5rem;
+  height: 30rem;
+  border-right: 3px solid vars.$hover-opacity;
+  z-index: 900;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0.6rem;
+
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    width: 0.3rem;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 0.6rem;
+    background: vars.$secondary_2;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.6rem;
+    background-color: vars.$primary_1;
+    transition: background 0.3s ease;
+  }
+}
+
+.message {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: vars.$primary_1;
+  color: vars.$primary_2;
+  border-bottom-left-radius: 0;
+}
+
+.received {
+  align-self: flex-start;
+  background-color: vars.$primary_2;
+  color: vars.$primary_1;
+  border: 1px solid vars.$primary_1;
+  border-bottom-right-radius: 0;
+}
+
+.text {
+  display: inline-block;
+}

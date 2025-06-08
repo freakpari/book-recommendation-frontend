@@ -1,0 +1,66 @@
+@use "../../styles/variables" as vars;
+
+.messageInput {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  width: 80%;
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  input {
+    width: 50rem;
+    height: 4.5rem;
+    border-radius: 7rem;
+    border: 2px solid vars.$secondary_3;
+    color: vars.$primary_1;
+
+    &::placeholder {
+      color: vars.$secondary_3;
+    }
+
+    &:focus {
+      border: 2px solid vars.$primary_1;
+      outline: 1px solid vars.$primary_1;
+    }
+
+  }
+  button {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background: vars.$primary_1;
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+
+    transition: background 0.3s , fill 0.3s ease;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+      transform: rotate(-180deg);
+      margin-right: 0.3rem;
+      margin-top: -0.1rem;
+      fill: vars.$primary_2;
+    }
+
+    &:hover {
+      background: vars.$primary_2;
+      outline: 2px solid vars.$primary_1;
+      svg {
+        fill: vars.$primary_1;
+      }
+    }
+  }
+  .sendBtn {
+
+  }
+}

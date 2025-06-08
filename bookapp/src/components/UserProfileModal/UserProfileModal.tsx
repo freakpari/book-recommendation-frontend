@@ -6,7 +6,7 @@ import axios from "axios";
 import {AnimatePresence} from "framer-motion";
 import defaultUser from "./icons/defaultUser.svg";
 import { useNotification, NotificationModal } from "../NotificationManager/NotificationManager";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import defaultBook from "./icons/defaultCollection.svg";
 
 interface Props {
@@ -116,6 +116,8 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
             console.error("دسترسی غیرمجاز");
             return;
         }
+        localStorage.setItem("token",token);
+        localStorage.setItem("receiverId", userid);
         const fetchUserProfilePicture = async () => {
 
             try {
@@ -232,10 +234,13 @@ export default function UserProfileModal ({ onClose , userid}: Props) {
                             </div>
                             <div className={styles.userBio}>{userBio}</div>
                         </div>
-                        <div className={styles.sendMessageBtn}>
+                        <Link
+                            className={styles.sendMessageBtn}
+                            to={"/chat"}
+                        >
                             <p>ارسال پیام</p>
                             <Send className={styles.sendIcon} />
-                        </div>
+                        </Link>
                     </div>
                     <div className={styles.listHeader}>لیست‌های ساخته شده</div>
                     <div className={styles.bookListContainer}>
