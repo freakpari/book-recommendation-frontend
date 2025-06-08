@@ -9,7 +9,7 @@ import UserProfileModal from "../../components/UserProfileModal/UserProfileModal
 import {useNavigate, useLocation} from "react-router-dom";
 import {useNotification, NotificationModal,} from "../../components/NotificationManager/NotificationManager";
 import {AnimatePresence} from "framer-motion";
-import arrow from "../EditBookPage/icons/arrow.svg";
+import arrow from "./icons/arrow.svg";
 
 interface RefComments {
     commentid: number,

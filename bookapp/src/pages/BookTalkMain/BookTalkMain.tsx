@@ -8,7 +8,7 @@ import { AnimatePresence } from "framer-motion";
 import {useNotification, NotificationModal,} from "../../components/NotificationManager/NotificationManager";
 import defaultUser from "./icons/defaultUser.svg";
 import {useNavigate} from "react-router-dom";
-import arrow from "../EditBookPage/icons/arrow.svg";
+import arrow from "./icons/arrow.svg";
 
 interface Comments {
   commentid: number,
